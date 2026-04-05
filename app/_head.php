@@ -16,6 +16,7 @@
     <header>
         <h1><a href="/">Using DateTime</a></h1>
         <!-- User profile photo -->
+         <a href="/member/cart.php">Cart</a>
     </header>
 
     <nav>
