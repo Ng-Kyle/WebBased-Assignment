@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $_title ?? 'Untitled' ?></title>
-    <!-- Replace this with our own icon later. <link rel="shortcut icon" href="/images/favicon.png">-->
+    <link rel="shortcut icon" href="/images/favicon.png">
     <link rel="stylesheet" href="/css/app.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="/js/app.js"></script>
@@ -14,9 +14,9 @@
     <div id="info"><?= temp('info') ?></div>
 
     <header>
-        <h1><a href="/">Using DateTime</a></h1>
+        <h1><a href="/">Anon Figures</a></h1>
         <!-- User profile photo -->
-         <a href="/member/cart.php">Cart</a>
+         <a href="/cart/cart.php">Cart</a>
     </header>
 
     <nav>
