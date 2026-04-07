@@ -2,8 +2,8 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Apr 05, 2026 at 02:36 PM
+-- Host: localhost
+-- Generation Time: Apr 07, 2026 at 06:56 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -45,6 +45,13 @@ CREATE TABLE `cart` (
   `Member_ID` int(6) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `cart`
+--
+
+INSERT INTO `cart` (`Cart_ID`, `Member_ID`) VALUES
+(1, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -79,18 +86,29 @@ CREATE TABLE `coupon` (
 CREATE TABLE `invoice` (
   `Order_ID` int(6) NOT NULL,
   `Member_ID` int(6) NOT NULL,
-  `Member_Coupon_ID` int(6) NOT NULL,
-  `Order_Date` date NOT NULL,
+  `Member_Coupon_ID` int(6) DEFAULT NULL,
+  `Order_Date` datetime NOT NULL,
   `Status` varchar(30) NOT NULL,
-  `Total_Amount` double(4,2) NOT NULL,
-  `Discount_Amount` double(4,3) NOT NULL,
-  `Final_Amount` double(4,2) NOT NULL,
-  `Street_Address` varchar(50) NOT NULL,
+  `Total_Amount` double(5,2) NOT NULL,
+  `Discount_Amount` double(5,2) DEFAULT NULL,
+  `Final_Amount` double(5,2) NOT NULL,
+  `Street_Address` varchar(999) NOT NULL,
   `Post_Code` int(5) NOT NULL,
-  `City` varchar(30) NOT NULL,
-  `State` varchar(30) NOT NULL,
-  `Country` varchar(30) NOT NULL
+  `City` varchar(99) NOT NULL,
+  `State` varchar(99) NOT NULL,
+  `Stripe_Session_ID` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `invoice`
+--
+
+INSERT INTO `invoice` (`Order_ID`, `Member_ID`, `Member_Coupon_ID`, `Order_Date`, `Status`, `Total_Amount`, `Discount_Amount`, `Final_Amount`, `Street_Address`, `Post_Code`, `City`, `State`, `Stripe_Session_ID`) VALUES
+(17, 1, NULL, '2026-04-07 11:23:28', 'Preparing', 200.24, NULL, 200.24, 'test', 12200, 'test', 'test', 'cs_test_a1hTZx7pu1G78LtfmgLypEkRzlsPrhGz49Iy2IZkwMEjW6KVkMVAT0ZRqb'),
+(18, 1, NULL, '2026-04-07 11:36:20', 'Preparing', 20.50, NULL, 20.50, 'test', 12200, 'test', 'test', 'cs_test_a1iydS1VrqCztDwlG6DzqzuKNIrMsruKld25DjfJJtDrP9ILDOkpsgOd6b'),
+(19, 1, NULL, '2026-04-07 12:06:02', 'Preparing', 20.50, NULL, 20.50, 'Jalan Genting Kelang,Bangunan Tan Sri Khaw Kai Boh (Block A), Setapak', 53300, 'Kuala Lumpur', 'Federal Territory of Kuala Lumpur', 'cs_test_a1Mc4lUCHVqoG9VgYbS6QUEpTvCzTGce74l7TtdfpE81MuWsg2wQmHCPgC'),
+(20, 1, NULL, '2026-04-07 12:09:31', 'Preparing', 20.50, NULL, 20.50, 'Jalan Genting Kelang,Bangunan Tan Sri Khaw Kai Boh (Block A), Setapak', 53300, 'Kuala Lumpur', 'Federal Territory of Kuala Lumpur', 'cs_test_a14KK2PKApGQ1k2G8d5pmSwAPzhKnOwDIKGX4VGJeKIHMud5UCB6XMmQy5'),
+(21, 1, NULL, '2026-04-07 12:47:29', 'Preparing', 420.98, NULL, 420.98, '188 Jalan Persisiran Pantai,Pekan Klebang', 75250, 'Klebang', 'Melaka', 'cs_test_b1LxFmOv88WM484Os7RxMGecuR7HBCvV7G7fCjtA3HYnu1YWTeiQYKf5ml');
 
 -- --------------------------------------------------------
 
@@ -104,13 +122,15 @@ CREATE TABLE `member` (
   `Email` varchar(30) NOT NULL,
   `Password` varchar(30) NOT NULL,
   `Phone_Number` varchar(11) NOT NULL,
-  `Street_Address` varchar(50) NOT NULL,
-  `Post_Code` int(5) NOT NULL,
-  `City` varchar(30) NOT NULL,
-  `State` varchar(30) NOT NULL,
-  `Country` varchar(30) NOT NULL,
   `Image_URL` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `member`
+--
+
+INSERT INTO `member` (`Member_ID`, `Name`, `Email`, `Password`, `Phone_Number`, `Image_URL`) VALUES
+(1, 'test', 'test@gmail.com', 'test', 'test', '/images/image.png');
 
 -- --------------------------------------------------------
 
@@ -136,9 +156,20 @@ CREATE TABLE `order_details` (
   `Order_Details_ID` int(6) NOT NULL,
   `Order_ID` int(6) NOT NULL,
   `Product_ID` int(6) NOT NULL,
-  `Quantity` int(5) NOT NULL,
-  `Unit_Price` double(4,2) NOT NULL
+  `Quantity` int(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `order_details`
+--
+
+INSERT INTO `order_details` (`Order_Details_ID`, `Order_ID`, `Product_ID`, `Quantity`) VALUES
+(9, 17, 2, 1),
+(10, 18, 1, 1),
+(11, 19, 1, 1),
+(12, 20, 1, 1),
+(13, 21, 1, 1),
+(14, 21, 2, 2);
 
 -- --------------------------------------------------------
 
@@ -159,6 +190,14 @@ CREATE TABLE `product` (
   `Brand` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `product`
+--
+
+INSERT INTO `product` (`Product_ID`, `Supplier_ID`, `Name`, `Description`, `Price`, `Stock_Quantity`, `Status`, `Scale`, `Series`, `Brand`) VALUES
+(1, 1, 'test', 'test', 20.50, 1, 'test', 'test', 'test', 'test'),
+(2, 1, 'test2', 'testing', 200.24, 1, 'test', 'test', 'test', 'test');
+
 -- --------------------------------------------------------
 
 --
@@ -171,6 +210,14 @@ CREATE TABLE `product_image` (
   `Image_URL` varchar(100) NOT NULL,
   `Alt_Text` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `product_image`
+--
+
+INSERT INTO `product_image` (`Product_Image_ID`, `Product_ID`, `Image_URL`, `Alt_Text`) VALUES
+(1, 1, '../images/image.png', 'test'),
+(2, 2, '../images/image2.png', 'test2');
 
 -- --------------------------------------------------------
 
@@ -212,6 +259,13 @@ CREATE TABLE `supplier` (
   `Phone_Number` varchar(11) NOT NULL,
   `Address` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `supplier`
+--
+
+INSERT INTO `supplier` (`Supplier_ID`, `Name`, `Email`, `Phone_Number`, `Address`) VALUES
+(1, 'test', 'test', '0123456789', 'test');
 
 -- --------------------------------------------------------
 
@@ -342,6 +396,76 @@ ALTER TABLE `wishlist`
 ALTER TABLE `wishlist_product`
   ADD PRIMARY KEY (`Wishlist_ID`,`Product_ID`),
   ADD KEY `Product_ID` (`Product_ID`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `admin`
+--
+ALTER TABLE `admin`
+  MODIFY `Admin_ID` int(6) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `cart`
+--
+ALTER TABLE `cart`
+  MODIFY `Cart_ID` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `invoice`
+--
+ALTER TABLE `invoice`
+  MODIFY `Order_ID` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+
+--
+-- AUTO_INCREMENT for table `member`
+--
+ALTER TABLE `member`
+  MODIFY `Member_ID` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `order_details`
+--
+ALTER TABLE `order_details`
+  MODIFY `Order_Details_ID` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT for table `product`
+--
+ALTER TABLE `product`
+  MODIFY `Product_ID` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `product_image`
+--
+ALTER TABLE `product_image`
+  MODIFY `Product_Image_ID` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `receipt`
+--
+ALTER TABLE `receipt`
+  MODIFY `Receipt_ID` int(6) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `review`
+--
+ALTER TABLE `review`
+  MODIFY `Review_ID` int(6) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `supplier`
+--
+ALTER TABLE `supplier`
+  MODIFY `Supplier_ID` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `wishlist`
+--
+ALTER TABLE `wishlist`
+  MODIFY `Wishlist_ID` int(6) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
