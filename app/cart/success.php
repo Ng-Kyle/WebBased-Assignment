@@ -6,7 +6,6 @@
     $_title = 'Successful Payment';
     include '../_head.php';
     $_db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
     //Check for stripe status
     $session_id = get('session_id');
     $session = \Stripe\Checkout\Session::retrieve($session_id);
@@ -48,13 +47,11 @@
     }
     //Create Order
     
-    try{
+    
     $stm = $_db->prepare('INSERT INTO invoice (member_id, order_date, status, total_amount, final_amount, street_address, post_code, city, state,stripe_session_id) 
     VALUES (?,CURRENT_TIMESTAMP,"Preparing",?,?,?,?,?,?,?)');
     $stm->execute([$member->Member_ID,$total,$total,$street_address, $post_code, $city, $state,$session_id]);
-    }catch(PDOException $e){
-        die($e->getMessage());
-    }
+    
     //Create order details for each product in cart
     $order = $_db->lastInsertId();
     foreach($products as $p){
@@ -65,6 +62,9 @@
     //Delete all products from cart.
     $stm = $_db->prepare('DELETE FROM cart_product WHERE cart_id = ?');
     $stm->execute([$cart_id]);
+    
+    $stm = $_db->prepare('INSERT INTO receipt (order_id, payment_date, amount_paid) VALUES (?,CURRENT_TIMESTAMP,?)');
+    $stm->execute([$order,$session->amount_total/100]); 
 ?>
     <p>Payment was successful!</p>
 <?php 

@@ -31,8 +31,8 @@
         $checkout_session = \Stripe\Checkout\Session::create([
             "customer_email" => $member->Email,
             "mode" => "payment",
-            "success_url" => "http://localhost:8002/member/success.php?session_id={CHECKOUT_SESSION_ID}",
-            "cancel_url" => "http://localhost:8002/member/cart.php",
+            "success_url" => "http://localhost:8000/cart/success.php?session_id={CHECKOUT_SESSION_ID}",
+            "cancel_url" => "http://localhost:8000/cart/cart.php",
             "line_items" => $line_items,
             "metadata" => [
                 'cart_id' => $cart_id,
