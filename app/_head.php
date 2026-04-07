@@ -14,21 +14,28 @@
     <div id="info"><?= temp('info') ?></div>
 
     <header>
-        <h1><a href="/">Using DateTime</a></h1>
+        <h1><a href="/">Anonfigures</a></h1>
         <!-- User profile photo -->
          <a href="/member/cart.php">Cart</a>
     </header>
 
     <nav>
-        <a href="/">Index</a>
-        <a href="/demo1.php">Demo 1</a>
+        <a href="/">Main Menu</a>
+        <a href="/demo1.php"></a>
+
+        <div></div>
+    
         <a href="/demo2.php">Demo 2</a>
         <a href="/demo3.php">Demo 3</a>
         <a href="/demo4.php">Demo 4</a>
         <a href="/demo5.php">Demo 5</a>
-        <div></div>
+        
         <!-- Second menu -->
     </nav>
+
+    
+       
+    
 
     <main>
         <h1><?= $_title ?? 'Untitled' ?></h1>

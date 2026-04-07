@@ -1,3 +1,43 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* Font -------------------------------------------------------------------- */
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
@@ -17,7 +57,7 @@ body {
 
 header, footer {
     padding: 10px 50px;
-    background: #ccc;
+    background:pink;
 }
 
 header { /* NEW */
@@ -30,6 +70,7 @@ header h1 {
     flex: 1; /* NEW */
     margin: 0;
     padding-left: 40px;
+    color:black;
     background: url(/images/favicon.png) no-repeat left / 36px;
 }
 
