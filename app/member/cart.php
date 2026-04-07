@@ -54,7 +54,8 @@
         }
         #emptyCart{
             text-align:center;
-            padding-bottom:210px;
+            padding-top: 30px;
+            padding-bottom:180px;
         }
     </style>
     <h2>Cart</h2>
@@ -69,7 +70,7 @@
             </tr>
             <tr class = productRowMiddle>
                 <td class = productPrice>RM <?= number_format($p->Price,2) ?></td>
-                <td><input type = "number" id = amount value = <?= $p->Quantity ?>></td>
+                <td><?= $p->Quantity ?></td>
             </tr>
             <tr class = productRowBottom></tr>
             <?php endforeach ?>
@@ -83,8 +84,10 @@
             <p id = totalItems>Total Items: <?= count($products) ?><button data-post="deleteAll.php?cart_id=<?=$cart_id->Cart_ID?>">Remove All</button></p>
         </form>
         <p id = subTotal>Subtotal: RM<?= number_format($total,2) ?></p>
+        <form><button data-post = "checkout.php?cart_id=<?=$cart_id->Cart_ID?>">Check Out</button></form>
     </div>
 
+    
 <?php
     include '../_foot.php';
 ?>

@@ -174,8 +174,8 @@ function html_hidden($key, $attr = '') {
 }
 
 // Generate <input type='text'>
-function html_text($key, $attr = '') {
-    $value = encode($GLOBALS[$key] ?? '');
+function html_text($key, $value = '', $attr = '') {
+    $value = encode($value);
     echo "<input type='text' id='$key' name='$key' value='$value' $attr>";
 }
 
@@ -186,8 +186,7 @@ function html_password($key, $attr = '') {
 }
 
 // Generate <input type='number'>
-function html_number($key, $min = '', $max = '', $step = '', $attr = '') {
-    $value = encode($GLOBALS[$key] ?? '');
+function html_number($key, $value, $min = '', $max = '', $step = '', $attr = '') {
     echo "<input type='number' id='$key' name='$key' value='$value'
                  min='$min' max='$max' step='$step' $attr>";
 }
@@ -428,4 +427,6 @@ function is_exists($value, $table, $field) {
 // ============================================================================
 // Global Constants and Variables
 // ============================================================================
-
+$states = [
+    'Penang','Johor', 'Kedah', 'Kelantan', 'Kuala Lumpur', 'Labuan', 'Melaka', 'Negeri Sembilan', 'Pahang', 'Perak', 'Perlis', 'Putrajaya', 'Sabah', 'Sarawak', 'Selangor', 'Terengganu'
+];
