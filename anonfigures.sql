@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 07, 2026 at 06:56 AM
+-- Generation Time: Apr 07, 2026 at 03:02 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -108,7 +108,12 @@ INSERT INTO `invoice` (`Order_ID`, `Member_ID`, `Member_Coupon_ID`, `Order_Date`
 (18, 1, NULL, '2026-04-07 11:36:20', 'Preparing', 20.50, NULL, 20.50, 'test', 12200, 'test', 'test', 'cs_test_a1iydS1VrqCztDwlG6DzqzuKNIrMsruKld25DjfJJtDrP9ILDOkpsgOd6b'),
 (19, 1, NULL, '2026-04-07 12:06:02', 'Preparing', 20.50, NULL, 20.50, 'Jalan Genting Kelang,Bangunan Tan Sri Khaw Kai Boh (Block A), Setapak', 53300, 'Kuala Lumpur', 'Federal Territory of Kuala Lumpur', 'cs_test_a1Mc4lUCHVqoG9VgYbS6QUEpTvCzTGce74l7TtdfpE81MuWsg2wQmHCPgC'),
 (20, 1, NULL, '2026-04-07 12:09:31', 'Preparing', 20.50, NULL, 20.50, 'Jalan Genting Kelang,Bangunan Tan Sri Khaw Kai Boh (Block A), Setapak', 53300, 'Kuala Lumpur', 'Federal Territory of Kuala Lumpur', 'cs_test_a14KK2PKApGQ1k2G8d5pmSwAPzhKnOwDIKGX4VGJeKIHMud5UCB6XMmQy5'),
-(21, 1, NULL, '2026-04-07 12:47:29', 'Preparing', 420.98, NULL, 420.98, '188 Jalan Persisiran Pantai,Pekan Klebang', 75250, 'Klebang', 'Melaka', 'cs_test_b1LxFmOv88WM484Os7RxMGecuR7HBCvV7G7fCjtA3HYnu1YWTeiQYKf5ml');
+(21, 1, NULL, '2026-04-07 12:47:29', 'Preparing', 420.98, NULL, 420.98, '188 Jalan Persisiran Pantai,Pekan Klebang', 75250, 'Klebang', 'Melaka', 'cs_test_b1LxFmOv88WM484Os7RxMGecuR7HBCvV7G7fCjtA3HYnu1YWTeiQYKf5ml'),
+(22, 1, NULL, '2026-04-07 15:50:59', 'Preparing', 20.50, NULL, 20.50, 'Jalan Kolej,Taman Bandar Baru', 31900, 'Kampar', 'Perak', 'cs_test_a1du9JZsziPvXjNJA0h5MUzDWzIcZdo8GBqBIVvTQGDmBRWrt4HZJNMkN5'),
+(23, 1, NULL, '2026-04-07 15:55:28', 'Preparing', 200.24, NULL, 200.24, 'Wisma Merdeka,Kota Kinabalu', 88300, 'Kota Kinabalu', 'Sabah', 'cs_test_a1bU7w1W8AEdSZPUjx8SFEB5SeiUVkUfCQyIe01rEJJlmP3c8yzLtJewYh'),
+(24, 1, NULL, '2026-04-07 15:56:55', 'Preparing', 20.50, NULL, 20.50, '188 Jalan Persisiran Pantai,Pekan Klebang', 75250, 'Klebang', 'Melaka', 'cs_test_a1svstrQ7RgF3NFZcJO7tsho7OQmOXd25yLMMFPS41fBHPd0Sw8014kr2b'),
+(25, 1, NULL, '2026-04-07 15:58:37', 'Preparing', 20.50, NULL, 20.50, '28 Jalan Datuk Keramat,Kampung Datuk Keramat', 54000, 'Kuala Lumpur', 'Wilayah Persekutuan Kuala Lumpur', 'cs_test_a19sgn91SEURHiU8tFJShe3PubgDV1yjFhEfI8Zn2SlhVFm5xfkfW65oOi'),
+(26, 1, NULL, '2026-04-07 17:03:04', 'Preparing', 220.74, NULL, 220.74, '188 Jalan Persisiran Pantai,Pekan Klebang', 75250, 'Klebang', 'Melaka', 'cs_test_b1TSAe0Pt1Pe9AV5j7YGB0UewRUYCfmKNTI5cu1lJshrPFuaZQsa7oCp48');
 
 -- --------------------------------------------------------
 
@@ -169,7 +174,13 @@ INSERT INTO `order_details` (`Order_Details_ID`, `Order_ID`, `Product_ID`, `Quan
 (11, 19, 1, 1),
 (12, 20, 1, 1),
 (13, 21, 1, 1),
-(14, 21, 2, 2);
+(14, 21, 2, 2),
+(15, 22, 1, 1),
+(16, 23, 2, 1),
+(17, 24, 1, 1),
+(18, 25, 1, 1),
+(19, 26, 1, 1),
+(20, 26, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -228,10 +239,16 @@ INSERT INTO `product_image` (`Product_Image_ID`, `Product_ID`, `Image_URL`, `Alt
 CREATE TABLE `receipt` (
   `Receipt_ID` int(6) NOT NULL,
   `Order_ID` int(6) NOT NULL,
-  `Payment_Date` date NOT NULL,
-  `Payment_Method` varchar(10) NOT NULL,
-  `Amount_Paid` double(4,2) NOT NULL
+  `Payment_Date` datetime NOT NULL,
+  `Amount_Paid` double(6,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `receipt`
+--
+
+INSERT INTO `receipt` (`Receipt_ID`, `Order_ID`, `Payment_Date`, `Amount_Paid`) VALUES
+(1, 25, '2026-04-07 00:00:00', 2050.00);
 
 -- --------------------------------------------------------
 
@@ -277,6 +294,13 @@ CREATE TABLE `wishlist` (
   `Wishlist_ID` int(6) NOT NULL,
   `Member_ID` int(6) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `wishlist`
+--
+
+INSERT INTO `wishlist` (`Wishlist_ID`, `Member_ID`) VALUES
+(1, 1);
 
 -- --------------------------------------------------------
 
@@ -417,7 +441,7 @@ ALTER TABLE `cart`
 -- AUTO_INCREMENT for table `invoice`
 --
 ALTER TABLE `invoice`
-  MODIFY `Order_ID` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `Order_ID` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `member`
@@ -429,7 +453,7 @@ ALTER TABLE `member`
 -- AUTO_INCREMENT for table `order_details`
 --
 ALTER TABLE `order_details`
-  MODIFY `Order_Details_ID` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `Order_Details_ID` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `product`
@@ -447,7 +471,7 @@ ALTER TABLE `product_image`
 -- AUTO_INCREMENT for table `receipt`
 --
 ALTER TABLE `receipt`
-  MODIFY `Receipt_ID` int(6) NOT NULL AUTO_INCREMENT;
+  MODIFY `Receipt_ID` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `review`
@@ -465,7 +489,7 @@ ALTER TABLE `supplier`
 -- AUTO_INCREMENT for table `wishlist`
 --
 ALTER TABLE `wishlist`
-  MODIFY `Wishlist_ID` int(6) NOT NULL AUTO_INCREMENT;
+  MODIFY `Wishlist_ID` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables
