@@ -21,7 +21,7 @@
 
     <nav>
         <a href="/">Index</a>
-        <a href="/demo1.php">Demo 1</a>
+        <a href="/product/product.php">Product</a>
         <a href="/demo2.php">Demo 2</a>
         <a href="/demo3.php">Demo 3</a>
         <a href="/demo4.php">Demo 4</a>
