@@ -3,7 +3,7 @@
     require __DIR__ . "/../vendor/autoload.php";
     $stripe_secret_key = "sk_test_51TJ4OXCIH3Zb8MZN4bU0fQ3AzdKQ3NxcUelsIVfh1BcH5Z0pJQJ9varZAdpmqPQkCuSslybL8inySwPKisrWDLTj004Jf0upaO";
     \Stripe\Stripe::setApiKey($stripe_secret_key);
-    $_title = 'Successful Payment';
+    $_title = 'Receipt';
     include '../_head.php';
     $_db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     //Check for stripe status
@@ -65,8 +65,10 @@
     
     $stm = $_db->prepare('INSERT INTO receipt (order_id, payment_date, amount_paid) VALUES (?,CURRENT_TIMESTAMP,?)');
     $stm->execute([$order,$session->amount_total/100]); 
+    $receipt = $_db->lastInsertId();
 ?>
     <p>Payment was successful!</p>
+    <iframe src="http://localhost:8000/cart/receipt.php?receipt_id=<?= $receipt ?>" style="border:none; height:100vh; width:100%;"></iframe> 
 <?php 
     include '../_foot.php'
 ?>
