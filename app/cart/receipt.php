@@ -15,9 +15,6 @@
     $stm->execute([$receipt->Order_ID]);
     $products = $stm->fetchAll();
 
-    foreach($products as $p){
-            $total+=$p->Price;
-        } 
     }catch(PDOException $e){
         die($e->getMessage());
     }
@@ -40,22 +37,20 @@
 
             html, body {
                 height: 100%;
+                width:100%;
                 margin: 0;
                 padding: 0;
             }
 
             .content {
                 width: 100%;
-                height: calc(100vh - 40mm); /* full page minus top+bottom margins */
-                box-sizing: border-box;
-                display: flex;
-                flex-direction: column;
             }
-            h1, p {
-                margin: 0 0 10px;
+            h3{
+                margin: 0px;
             }
             h1{
                 color:#FF4060;
+                margin: 0 0 10px;
             }
             img{
                 width:100px;
@@ -104,6 +99,12 @@
             #productName{
                 padding-bottom: 0px;
             }
+            #productNameHeader{
+                text-align:left;
+            }
+            .totals{
+                text-align:center;
+            }
         </style>
     </head>
     <body>
@@ -122,14 +123,12 @@
                 </td>
             </tr>
 
-            <!-- Header -->
             <tr class="productRowTop">
-                <th>Product Name</th>
+                <th id=productNameHeader>Product Name</th>
                 <th>Quantity</th>
                 <th>Price</th>
             </tr>
 
-            <!-- Products -->
             <?php foreach($products as $p): ?>
             <tr>
                 <td id = "productName"><?= $p->Name ?></td>
@@ -143,12 +142,15 @@
             </tr>
             <?php endforeach ?>
 
-            <!-- Total -->
-            <tr class="productRowTop"></tr>
+            <tr class="productRowTop">
+                <td></td>
+                <td class = "totals"><h3>Subtotal:</h3></td>
+                <td class="price"><?= $order->Total_Amount ?></td>
+            </tr>
             <tr class="productRowBottom">
                 <td></td>
-                <td><h3>Subtotal:</h3></td>
-                <td class="price"><?= $total ?></td>
+                <td class = "totals"><h3>Total:</h3></td>
+                <td class="price"><?= $order->Final_Amount ?></td>
             </tr>
 
         </table>
