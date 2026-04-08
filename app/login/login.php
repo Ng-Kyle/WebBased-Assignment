@@ -23,8 +23,8 @@ if (is_post()) {
     // Login user
     if (!$_err) {
         $stm = $_db->prepare('
-            SELECT * FROM user
-            WHERE email = ? AND password = SHA1(?)
+            SELECT * FROM member
+            WHERE Email = ? AND Password = SHA1(?)
         ');
         $stm->execute([$email, $password]);
         $u = $stm->fetch();

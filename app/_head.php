@@ -32,7 +32,7 @@
         <?php endif?>
         
         <?php if($_user): ?>
-         <a href="/profile.php">Profile</a>
+         <a href="/user/profile.php">Profile</a>
          <a href="/cart/cart.php"></a>
         <?php endif ?>
     </header>
