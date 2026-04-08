@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 08, 2026 at 05:12 PM
+-- Generation Time: Apr 08, 2026 at 06:32 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -29,9 +29,9 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `admin` (
   `Admin_ID` int(6) NOT NULL,
-  `Name` varchar(30) NOT NULL,
-  `Password` varchar(20) NOT NULL,
-  `Email` varchar(30) NOT NULL
+  `Name` varchar(99) NOT NULL,
+  `Password` varchar(99) NOT NULL,
+  `Email` varchar(99) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -44,6 +44,13 @@ CREATE TABLE `cart` (
   `Cart_ID` int(6) NOT NULL,
   `Member_ID` int(6) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `cart`
+--
+
+INSERT INTO `cart` (`Cart_ID`, `Member_ID`) VALUES
+(1, 1);
 
 -- --------------------------------------------------------
 
@@ -67,14 +74,21 @@ CREATE TABLE `invoice` (
   `Order_ID` int(6) NOT NULL,
   `Member_ID` int(6) NOT NULL,
   `Order_Date` datetime NOT NULL,
-  `Status` varchar(30) NOT NULL,
-  `Total_Amount` double(5,2) NOT NULL,
+  `Status` varchar(99) NOT NULL,
+  `Total_Amount` double(6,2) NOT NULL,
   `Street_Address` varchar(999) NOT NULL,
   `Post_Code` int(5) NOT NULL,
   `City` varchar(99) NOT NULL,
   `State` varchar(99) NOT NULL,
   `Stripe_Session_ID` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `invoice`
+--
+
+INSERT INTO `invoice` (`Order_ID`, `Member_ID`, `Order_Date`, `Status`, `Total_Amount`, `Street_Address`, `Post_Code`, `City`, `State`, `Stripe_Session_ID`) VALUES
+(1, 1, '2026-04-08 23:21:23', 'Preparing', 100.50, '188 Jalan Persisiran Pantai,Pekan Klebang', 75250, 'Klebang', 'Melaka', 'cs_test_a1A4c7IUlK546Le6oGJ5SN3XUb9zaTAwb1R7A748UzLw1irnLMuXCp049R');
 
 -- --------------------------------------------------------
 
@@ -84,12 +98,19 @@ CREATE TABLE `invoice` (
 
 CREATE TABLE `member` (
   `Member_ID` int(6) NOT NULL,
-  `Name` varchar(30) NOT NULL,
-  `Email` varchar(30) NOT NULL,
-  `Password` varchar(30) NOT NULL,
+  `Name` varchar(99) NOT NULL,
+  `Email` varchar(99) NOT NULL,
+  `Password` varchar(999) NOT NULL,
   `Phone_Number` varchar(11) NOT NULL,
-  `Image_URL` varchar(100) NOT NULL
+  `Image_URL` varchar(999) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `member`
+--
+
+INSERT INTO `member` (`Member_ID`, `Name`, `Email`, `Password`, `Phone_Number`, `Image_URL`) VALUES
+(1, 'Kyle', 'ngkyle.trp@gmail.com', '1', '0123456789', '/images/image.png');
 
 -- --------------------------------------------------------
 
@@ -104,6 +125,13 @@ CREATE TABLE `order_details` (
   `Quantity` int(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `order_details`
+--
+
+INSERT INTO `order_details` (`Order_Details_ID`, `Order_ID`, `Product_ID`, `Quantity`) VALUES
+(1, 1, 1, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -114,14 +142,21 @@ CREATE TABLE `product` (
   `Product_ID` int(6) NOT NULL,
   `Supplier_ID` int(6) NOT NULL,
   `Name` varchar(30) NOT NULL,
-  `Description` varchar(100) NOT NULL,
-  `Price` double(5,2) NOT NULL,
+  `Description` varchar(999) NOT NULL,
+  `Price` double(6,2) NOT NULL,
   `Stock_Quantity` int(5) NOT NULL,
-  `Status` varchar(30) NOT NULL,
-  `Scale` varchar(30) NOT NULL,
-  `Series` varchar(50) NOT NULL,
-  `Brand` varchar(30) NOT NULL
+  `Status` varchar(99) NOT NULL,
+  `Scale` varchar(99) NOT NULL,
+  `Series` varchar(99) NOT NULL,
+  `Brand` varchar(99) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `product`
+--
+
+INSERT INTO `product` (`Product_ID`, `Supplier_ID`, `Name`, `Description`, `Price`, `Stock_Quantity`, `Status`, `Scale`, `Series`, `Brand`) VALUES
+(1, 1, 'Nendoroid Anon Chihaya', 'From \"BanG Dream!\" comes a Nendoroid of the MyGO!!!!! guitarist, Anon Chihaya!', 100.50, 1, 'Available', 'Nendoroid', 'BanG Dream!', 'Good Smile Company');
 
 -- --------------------------------------------------------
 
@@ -136,6 +171,13 @@ CREATE TABLE `product_image` (
   `Alt_Text` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `product_image`
+--
+
+INSERT INTO `product_image` (`Product_Image_ID`, `Product_ID`, `Image_URL`, `Alt_Text`) VALUES
+(1, 1, '/images/anonfigure.jpg', 'anonfigure');
+
 -- --------------------------------------------------------
 
 --
@@ -148,6 +190,13 @@ CREATE TABLE `receipt` (
   `Payment_Date` datetime NOT NULL,
   `Amount_Paid` double(6,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `receipt`
+--
+
+INSERT INTO `receipt` (`Receipt_ID`, `Order_ID`, `Payment_Date`, `Amount_Paid`) VALUES
+(1, 1, '2026-04-08 23:21:23', 100.50);
 
 -- --------------------------------------------------------
 
@@ -170,11 +219,18 @@ CREATE TABLE `review` (
 
 CREATE TABLE `supplier` (
   `Supplier_ID` int(6) NOT NULL,
-  `Name` varchar(30) NOT NULL,
-  `Email` varchar(30) NOT NULL,
+  `Name` varchar(99) NOT NULL,
+  `Email` varchar(99) NOT NULL,
   `Phone_Number` varchar(11) NOT NULL,
-  `Address` varchar(100) NOT NULL
+  `Address` varchar(999) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `supplier`
+--
+
+INSERT INTO `supplier` (`Supplier_ID`, `Name`, `Email`, `Phone_Number`, `Address`) VALUES
+(1, 'Anon Tokyo Figures', 'anontokyo@gmail.com', '0123456789', 'test');
 
 -- --------------------------------------------------------
 
@@ -305,43 +361,43 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `Cart_ID` int(6) NOT NULL AUTO_INCREMENT;
+  MODIFY `Cart_ID` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `invoice`
 --
 ALTER TABLE `invoice`
-  MODIFY `Order_ID` int(6) NOT NULL AUTO_INCREMENT;
+  MODIFY `Order_ID` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `member`
 --
 ALTER TABLE `member`
-  MODIFY `Member_ID` int(6) NOT NULL AUTO_INCREMENT;
+  MODIFY `Member_ID` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `order_details`
 --
 ALTER TABLE `order_details`
-  MODIFY `Order_Details_ID` int(6) NOT NULL AUTO_INCREMENT;
+  MODIFY `Order_Details_ID` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
-  MODIFY `Product_ID` int(6) NOT NULL AUTO_INCREMENT;
+  MODIFY `Product_ID` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `product_image`
 --
 ALTER TABLE `product_image`
-  MODIFY `Product_Image_ID` int(6) NOT NULL AUTO_INCREMENT;
+  MODIFY `Product_Image_ID` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `receipt`
 --
 ALTER TABLE `receipt`
-  MODIFY `Receipt_ID` int(6) NOT NULL AUTO_INCREMENT;
+  MODIFY `Receipt_ID` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `review`
@@ -353,7 +409,7 @@ ALTER TABLE `review`
 -- AUTO_INCREMENT for table `supplier`
 --
 ALTER TABLE `supplier`
-  MODIFY `Supplier_ID` int(6) NOT NULL AUTO_INCREMENT;
+  MODIFY `Supplier_ID` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `wishlist`

@@ -63,8 +63,9 @@ if (is_post()) {
     else if ($f->size > 1 * 1024 * 1024) {
         $_err['photo'] = 'Maximum 1MB';
     }
-
+    $_db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     // DB operation
+    try{
     if (!$_err) {
         // (1) Save photo
         $photo = save_photo($f, '../images/');
@@ -78,6 +79,9 @@ if (is_post()) {
 
         temp('info', 'Record inserted');
         redirect('/login.php');
+    }
+    }catch(PDOException $e){
+        die($e->getMessage());
     }
 }
 
