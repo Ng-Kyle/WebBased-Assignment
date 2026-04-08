@@ -53,9 +53,10 @@ body {
     height: 100vh;
     display: grid;
     grid: auto auto 1fr auto / auto;
+    
 }
 
-header, footer {
+header,footer {
     padding: 10px 50px;
     background:rgb(255, 178, 189);
 }
@@ -64,6 +65,11 @@ header { /* NEW */
     display: flex;
     gap: 10px;
     align-items: center;
+}
+
+header a:hover {
+    background-color: #ff7777;
+    border-radius: 30%;
 }
 
 header h1 {
