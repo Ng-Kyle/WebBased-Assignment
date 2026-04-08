@@ -19,10 +19,10 @@
         <a href="/product/product.php">Product</a>
        
         <?php if(!$_user): ?>
-        <a href="/login.php">Login</a>
+        <a href="/login/login.php">Login</a>
         <?php endif ?>
 
-        <a href="login.php">
+        <a href="/login/login.php">
         <img src="/images/cart.png" alt="Shopping Cart">
         </a>    
 
