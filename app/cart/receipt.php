@@ -124,9 +124,7 @@ $html = <<<HTML
     {$productsHTML}
 
     <tr class="productRowTop">
-        <td></td>
-        <td class="totals"><h3>Subtotal:</h3></td>
-        <td class="price">{$totalAmount}</td>
+        <td></td><td></td><td></td>
     </tr>
 
     <tr class="productRowBottom">
