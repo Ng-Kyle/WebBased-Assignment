@@ -2,7 +2,7 @@
     include '../_base.php';
     $_title = 'Shopping Cart';
     include '../_head.php';
-    $stm = $_db->prepare('SELECT p.*, cp.* FROM cart_product cp JOIN product p ON cp.Product_ID = p.Product_ID WHERE cp.Cart_ID = 1');
+    $stm = $_db->prepare('SELECT p.*, cp.* FROM cart_product cp JOIN product p ON cp.Product_ID = p.Product_ID WHERE cp.Cart_ID = 1');    
     $stm->execute();
     $products = $stm->fetchAll();
     $product_image = [];
