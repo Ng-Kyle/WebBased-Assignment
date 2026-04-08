@@ -6,6 +6,7 @@
     $stm->execute();
     $products = $stm->fetchAll();
     $product_image = [];
+    $total = 0;
     foreach($products as $p){
             $total+=$p->Price;
             $stm = $_db->prepare('SELECT * FROM product_image WHERE product_id = ?');
