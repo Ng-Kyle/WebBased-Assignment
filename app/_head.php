@@ -26,7 +26,7 @@
 
     <nav class="navbar">
         <a href="/mainmenu.php">Main Menu</a>
-    
+        <a href="/product/product.php">Product</a>
         <div></div>
 
     
