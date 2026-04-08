@@ -74,6 +74,7 @@ Use later for search page
 <p>Price: $<?= htmlspecialchars($products['Price']) ?></p>
 <p>Description</p>
 <p><?= htmlspecialchars($products['Description']) ?></p>
+<p>Stock Quantity: <?= htmlspecialchars($products['Stock_Quantity']) ?></p> <p>Status: <?= htmlspecialchars($products['Status']) ?></p>
 
 
 
