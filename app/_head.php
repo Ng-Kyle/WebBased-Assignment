@@ -15,7 +15,7 @@
     <div id="info"><?= temp('info') ?></div>
 
     <header>
-        <h1><a href="/index.php">AnonFigures</a></h1>
+        <h1 = class="store"><a href="/index.php">AnonFigures</a></h1>
         <a href="/product/product.php">Product</a>
        
         <?php if(!$_user): ?>
@@ -23,7 +23,7 @@
         <?php endif ?>
 
         <a href="login.php">
-        <img src="/images/cart.png" alt="Shopping Cart">
+        <img src="/images/cartpng.png" alt="Shopping Cart" style="border: none; width: 40px; height: 40px;">
         </a>    
 
         <?php if ($_user): ?>
@@ -37,17 +37,7 @@
         <?php endif ?>
     </header>
 
-    <nav >
-        
-    
-
-    
-        
-    
-
    
-        <!-- Second menu -->
-    </nav>
 
         
        

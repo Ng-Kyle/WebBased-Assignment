@@ -49,33 +49,58 @@ body, input, button, textarea, select {
 /* Layout ------------------------------------------------------------------ */
 
 body {
+    max-width: 100%;
+    overflow-x: hidden;
     margin: 0;
-    height: 100vh;
+    min-height: 100vh;
     display: grid;
-    grid: auto auto 1fr auto / auto;
+}
+
+
+
+header{
+    flex-shrink: 0;
+    padding: 10px 40px;
+    width: 96%;
+    background:rgb(255, 178, 189);;
+}
+
+footer {
+    margin-top: auto;
+    flex-shrink: 0;
+    width: 100%;
+    padding: 10px 50px;
+    background:rgb(255, 178, 189);
+    text-align: left;
+    
     
 }
 
-header,footer {
-    padding: 10px 50px;
-    background:rgb(255, 178, 189);
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+    display: none;
+
 }
 
-header { /* NEW */
+header { 
     display: flex;
+    z-index: 1000;
+    position: fixed;
     gap: 10px;
-    align-items: center;
+    text-align: left;
+    ;
 }
 
 header a:hover {
     background-color: #ff7777;
-    border-radius: 30%;
+    
 }
 
 header h1 {
     flex: 1; /* NEW */
-    margin: 0;
-    padding-left: 40px;
+    margin-top: 0;
+    padding-left: 42px;
     color:black;
     background: url(/images/favicon.png) no-repeat left / 36px;
 }
@@ -85,8 +110,9 @@ header h1 :hover {
 }
 
 header a {
-    color: inherit;
+    color: black; 
     text-decoration: none;
+    margin-top: 20px;
 }
 
 header div { /* NEW */
@@ -100,11 +126,7 @@ header img { /* NEW */
     border-radius: 5px;
 }
 
-nav {
-    padding: 0 50px;
-    background: rgb(255, 161, 175);
-    display: flex;
-}
+
 
 nav a {
     border: #ff7b7b solid px;
@@ -123,13 +145,23 @@ nav div { /* NEW */
     flex: 1;
 }
 
-main {
-    padding: 20px 50px;
+main>:first-child {
+    font: medium large 'Arial', sans-serif;
+    padding-left:20px;
 }
 
+
+
 main h1 {
-    margin-top: 0;
+
+    margin-top: 80px;
+    margin-bottom: 0px;
+    margin-left: 20px;
+    padding: 0px;
+    
 }
+
+
 
 /* Pager */
 nav.pager {
@@ -271,4 +303,28 @@ label.upload img {
     height: 200px;
     object-fit: cover;
     cursor: pointer;
+}
+
+
+.image-side {
+    width: 300px; 
+    position: relative;
+    text-align: right;
+   margin-left: 700px;
+   margin-top: -190px;
+}
+
+
+.image-side {   
+    flex: 1;
+    position: relative;
+    text-align: right;
+    
+}   
+
+.description-side {
+    flex: 1;
+    height: 200px;
+    margin-top: -50px;
+    padding: 20px;
 }
