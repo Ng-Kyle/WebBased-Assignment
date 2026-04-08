@@ -99,7 +99,7 @@ header a:hover {
 
 header h1 {
     flex: 1; /* NEW */
-    margin-top: 0;
+    margin-top: 100;
     padding-left: 42px;
     color:black;
     background: url(/images/favicon.png) no-repeat left / 36px;
@@ -124,6 +124,7 @@ header img { /* NEW */
     height: 36px;
     border: 1px solid #333;
     border-radius: 5px;
+    
 }
 
 
