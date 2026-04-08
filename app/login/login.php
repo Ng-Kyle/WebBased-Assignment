@@ -44,11 +44,11 @@ $_title = 'Login';
 
 <form method="post" class="form">
     <label for="email">Email</label>
-    <?= html_text('email', '') ?>
+    <?= html_text('email',"", 'maxlength="100"') ?>
     <?= err('email') ?>
 
     <label for="password">Password</label>
-    <?= html_password('password', '') ?>
+    <?= html_password('password', '',) ?>
     <?= err('password') ?>
 
     <section>

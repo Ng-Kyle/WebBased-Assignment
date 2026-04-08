@@ -72,7 +72,7 @@ $_title = 'User | Reset Password';
 
 <form method="post" class="form">
     <label for="email">Email</label>
-    <?= html_text('email', 'maxlength="100"') ?>
+    <?= html_text('email',"",'maxlength="100"') ?>
     <?= err('email') ?>
 
     <section>
