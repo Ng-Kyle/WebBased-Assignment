@@ -7,30 +7,33 @@
         $product_id = post('Product_ID');
         $quantity = post('Quantity');
 
+        if ($quantity>0){
         $stm = $_db->prepare('SELECT Cart_ID FROM cart WHERE Member_ID = ?');
         $stm->execute([$member_id]);
         $cart = $stm->fetch();
-
-        if($cart){
-         $cart_id = $cart->Cart_ID;   
         
 
-            //this is for checking if the product exists in the member's cart
-            $stm = $_db->prepare('SELECT * FROM cart_product WHERE Product_ID = ? AND Cart_ID = ? ');
-            $stm->execute([$product_id,$cart_id]);
-            $exists = $stm->fetch();
+            if($cart){
+            $cart_id = $cart->Cart_ID;   
+            
 
-         if($exists){
-                //update existing product
-                $stm = $_db->prepare('UPDATE cart_product SET Quantity = ? WHERE Product_ID = ? AND Cart_ID = ?');
-                $stm->execute([$quantity,$product_id,$cart_id]);
-            }else{
-                //insert new product
-                $stm = $_db->prepare('INSERT INTO cart_product (Product_ID, Cart_ID,Quantity) VALUES (?,?,?)');
-                $stm->execute([$product_id,$cart_id,$quantity]);
+                //this is for checking if the product exists in the member's cart
+                $stm = $_db->prepare('SELECT * FROM cart_product WHERE Product_ID = ? AND Cart_ID = ? ');
+                $stm->execute([$product_id,$cart_id]);
+                $exists = $stm->fetch();
+
+                if($exists){
+                    //update existing product
+                    $stm = $_db->prepare('UPDATE cart_product SET Quantity = Quantity + ? WHERE Product_ID = ? AND Cart_ID = ?');
+                    $stm->execute([$quantity,$product_id,$cart_id]);
+                }else{
+                    //insert new product
+                    $stm = $_db->prepare('INSERT INTO cart_product (Product_ID, Cart_ID,Quantity) VALUES (?,?,?)');
+                    $stm->execute([$product_id,$cart_id,$quantity]);
+                }
+
+                redirect('../cart/cart.php');
             }
-
-            redirect('../cart/cart.php');
         }
     }
 
@@ -103,7 +106,7 @@
 
         .products-details{
             position:relative;
-            left:45% ;
+            left:46.5% ;
             max-width: 52%;
             margin-top: -250px;
         }
