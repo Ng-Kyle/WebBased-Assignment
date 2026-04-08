@@ -11,34 +11,43 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
-    <!-- Flash message -->
+    <!-- Flash message -->  
     <div id="info"><?= temp('info') ?></div>
 
     <header>
-        <h1><a href="/">Anonfigures</a></h1>
-        
-        <!-- User profile photo --> 
-         <a href="/profile.php">Profile</a>
-         <i class="fa fa-shopping-cart" style="font-size:24px;color:ff7777;"></i>
-         <a href="/cart/cart.php">Cart</a>
+        <h1 class="store"><a href="/index.php">AnonFigures</a></h1>
+        <a class = "store" href="/product/product.php">Product</a>
        
+        <?php if(!$_user): ?>
+<<<<<<< HEAD
+        <a href="/login/login.php">Login</a>
+        <?php endif ?>
+
+        <a href="/login/login.php">
+        <img src="/images/cart.png" alt="Shopping Cart">
+=======
+        <a class="store"href="/login.php">Login</a>
+        <?php endif ?>
+
+        <a class = "store" href="login.php">
+        <img src="/images/cartpng.png" alt="Shopping Cart" style="border: none; width: 40px; height: 40px;">
+>>>>>>> 120064e7d26c294d974c29c36c5340d3195e6b90
+        </a>    
+
+        <?php if ($_user): ?>
+            <a href="/wishlist.php">Wishlist</a>
+            <a href="/logout.php">Logout</a>
+        <?php endif?>
+        
+        <?php if($_user): ?>
+         <a href="/profile.php">Profile</a>
+         <a href="/cart/cart.php"></a>
+        <?php endif ?>
     </header>
 
-    <nav class="navbar">
-        <a href="/mainmenu.php">Main Menu</a>
-        <a href="/product/product.php">Product</a>
-        <div></div>
-
-    
-        <a href="/wishlist.php">Wishlist</a>
-        <a href="/logout.php">Logout</a>
-    
-       <a href="/login.php">Login</a>
    
-        <!-- Second menu -->
-    </nav>
 
-    
+        
        
     
 

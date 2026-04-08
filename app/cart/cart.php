@@ -20,40 +20,60 @@
     
 ?>
     <style>
-        img{
+        .productRowTop img{
             width: 150px;
             height: 150px;
         }
         .productRowTop{
-            border-top: 3px solid gray;
+            border-top: 3px solid pink;
         }
         .productRowMiddle{
             vertical-align: top;
         }
         .productRowBottom{
-            border-bottom: 3px solid gray;
+            border-bottom: 3px solid pink;
         }
-        .productName{
-            width: 90%;
+        .productDetails{
+            width: 80%;
+            vertical-align: bottom;
         }
-        
         table{
             border-collapse: collapse; 
         }
         h2{
             text-align:center;
             font-size: 35px;
+            color:#FF5E7E;
         }
         .removeBtn{
             text-align: right;
-            color:red;
-            outline:5px black;
+            width:20%;
+            vertical-align: top;
+        }
+        button{
+            border: none;
+            background-color: white;
+            color:#FF5E7E;
+            font-size: 15pt;
+            font-weight: bold;
+            text-decoration: underline 2pt;
+        }
+        .removeBtn img{
+            width:15px;
+            padding-top:5px;
+            height:auto;
+        }
+        button:hover{
+            cursor:pointer
         }
         .totalPriceArea{
             text-align: right;
         }
         #totalItems{
-            font-size:20px;
+            font-size:20pt;
+            font-weight:bold;
+            color:#FF5E7E;
+            margin-bottom:2px;
         }
         #subTotal{
             font-size:30px;
@@ -62,6 +82,31 @@
             text-align:center;
             padding-top: 30px;
             padding-bottom:180px;
+            font-size:25pt;
+            font-weight:bold;
+        }
+        .productPrice{
+            font-size:24pt;
+            font-weight: bold;
+            color: #FF5E7E;
+        }
+        #productCategory{
+            color:gray;
+        }
+        #productQuantity{
+            font-size:20pt;
+            font-weight: bold;
+            color: #FF5E7E;
+        }
+        #quantityValue{
+            text-align: right;
+            font-size:20pt;
+            padding-right: 40px;
+            font-weight:bold;
+            color: #FF5E7E;
+        }
+        main > :first-child{
+            visibility: hidden;
         }
     </style>
     <h2>Cart</h2>
@@ -71,12 +116,14 @@
             <?php foreach($products as $p): ?>        
             <tr class = productRowTop>
                 <td rowspan = "3"><a><img src = <?= $product_image[$p->Product_ID][0]->Image_URL ?> alt = <?= $product_image[$p->Product_ID][0]->Alt_Text ?>></a></td>
-                <td class = productName><?= $p->Name ?></td>
-                <td class = removeBtn><button data-post="delete.php?cart_id=<?=$p->Cart_ID?>&product_id=<?=$p->Product_ID?>">Remove</button></td>
+                <td class = productDetails><?= $p->Name ?><br><span id="productCategory"><?= $p->Brand." ".$p->Scale." ".$p->Series ?></span></td>
+                <td></td>
+                <td class = removeBtn><button data-post="delete.php?cart_id=<?=$p->Cart_ID?>&product_id=<?=$p->Product_ID?>"><img src = "/images/trash.png" alt = "trash">Remove</button></td>
             </tr>
             <tr class = productRowMiddle>
                 <td class = productPrice>RM <?= number_format($p->Price,2) ?></td>
-                <td><?= $p->Quantity ?></td>
+                <td id = "productQuantity">Quantity:</td>
+                <td id = "quantityValue"><?= $p->Quantity ?></td>
             </tr>
             <tr class = productRowBottom></tr>
             <?php endforeach ?>
@@ -84,14 +131,15 @@
     </form>
     <div class = totalPriceArea>
         <form>
-            <p id = totalItems>Total Items: <?= count($products) ?><button data-post="deleteAll.php?cart_id=<?=$cart_id->Cart_ID?>">Remove All</button></p>
+            <p id = totalItems>Total Items: <?= count($products) ?></p>
+            <button class = "removeBtn" data-post="deleteAll.php?cart_id=<?=$cart_id->Cart_ID?>"><img src="/images/trash.png" alt="trash">Remove All</button>
         </form>
         <p id = subTotal>Subtotal: RM<?= number_format($total,2) ?></p>
         <form>
             <button data-post = "checkout.php?cart_id=<?=$cart_id->Cart_ID?>">Check Out</button></form>
     </div>
     <?php else: ?>
-    <p id = "emptyCart">Your cart is empty</p>
+    <p id = "emptyCart">Your cart is empty.</p>
     <?php endif ?>
     
 
