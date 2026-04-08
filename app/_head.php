@@ -15,15 +15,23 @@
     <div id="info"><?= temp('info') ?></div>
 
     <header>
-        <h1><a href="/index.php">AnonFigures</a></h1>
-        <a href="/product/product.php">Product</a>
+        <h1 class="store"><a href="/index.php">AnonFigures</a></h1>
+        <a class = "store" href="/product/product.php">Product</a>
        
         <?php if(!$_user): ?>
+<<<<<<< HEAD
         <a href="/login/login.php">Login</a>
         <?php endif ?>
 
         <a href="/login/login.php">
         <img src="/images/cart.png" alt="Shopping Cart">
+=======
+        <a class="store"href="/login.php">Login</a>
+        <?php endif ?>
+
+        <a class = "store" href="login.php">
+        <img src="/images/cartpng.png" alt="Shopping Cart" style="border: none; width: 40px; height: 40px;">
+>>>>>>> 120064e7d26c294d974c29c36c5340d3195e6b90
         </a>    
 
         <?php if ($_user): ?>
@@ -37,17 +45,7 @@
         <?php endif ?>
     </header>
 
-    <nav >
-        
-    
-
-    
-        
-    
-
    
-        <!-- Second menu -->
-    </nav>
 
         
        

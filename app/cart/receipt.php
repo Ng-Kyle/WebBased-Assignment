@@ -2,7 +2,6 @@
 include '../_base.php';
 require __DIR__ . "/../vendor/autoload.php";
 
-// mPDF setup
 $mpdf = new \Mpdf\Mpdf([
     'format' => 'A4',
     'margin_top' => 20,
@@ -13,7 +12,6 @@ $mpdf = new \Mpdf\Mpdf([
 
 $_db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-// Get receipt and order info
 $receipt_id = req('receipt_id');
 
 $stm = $_db->prepare('SELECT * FROM receipt WHERE receipt_id = ?');
@@ -28,7 +26,6 @@ $stm = $_db->prepare('SELECT p.*, od.* FROM order_details od JOIN product p ON o
 $stm->execute([$receipt->Order_ID]);
 $products = $stm->fetchAll();
 
-// Prepare HTML content
 $shippingAddress = $order->Street_Address . ', ' . $order->City . ', ' . $order->State . ' ' . $order->Post_Code;
 $totalAmount = $order->Total_Amount;
 $finalAmount = $order->Final_Amount;
@@ -45,7 +42,6 @@ foreach ($products as $p) {
     </tr>";
 }
 
-// Full HTML for PDF
 $html = <<<HTML
 <style>
     body { 
@@ -103,7 +99,6 @@ $html = <<<HTML
 <h1>RECEIPT</h1>
 
 <table>
-    <!-- Shipping info -->
     <tr class="productRowTop">
         <td id="shipping">
             <h2>Shipping Address:</h2>
@@ -115,29 +110,23 @@ $html = <<<HTML
         </td>
     </tr>
 
-    <!-- LINE BETWEEN SHIPPING AND PRODUCTS -->
     <tr>
         <td colspan="3" style="border-top:3px solid pink; padding:0;"></td>
     </tr>
 
-    <!-- Product header -->
+
     <tr class="productRowTop">
         <th id="productNameHeader">Product Name</th>
         <th>Quantity</th>
         <th>Price</th>
     </tr>
 
-    <!-- Products -->
     {$productsHTML}
 
-    <!-- Subtotal -->
     <tr class="productRowTop">
-        <td></td>
-        <td class="totals"><h3>Subtotal:</h3></td>
-        <td class="price">{$totalAmount}</td>
+        <td></td><td></td><td></td>
     </tr>
 
-    <!-- Total -->
     <tr class="productRowBottom">
         <td></td>
         <td class="totals"><h3>Total:</h3></td>

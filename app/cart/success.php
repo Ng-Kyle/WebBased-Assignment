@@ -48,9 +48,9 @@
     //Create Order
     
     
-    $stm = $_db->prepare('INSERT INTO invoice (member_id, order_date, status, total_amount, final_amount, street_address, post_code, city, state,stripe_session_id) 
-    VALUES (?,CURRENT_TIMESTAMP,"Preparing",?,?,?,?,?,?,?)');
-    $stm->execute([$member->Member_ID,$total,$total,$street_address, $post_code, $city, $state,$session_id]);
+    $stm = $_db->prepare('INSERT INTO invoice (member_id, order_date, status, total_amount, street_address, post_code, city, state,stripe_session_id) 
+    VALUES (?,CURRENT_TIMESTAMP,"Preparing",?,?,?,?,?,?)');
+    $stm->execute([$member->Member_ID,$total,$street_address,$post_code, $city, $state,$session_id]);
     
     //Create order details for each product in cart
     $order = $_db->lastInsertId();
