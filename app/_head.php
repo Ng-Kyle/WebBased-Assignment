@@ -15,7 +15,7 @@
     <div id="info"><?= temp('info') ?></div>
 
     <header>
-        <h1 = class="store"><a href="/index.php">AnonFigures</a></h1>
+        <h1 class="store"><a href="/index.php">AnonFigures</a></h1>
         <a href="/product/product.php">Product</a>
        
         <?php if(!$_user): ?>
