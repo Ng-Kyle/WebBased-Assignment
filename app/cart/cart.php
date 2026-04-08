@@ -140,7 +140,7 @@
             <button data-post = "checkout.php?cart_id=<?=$cart_id->Cart_ID?>">Check Out</button></form>
     </div>
     <?php else: ?>
-    <p id = "emptyCart">Your cart is empty.</p>
+    <p id = "emptyCart">Your cart is currently empty.</p>
     <?php endif ?>
     
 
