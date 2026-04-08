@@ -15,14 +15,14 @@
     <div id="info"><?= temp('info') ?></div>
 
     <header>
-        <h1 = class="store"><a href="/index.php">AnonFigures</a></h1>
-        <a href="/product/product.php">Product</a>
+        <h1 class="store"><a href="/index.php">AnonFigures</a></h1>
+        <a class = "store" href="/product/product.php">Product</a>
        
         <?php if(!$_user): ?>
-        <a href="/login.php">Login</a>
+        <a class="store"href="/login.php">Login</a>
         <?php endif ?>
 
-        <a href="login.php">
+        <a class = "store" href="login.php">
         <img src="/images/cartpng.png" alt="Shopping Cart" style="border: none; width: 40px; height: 40px;">
         </a>    
 
