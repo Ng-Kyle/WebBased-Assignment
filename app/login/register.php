@@ -86,7 +86,7 @@ $_title = 'Register';
 
 <form method="post" class="form" enctype="multipart/form-data">
     <label for="email">Email</label>
-    <?= html_text('email', '') ?>
+    <?= html_text('email',"", 'maxlength="254"') ?>
     <?= err('email') ?>
 
     <label for="password">Password</label>
@@ -98,7 +98,7 @@ $_title = 'Register';
     <?= err('confirm') ?>
 
     <label for="name">Name</label>
-    <?= html_text('name', '') ?>
+    <?= html_text('name', '', 'maxlength="100"') ?>
     <?= err('name') ?>
 
     <label for="photo">Photo</label>
