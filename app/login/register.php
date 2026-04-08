@@ -9,6 +9,7 @@ if (is_post()) {
     $password = req('password');
     $confirm  = req('confirm');
     $name     = req('name');
+    $phone    = req('phone');
     $f = get_file('photo');
 
     // Validate: email
@@ -21,7 +22,7 @@ if (is_post()) {
     else if (!is_email($email)) {
         $_err['email'] = 'Invalid email';
     }
-    else if (!is_unique($email, 'user', 'email')) {
+    else if (!is_unique($email, 'member', 'email')) {
         $_err['email'] = 'Duplicated';
     }
 
@@ -66,14 +67,14 @@ if (is_post()) {
     // DB operation
     if (!$_err) {
         // (1) Save photo
-        $photo = save_photo($f, '../photos');
+        $photo = save_photo($f, '../images/');
         
         // (2) Insert user (member)
         $stm = $_db->prepare('
-            INSERT INTO user (email, password, name, photo, role)
-            VALUES (?, SHA1(?), ?, ?, "Member")
+            INSERT INTO member (Name, Email, Password, Phone_Number, Image_URL)
+            VALUES (?, ?, SHA1(?), ?, ?)
         ');
-        $stm->execute([$email, $password, $name, $photo]);
+        $stm->execute([$name, $email, $password, $phone, $photo]);
 
         temp('info', 'Record inserted');
         redirect('/login.php');
@@ -100,6 +101,10 @@ $_title = 'Register';
     <label for="name">Name</label>
     <?= html_text('name', '', 'maxlength="100"') ?>
     <?= err('name') ?>
+
+    <label for="phone">Phone</label>
+    <?= html_text('phone', '', 'maxlength="11"') ?>
+    <?= err('phone') ?>
 
     <label for="photo">Photo</label>
     <label class="upload" tabindex="0">
