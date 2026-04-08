@@ -157,11 +157,6 @@ function array_all($arr, $fn) {
 // HTML Helpers
 // ============================================================================
 
-// Placeholder for TODO
-function TODO() {
-    echo '<span>TODO</span>';
-}
-
 // Encode HTML special characters
 function encode($value) {
     return htmlentities($value);

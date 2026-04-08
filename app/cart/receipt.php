@@ -27,15 +27,14 @@ $stm->execute([$receipt->Order_ID]);
 $products = $stm->fetchAll();
 
 $shippingAddress = $order->Street_Address . ', ' . $order->City . ', ' . $order->State . ' ' . $order->Post_Code;
-$totalAmount = $order->Total_Amount;
-$finalAmount = $order->Final_Amount;
+$totalAmount = number_format($order->Total_Amount,2);
 
 $productsHTML = '';
 foreach ($products as $p) {
     $productsHTML .= "<tr>
         <td id='productName'>{$p->Name}</td>
         <td class='qty'>{$p->Quantity}</td>
-        <td class='price'>{$p->Price}</td>
+        <td class='price'>" . number_format($p->Price,2) . "</td>
     </tr>
     <tr class='productRowMiddle'>
         <td colspan='3' id='details'>{$p->Brand} {$p->Scale} {$p->Series}</td>
@@ -129,8 +128,8 @@ $html = <<<HTML
 
     <tr class="productRowBottom">
         <td></td>
-        <td class="totals"><h3>Total:</h3></td>
-        <td class="price">{$finalAmount}</td>
+        <td class="totals"><h3>Total:(RM)</h3></td>
+        <td class="price">{$totalAmount}</td>
     </tr>
 </table>
 HTML;
