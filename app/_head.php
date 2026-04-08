@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/css/app.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="/js/app.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
     <!-- Flash message -->
@@ -15,21 +16,25 @@
 
     <header>
         <h1><a href="/">Anonfigures</a></h1>
-        <!-- User profile photo -->
+        
+        <!-- User profile photo --> 
+         <a href="/profile.php">Profile</a>
+         <i class="fa fa-shopping-cart" style="font-size:24px;color:ff7777;"></i>
          <a href="/cart/cart.php">Cart</a>
+       
     </header>
 
-    <nav>
-        <a href="/">Main Menu</a>
-        <a href="/demo1.php"></a>
-
-        <div></div>
+    <nav class="navbar">
+        <a href="/mainmenu.php">Main Menu</a>
     
-        <a href="/demo2.php">Demo 2</a>
-        <a href="/demo3.php">Demo 3</a>
-        <a href="/demo4.php">Demo 4</a>
-        <a href="/demo5.php">Demo 5</a>
-        
+        <div></div>
+
+    
+        <a href="/wishlist.php">Wishlist</a>
+        <a href="/logout.php">Logout</a>
+    
+       <a href="/login.php">Login</a>
+   
         <!-- Second menu -->
     </nav>
 
