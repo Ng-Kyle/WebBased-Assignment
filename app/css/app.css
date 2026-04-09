@@ -84,13 +84,7 @@ header img { /* NEW */
     
 }
 
-main >:first-child {
-    margin-top:80px;
-    margin-bottom: 0px;
-    padding: 0px;
-    color:#FF5E7E;
-    
-}
+
 
 main {
     padding: 62px 50px;
@@ -240,28 +234,9 @@ label.upload img {
 }
 
 
-.image-side {
-    width: 300px; 
-    position: relative;
-    text-align: right;
-   margin-left: 700px;
-   margin-top: -190px;
-}
+  
 
 
-.image-side {   
-    flex: 1;
-    position: relative;
-    text-align: right;
-    
-}   
-
-.description-side {
-    flex: 1;
-    height: 200px;
-    margin-top: -50px;
-    padding: 20px;
-}
 /* Login */
 .element{
     display: grid;
