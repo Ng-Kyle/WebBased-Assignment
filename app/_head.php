@@ -16,7 +16,7 @@
 
     <header>
         <h1 class="store"><a href="/index.php">AnonFigures</a></h1>
-        <a class = "store" href="/product/productDetails.php">Product</a>
+        <a class = "store" href="/product/list.php">Product</a>
        
         <?php if(!$_user): ?>
         <a href="/login/login.php">Login</a>
