@@ -38,7 +38,7 @@
     }
 
                 
-    $id = 1; //req('Product_ID');
+    $id = req('Product_ID');
     $stm = $_db->prepare('SELECT p.*, pi.* FROM product p LEFT JOIN product_image pi ON p.Product_ID = pi.Product_ID WHERE p.Product_ID = ?');
     $stm->execute([$id]);
     $productIDimg = $stm->fetchAll();
@@ -89,6 +89,7 @@
             width: 40%;
             border-style: solid ;
             border-color: rgb(255, 161, 175);
+            border-radius: 5px;
         }
 
         .products-img{

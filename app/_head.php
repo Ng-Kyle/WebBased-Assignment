@@ -16,14 +16,14 @@
 
     <header>
         <h1 class="store"><a href="/index.php">AnonFigures</a></h1>
-        <a class = "store" href="/product/productDetails.php">Product</a>
+        <a class = "store" href="/product/list.php">Product</a>
        
         <?php if(!$_user): ?>
         <a href="/login/login.php">Login</a>
         <?php endif ?>   
 
         <?php if ($_user): ?>
-            <a href="/wishlist.php">Wishlist</a>
+            <a href="/wishlist/wishlist.php">Wishlist</a>
             <a href="/login/logout.php">Logout</a>
             <a href="/user/profile.php">Profile</a>
             <a href="/cart/cart.php"><img src="/images/cart.png" alt="Shopping Cart"></a>
