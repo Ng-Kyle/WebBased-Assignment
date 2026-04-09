@@ -1,5 +1,6 @@
 <?php
 include '../_base.php';
+include '../_head.php';
 
 // ----------------------------------------------------------------------------
 
@@ -8,7 +9,7 @@ auth();
 
 if (is_get()) {
     $stm = $_db->prepare('SELECT * FROM member WHERE Member_ID = ?');
-    $stm->execute([$_user->id]);
+    $stm->execute([$_user->Member_ID]);
     $u = $stm->fetch();
 
     if (!$u) {
@@ -16,13 +17,13 @@ if (is_get()) {
     }
 
     extract((array)$u);
-    $_SESSION['photo'] = $u->photo;
+    $_SESSION['Image_URL'] = $u->photo;
 }
 
 if (is_post()) {
     $email = req('email');
     $name  = req('name');
-    $photo = $_SESSION['photo'];
+    $photo = $_SESSION['Image_URL'];
     $f = get_file('photo');
 
     // Validate: email
@@ -37,10 +38,10 @@ if (is_post()) {
     }
     else {
         $stm = $_db->prepare('
-            SELECT COUNT(*) FROM user
-            WHERE email = ? AND id != ?
+            SELECT COUNT(*) FROM member
+            WHERE Email = ? AND Member_ID != ?
         ');
-        $stm->execute([$email, $_user->id]);
+        $stm->execute([$email, $_user->Member_ID]);
 
         if ($stm->fetchColumn() > 0) {
             $_err['email'] = 'Duplicated';
@@ -75,16 +76,16 @@ if (is_post()) {
         
         // (2) Update user (email, name, photo)
         $stm = $_db->prepare('
-            UPDATE user
-            SET email = ?, name = ?, photo = ?
-            WHERE id = ?
+            UPDATE member
+            SET Email = ?, Name = ?, Photo = ?
+            WHERE Member_ID = ?
         ');
-        $stm->execute([$email, $name, $photo, $_user->id]);
+        $stm->execute([$email, $name, $photo, $_user->Member_ID]);
 
         // (3) Update global user object
-        $_user->email = $email;
-        $_user->name  = $name;
-        $_user->photo = $photo;
+        $_user->Email = $email;
+        $_user->Name  = $name;
+        $_user->Photo = $photo;
 
         temp('info', 'Record updated');
         redirect('/');
@@ -94,22 +95,21 @@ if (is_post()) {
 // ----------------------------------------------------------------------------
 
 $_title = 'User | Profile';
-include '../_head.php';
 ?>
 
 <form method="post" class="form" enctype="multipart/form-data">
     <label for="email">Email</label>
-    <?= html_text('email', 'maxlength="100"') ?>
+    <?= html_text('email', $_user->Email, 'maxlength="100"') ?>
     <?= err('email') ?>
 
     <label for="name">Name</label>
-    <?= html_text('name', 'maxlength="100"') ?>
+    <?= html_text('name', $_user->Name, 'maxlength="100"') ?>
     <?= err('name') ?>
 
     <label for="photo">Photo</label>
     <label class="upload" tabindex="0">
         <?= html_file('photo', 'image/*', 'hidden') ?>
-        <img src="/photos/<?= $photo ?>">
+        <img src="/photos/<?= $_user->Photo ?>">
     </label>
     <?= err('photo') ?>
 

@@ -28,7 +28,7 @@
 
         <?php if ($_user): ?>
             <a href="/wishlist.php">Wishlist</a>
-            <a href="/logout.php">Logout</a>
+            <a href="/login/logout.php">Logout</a>
         <?php endif?>
         
         <?php if($_user): ?>

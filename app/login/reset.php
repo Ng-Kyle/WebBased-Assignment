@@ -14,44 +14,43 @@ if (is_post()) {
     else if (!is_email($email)) {
         $_err['email'] = 'Invalid email';
     }
-    else if (!is_exists($email, 'user', 'email')) {
+    else if (!is_exists($email, 'member', 'email')) {
         $_err['email'] = 'Not exists';
     }
 
     // Send reset token (if valid)
     if (!$_err) {
         // TODO: (1) Select user
-        $stm = $_db->prepare('SELECT * FROM user WHERE email = ?');
-        $stm->execute([]);
+// TODO: (1) Select user
+        $stm = $_db->prepare('SELECT * FROM member WHERE Email = ?');
+        $stm->execute([$email]); // Passed the variable here
         $u = $stm->fetch();
 
         // TODO: (2) Generate token id
         $id = SHA1(uniqid() . rand());
+        $stm->execute([$u->Member_ID]); 
 
-        // TODO: (3) Delete old and insert new token
+        // Step B: Insert
         $stm = $_db->prepare('
-            DELETE FROM token
-            WHERE user_id = ? AND type = "reset"
-            
-            INSERT INTO token (id, expire, user_id)
-            VALUES (?, ADDTIME(NOW(), "00:05"), ?);
+            INSERT INTO token (id, expire, Member_ID)
+            VALUES (?, ADDTIME(NOW(), "00:05"), ?)
         ');
-        $stm->execute([$u->id, $id, $u->id]);
+        $stm->execute([$id, $u->Member_ID]);
 
         // TODO: (4) Generate token url
         $url = base("user/token.php?id=$id");
 
         // TODO: (5) Send email
         $m = get_mail(); //base.php
-        $m->addAddress($u ->email, $u->name);
-        $m->addEmbeddedImage("../photos/$u->photo", 'photo');
+        $m->addAddress($u ->Email, $u->Name);
+//$m->addEmbeddedImage("../photos/$u->Photo", 'photo');
         $m->isHTML(true);
         $m->Subject = 'Reset Password';
         $m->Body = "
             <img src='cid:photo'
                  style='width: 200px; height: 200px;
                         border: 1px solid #333'>
-            <p>Dear $u->name,<p>
+            <p>Dear $u->Name,<p>
             <h1 style='color: red'>Reset Password</h1>
             <p>
                 Please click <a href='$url'>here</a>
