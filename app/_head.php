@@ -23,7 +23,7 @@
         <?php endif ?>   
 
         <?php if ($_user): ?>
-            <a href="/wishlist.php">Wishlist</a>
+            <a href="/wishlist/wishlist.php">Wishlist</a>
             <a href="/login/logout.php">Logout</a>
             <a href="/user/profile.php">Profile</a>
             <a href="/cart/cart.php"><img src="/images/cart.png" alt="Shopping Cart"></a>

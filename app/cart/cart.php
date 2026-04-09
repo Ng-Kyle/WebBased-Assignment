@@ -13,8 +13,13 @@
             $stm->execute([$quantity,$product_id]);
         }
     }
-    $stm = $_db->prepare('SELECT p.*, cp.* FROM cart_product cp JOIN product p ON cp.Product_ID = p.Product_ID WHERE cp.Cart_ID = 1');    
-    $stm->execute();
+    $_db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    try{
+    $stm = $_db->query('SELECT * FROM cart WHERE member_id = ?');
+    $stm->execute($user->Member_ID);
+    $cart_id = $stm->fetch();
+    $stm = $_db->prepare('SELECT p.*, cp.* FROM cart_product cp JOIN product p ON cp.Product_ID = p.Product_ID WHERE cp.Cart_ID = ?');    
+    $stm->execute([$cart_id->Cart_ID]);
     $products = $stm->fetchAll();
     $product_image = [];
     $total = 0;
@@ -27,10 +32,10 @@
             $image = $stm->fetchAll();
             $product_image[$p->Product_ID] = $image;
         } 
-    $stm = $_db->prepare('SELECT Cart_ID FROM cart WHERE Cart_ID = 1');
-    $stm->execute();
-    $cart_id = $stm->fetch();
 
+    } catch(PDOException $e){
+        die($e->getMessage());
+    }
 
     
 ?>
@@ -112,6 +117,7 @@
         }
         #productCategory{
             color:gray;
+            font-size:10pt;
         }
         #productQuantity{
             font-size:20pt;
@@ -129,6 +135,7 @@
             font-weight:bold;
             color: #FF5E7E;
             margin-right:5px;
+            border-radius: 8px;
             
         }
         main > :first-child{
@@ -144,8 +151,11 @@
             text-decoration: none;
         }
         #checkOutBtn:hover{
-            background-color:#ffa1b0;
-            border-color: #ffa1b0
+            background-color:#ff93a5;
+            border-color: #ff93a5
+        }
+        .productDetails{
+            font-size:14pt;
         }
     </style>
     <h2>Cart</h2>
