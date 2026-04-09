@@ -132,7 +132,7 @@
 
 <!-- Display product info -->
  <div class="products-details">
-    <p>Price: RM<?= ($products['Price']) ?></p>
+    <p>Price: RM<?= number_format($products['Price'],2) ?></p>
     <p>Scale: <?= ($products['Scale']) ?></p>
     <p>Description: <br><?= ($products['Description']) ?> </p>
     <p>Stock Quantity: <?=($products['Stock_Quantity']) ?></p> <p>Status: <?=($products['Status']) ?></p>
