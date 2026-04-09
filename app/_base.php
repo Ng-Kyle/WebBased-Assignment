@@ -360,7 +360,7 @@ function get_mail() {
     $m->Username = 'nikusunakahara@gmail.com';
     $m->Password = 'ploc vjnt yyjo wisk';
     $m->CharSet = 'utf-8';
-    $m->setFrom($m->Username, '😺 Admin');
+    $m->setFrom($m->Username, 'AnonFigures Team');
 
     return $m;
 }
