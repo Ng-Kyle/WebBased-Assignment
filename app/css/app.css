@@ -84,16 +84,16 @@ header img { /* NEW */
     
 }
 
-main h1 {
+main >:first-child {
     margin-top:80px;
     margin-bottom: 0px;
-    margin-left: 20px;
     padding: 0px;
+    color:#FF5E7E;
     
 }
 
 main {
-    padding: 58px 50px;
+    padding: 62px 50px;
 }
 
 

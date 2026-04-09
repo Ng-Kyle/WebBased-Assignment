@@ -2,6 +2,11 @@
     include '../_base.php';
     $_title = 'Shopping Cart';
     include '../_head.php';
+    $stm = $_db->prepare('SELECT * FROM cart WHERE member_id = ?');
+    $stm->execute([$_user->Member_ID]);
+    $cart_id = $stm->fetch();
+
+
     if(is_post()){
         $product_id = req('product_id');
         $quantity = req('quantity');
@@ -9,15 +14,13 @@
             $_err['quantity'] = 'Invalid Quantity';
         }
         if(!$_err){
-            $stm = $_db->prepare('UPDATE cart_product SET quantity = ? WHERE product_id = ?');
-            $stm->execute([$quantity,$product_id]);
+            $stm = $_db->prepare('UPDATE cart_product SET quantity = ? WHERE product_id = ? AND cart_id = ?');
+            $stm->execute([$quantity,$product_id, $cart_id->Cart_ID]);
         }
     }
     $_db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    try{
-    $stm = $_db->query('SELECT * FROM cart WHERE member_id = ?');
-    $stm->execute($user->Member_ID);
-    $cart_id = $stm->fetch();
+
+
     $stm = $_db->prepare('SELECT p.*, cp.* FROM cart_product cp JOIN product p ON cp.Product_ID = p.Product_ID WHERE cp.Cart_ID = ?');    
     $stm->execute([$cart_id->Cart_ID]);
     $products = $stm->fetchAll();
@@ -32,11 +35,6 @@
             $image = $stm->fetchAll();
             $product_image[$p->Product_ID] = $image;
         } 
-
-    } catch(PDOException $e){
-        die($e->getMessage());
-    }
-
     
 ?>
     <style>

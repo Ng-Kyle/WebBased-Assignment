@@ -67,7 +67,16 @@
     $stm->execute([$order,$session->amount_total/100]); 
     $receipt = $_db->lastInsertId();
 ?>
-    <p>Payment was successful!</p>
+<style>
+    div .receipt{
+        font-size: 20pt;
+        text-align: center;
+    }
+</style>
+    <div class = "receipt">
+        <h2>Payment was successful!</h2>
+        <p>Below is your receipt, a copy has already been sent to your email.</p>
+    </div>  
     <iframe src="http://localhost:8000/cart/receipt.php?receipt_id=<?= $receipt ?>" style="border:none; height:100vh; width:100%;"></iframe> 
 <?php 
     include '../_foot.php'
