@@ -57,7 +57,6 @@ if (is_post()) {
 // ----------------------------------------------------------------------------
 
 $_title = 'User | Reset Password';
-include '../_head.php';
 ?>
 
 <form method="post" class="form">

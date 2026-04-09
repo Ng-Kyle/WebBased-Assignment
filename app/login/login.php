@@ -42,7 +42,7 @@ if (is_post()) {
 $_title = 'Login';
 ?>
 
-<form method="post" class="form">
+<form method="post" class="element">
     <label for="email">Email</label>
     <?= html_text('email',"", 'maxlength="100"') ?>
     <?= err('email') ?>
@@ -51,7 +51,7 @@ $_title = 'Login';
     <?= html_password('password', '',) ?>
     <?= err('password') ?>
 
-    <section>
+    <section method="post" class="button">
         <button>Login</button>
         <button type="reset">Reset</button>
     </section>

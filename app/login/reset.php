@@ -43,12 +43,12 @@ if (is_post()) {
         $stm->execute([$id, $u->Member_ID]);
 
         // TODO: (4) Generate token url
-        $url = base("user/token.php?id=$id");
+        $url = base("login/token.php?id=$id");
 
         // TODO: (5) Send email
         $m = get_mail(); //base.php
-        $m->addAddress($u ->email, $u->name);
-        // $m->addEmbeddedImage("../photos/$u->photo", 'photo');
+        $m->addAddress($u ->Email, $u->Name);
+        $m->addEmbeddedImage("../$u->Image_URL", 'photo');
         $m->isHTML(true);
         $m->Subject = 'Reset Password';
         $m->Body = "
@@ -65,7 +65,7 @@ if (is_post()) {
         ";
         $m->send();
         temp('info', 'Email sent');
-        redirect('/');
+        redirect('/login/login.php');
     }
 }
 

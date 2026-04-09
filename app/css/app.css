@@ -262,4 +262,88 @@ label.upload img {
     margin-top: -50px;
     padding: 20px;
 }
+/* Login */
+.element{
+    display: grid;
+    justify-content: center;
+    align-items: center;
+}
+#email{
+    border-radius: 12px;
+    padding:5px;
+}
+#password{
+    border-radius: 12px;
+    padding:5px
 
+}
+.sumbit{
+    border-radius: 12px;
+    padding:5px
+}
+
+<!--Register-->
+#email{
+    border-radius: 12px;
+    padding: 5px;
+    gap: 10px;
+}
+
+#f_password{
+    border-radius: 12px;
+    padding: 5px;
+    gap: 10px;
+}
+
+#d_password{
+    border-radius: 12px;
+    padding: 5px;
+
+
+}
+.button{
+    background-color: #ffffff;
+    color: black;
+    padding: 10px 20px;
+    border-radius: 12px;
+}
+.sumbit{
+    border-radius: 12px;
+    padding:5px
+}
+.password_element{
+    display: grid;
+    justify-content: center;
+    align-items: center;
+}
+
+.register_element{
+    display: grid;
+    justify-content: center;
+    align-items: center;
+}
+#fc_password{
+    border-radius: 12px;
+    padding:5px;
+}
+.err{
+    color: red;
+}
+#info {
+    position: fixed;
+    color: #fff;
+    background: #666;
+    border: 1px solid #333;
+    border-radius: 5px;
+    padding: 10px 20px;
+    left: 50%;
+    translate: -50% 0;
+    z-index: 999;
+
+    top: -100px;
+    opacity: 0;
+}
+
+#info:not(:empty) {
+    animation: fade 5s;
+}
