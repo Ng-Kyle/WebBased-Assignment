@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 08, 2026 at 06:32 PM
+-- Generation Time: Apr 09, 2026 at 01:39 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -50,7 +50,9 @@ CREATE TABLE `cart` (
 --
 
 INSERT INTO `cart` (`Cart_ID`, `Member_ID`) VALUES
-(1, 1);
+(1, 1),
+(2, 6),
+(3, 7);
 
 -- --------------------------------------------------------
 
@@ -63,6 +65,15 @@ CREATE TABLE `cart_product` (
   `Cart_ID` int(6) NOT NULL,
   `Quantity` int(4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `cart_product`
+--
+
+INSERT INTO `cart_product` (`Product_ID`, `Cart_ID`, `Quantity`) VALUES
+(1, 1, 1),
+(1, 2, 1),
+(1, 3, 2);
 
 -- --------------------------------------------------------
 
@@ -88,7 +99,13 @@ CREATE TABLE `invoice` (
 --
 
 INSERT INTO `invoice` (`Order_ID`, `Member_ID`, `Order_Date`, `Status`, `Total_Amount`, `Street_Address`, `Post_Code`, `City`, `State`, `Stripe_Session_ID`) VALUES
-(1, 1, '2026-04-08 23:21:23', 'Preparing', 100.50, '188 Jalan Persisiran Pantai,Pekan Klebang', 75250, 'Klebang', 'Melaka', 'cs_test_a1A4c7IUlK546Le6oGJ5SN3XUb9zaTAwb1R7A748UzLw1irnLMuXCp049R');
+(1, 1, '2026-04-08 23:21:23', 'Preparing', 100.50, '188 Jalan Persisiran Pantai,Pekan Klebang', 75250, 'Klebang', 'Melaka', 'cs_test_a1A4c7IUlK546Le6oGJ5SN3XUb9zaTAwb1R7A748UzLw1irnLMuXCp049R'),
+(2, 1, '2026-04-09 01:19:10', 'Preparing', 100.50, 'LOT 4242 Alur Rindu 1,Kampung Tersusun Seri Rahmat', 31000, 'Batu Gajah', 'Perak', 'cs_test_a1xdpLhEmcDgylTFfEObFOLu20a29jpaqa5WNVpkZxZBlixnu124lvN0RZ'),
+(3, 1, '2026-04-09 01:26:54', 'Preparing', 100.50, '188 Jalan Persisiran Pantai,Pekan Klebang', 75250, 'Klebang', 'Melaka', 'cs_test_a1DgQYhRvzAtLcFETckLEhQmqP9TRser9lAdVNy9FK2VUSMd5rrbvVzB2r'),
+(4, 6, '2026-04-09 18:41:02', 'Preparing', 201.00, 'Jalan Bayam,8-6-3, Cheras', 55100, 'Cheras', 'Wilayah Persekutuan Kuala Lumpur', 'cs_test_a1bclFrDfkRTnP61ae6OPort7wB7VFodWGzUDkBvsfEXUANIJ9AaY1Y3e4'),
+(5, 7, '2026-04-09 19:02:44', 'Preparing', 100.50, '188 Jalan Persisiran Pantai,Pekan Klebang', 75250, 'Klebang', 'Melaka', 'cs_test_a1ISYAq7sZWLiCjUzCeaVFziMGsNuknmIQbSoNjujDQLlgA0kG6HlbZUvb'),
+(6, 7, '2026-04-09 19:04:49', 'Preparing', 100.50, '188 Jalan Persisiran Pantai,Pekan Klebang', 75250, 'Klebang', 'Melaka', 'cs_test_a1peU9kP5dIpGfjnU7Z2p68Xfx83hSE3Xi3cbbmu1HY6uVuftw4W5Egd1n'),
+(7, 7, '2026-04-09 19:11:44', 'Preparing', 100.50, 'LOT 4242 Alur Rindu 1,Kampung Tersusun Seri Rahmat', 31000, 'Batu Gajah', 'Perak', 'cs_test_a1UDadCck6ukDfmSXGBZly3l20auplzvpgXhcTNb9GaFdOvs7Q9JCVfETC');
 
 -- --------------------------------------------------------
 
@@ -110,7 +127,21 @@ CREATE TABLE `member` (
 --
 
 INSERT INTO `member` (`Member_ID`, `Name`, `Email`, `Password`, `Phone_Number`, `Image_URL`) VALUES
-(1, 'Kyle', 'ngkyle.trp@gmail.com', '1', '0123456789', '/images/image.png');
+(1, 'Kyle', 'ngkyle.trp@gmail.com', '1', '0123456789', '/images/image.png'),
+(5, 'test', '123@gmail.com', '601f1889667efaebb33b8c12572835da3f027f78', '123', '/images/69d74eb7af259.jpg'),
+(6, 'test', 'test@gmai.com', '8cb2237d0679ca88db6464eac60da96345513964', '0123456789', '/images/69d77fffda72e.jpg'),
+(7, '222', '222@gmail.com', '1a9b9508b6003b68ddfe03a9c8cbc4bd4388339b', '222', '/images/69d7871925572.jpg');
+
+--
+-- Triggers `member`
+--
+DELIMITER $$
+CREATE TRIGGER `after_members_insert` AFTER INSERT ON `member` FOR EACH ROW BEGIN
+	INSERT INTO cart(member_id)
+    VALUES(new.member_id);
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -130,7 +161,13 @@ CREATE TABLE `order_details` (
 --
 
 INSERT INTO `order_details` (`Order_Details_ID`, `Order_ID`, `Product_ID`, `Quantity`) VALUES
-(1, 1, 1, 1);
+(1, 1, 1, 1),
+(2, 2, 1, 1),
+(3, 3, 1, 1),
+(4, 4, 1, 2),
+(5, 5, 1, 1),
+(6, 6, 1, 1),
+(7, 7, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -196,7 +233,13 @@ CREATE TABLE `receipt` (
 --
 
 INSERT INTO `receipt` (`Receipt_ID`, `Order_ID`, `Payment_Date`, `Amount_Paid`) VALUES
-(1, 1, '2026-04-08 23:21:23', 100.50);
+(1, 1, '2026-04-08 23:21:23', 100.50),
+(2, 2, '2026-04-09 01:19:10', 100.50),
+(3, 3, '2026-04-09 01:26:54', 100.50),
+(4, 4, '2026-04-09 18:41:03', 201.00),
+(5, 5, '2026-04-09 19:02:44', 100.50),
+(6, 6, '2026-04-09 19:04:49', 100.50),
+(7, 7, '2026-04-09 19:11:44', 100.50);
 
 -- --------------------------------------------------------
 
@@ -361,25 +404,25 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `Cart_ID` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `Cart_ID` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `invoice`
 --
 ALTER TABLE `invoice`
-  MODIFY `Order_ID` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `Order_ID` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `member`
 --
 ALTER TABLE `member`
-  MODIFY `Member_ID` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `Member_ID` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `order_details`
 --
 ALTER TABLE `order_details`
-  MODIFY `Order_Details_ID` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `Order_Details_ID` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `product`
@@ -397,7 +440,7 @@ ALTER TABLE `product_image`
 -- AUTO_INCREMENT for table `receipt`
 --
 ALTER TABLE `receipt`
-  MODIFY `Receipt_ID` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `Receipt_ID` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `review`
