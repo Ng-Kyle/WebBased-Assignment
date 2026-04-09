@@ -28,6 +28,11 @@ if (is_post()) {
 
         // TODO: (2) Generate token id
         $id = SHA1(uniqid() . rand());
+
+        // TODO: (3) Delete old and insert new token
+        // Step A: Delete
+        $stm = $_db->prepare('DELETE FROM token WHERE Member_ID = ?');
+        // Check your column name! If it's Member_ID in the DB, use $u->Member_ID
         $stm->execute([$u->Member_ID]); 
 
         // Step B: Insert
@@ -42,15 +47,15 @@ if (is_post()) {
 
         // TODO: (5) Send email
         $m = get_mail(); //base.php
-        $m->addAddress($u ->Email, $u->Name);
-//$m->addEmbeddedImage("../photos/$u->Photo", 'photo');
+        $m->addAddress($u ->email, $u->name);
+        // $m->addEmbeddedImage("../photos/$u->photo", 'photo');
         $m->isHTML(true);
         $m->Subject = 'Reset Password';
         $m->Body = "
             <img src='cid:photo'
                  style='width: 200px; height: 200px;
                         border: 1px solid #333'>
-            <p>Dear $u->Name,<p>
+            <p>Dear $u->name,<p>
             <h1 style='color: red'>Reset Password</h1>
             <p>
                 Please click <a href='$url'>here</a>
