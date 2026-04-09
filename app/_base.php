@@ -163,8 +163,8 @@ function encode($value) {
 }
 
 // Generate <input type='hidden'>
-function html_hidden($key, $attr = '') {
-    $value ??= encode($GLOBALS[$key] ?? '');
+function html_hidden($key, $value, $attr = '') {
+    $value ??= encode($value);
     echo "<input type='hidden' id='$key' name='$key' value='$value' $attr>";
 }
 
@@ -422,6 +422,4 @@ function is_exists($value, $table, $field) {
 // ============================================================================
 // Global Constants and Variables
 // ============================================================================
-$states = [
-    'Penang','Johor', 'Kedah', 'Kelantan', 'Kuala Lumpur', 'Labuan', 'Melaka', 'Negeri Sembilan', 'Pahang', 'Perak', 'Perlis', 'Putrajaya', 'Sabah', 'Sarawak', 'Selangor', 'Terengganu'
-];
+

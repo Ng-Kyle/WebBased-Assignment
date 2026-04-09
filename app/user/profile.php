@@ -8,7 +8,7 @@ auth();
 
 if (is_get()) {
     $stm = $_db->prepare('SELECT * FROM member WHERE Member_ID = ?');
-    $stm->execute([$_user->id]);
+    $stm->execute([$_user->Member_ID]);
     $u = $stm->fetch();
 
     if (!$u) {
