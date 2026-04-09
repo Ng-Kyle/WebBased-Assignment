@@ -20,20 +20,13 @@
        
         <?php if(!$_user): ?>
         <a href="/login/login.php">Login</a>
-        <?php endif ?>
-
-        <a href="/login/login.php">
-        <img src="/images/cart.png" alt="Shopping Cart">
-        </a>    
+        <?php endif ?>   
 
         <?php if ($_user): ?>
             <a href="/wishlist.php">Wishlist</a>
-            <a href="/logout.php">Logout</a>
-        <?php endif?>
-        
-        <?php if($_user): ?>
-         <a href="/profile.php">Profile</a>
-         <a href="/cart/cart.php"></a>
+            <a href="/login/logout.php">Logout</a>
+            <a href="/user/profile.php">Profile</a>
+            <a href="/cart/cart.php"><img src="/images/cart.png" alt="Shopping Cart"></a>
         <?php endif ?>
     </header>
 
