@@ -3,6 +3,8 @@
     $_title = "Product List";
     include '../_head.php';
 
+    $name = req('name');
+
     if (is_post()){
         $product_id = req('Product_ID');
         $quantity = req('Quantity');
@@ -32,12 +34,37 @@
             redirect();
         }
     }
-    $stm = $_db->prepare('SELECT p.*, pi.Image_URL FROM product p JOIN product_image pi ON p.Product_ID = pi.Product_ID GROUP BY p.Product_ID');
-    $stm->execute();
+    $stm = $_db->prepare('SELECT p.*, pi.Image_URL FROM product p JOIN product_image pi ON p.Product_ID = pi.Product_ID
+                          WHERE p.Name LIKE ? GROUP BY p.Product_ID');
+    $stm->execute(["%$name%"]);
     $products = $stm->fetchAll();
+
 ?>
 
 <style>
+    .search-bar{
+        text-align: center;
+        margin: 20px;
+    }
+    .search-bar input{
+        width: 50%;
+        padding: 10px;
+        border-radius: 20px;
+        border: 2px solid #FF5E7E;
+    }
+    .search-container{
+        display: flex;
+        gap: 20px;
+        padding: 20px;
+    }
+    .sidebar{
+        width: 250px;
+        flex-shrink:0; /*this is to prevent shrinking for the sidebar*/
+        border-right: 3px solid #FF5E7E;
+    }
+    .content{
+        flex-grow: 1; /* this is to let the content div to take up the remaining spaces in the page. */
+    }
     .products-side {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -70,22 +97,40 @@
         text-align: center; 
     }
 </style>
-
-    <h1>All Figures</h1>
-
-    <div class="products-side">
-        <?php foreach ($products as $p): ?>
-            <div class="products-card">
-                <a href="productDetails.php?Product_ID=<?= $p->Product_ID ?>">
-                    <img src="../images/<?= basename($p->Image_URL) ?>" alt="<?= encode($p->Name) ?>">
-                    <h3><?= encode($p->Name) ?></h3>
-                    <p class="price">RM <?= number_format($p->Price,2) ?></p>
-                </a>
-
-                <button data-post="?Product_ID=<?= $p->Product_ID ?>">Quick Add</button>
-            </div>
-        <?php endforeach; ?>
+    <div class="search-bar">
+        <form action="" method="get"?>
+            <?= html_search('name', 'placeholder="Search figues..."') ?>
+        </form>
     </div>
+
+    <div class="search-container">
+        <aside class="sidebar">
+            <h3>Filter by</h3>
+            <p>Category Filters coming soon..</p>
+        </aside>
+
+        <div class="content">
+            <h1>All Figures</h1>
+            <?php if ($m = temp('info')): ?>
+                <div class="msg"><?= encode($m) ?></div>
+            <?php endif; ?>
+        
+
+            <div class="products-side">
+                <?php foreach ($products as $p): ?>
+                    <div class="products-card">
+                        <a href="productDetails.php?Product_ID=<?= $p->Product_ID ?>">
+                            <img src="../images/<?= basename($p->Image_URL) ?>" alt="<?= encode($p->Name) ?>">
+                            <h3><?= encode($p->Name) ?></h3>
+                            <p class="price">RM <?= number_format($p->Price,2) ?></p>
+                        </a>
+                        <button data-post="?Product_ID=<?= $p->Product_ID ?>&Quantity=1">Quick Add</button>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </div>
+
 <?php
 include '../_foot.php';
 ?>
