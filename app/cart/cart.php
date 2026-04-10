@@ -10,8 +10,17 @@
     if(is_post()){
         $product_id = req('product_id');
         $quantity = req('quantity');
+        $stm = $_db->prepare('SELECT * FROM product WHERE product_id = ?');
+        $stm->execute([$product_id]);
+        $stock_quantity = $stm->fetch();
+
         if($quantity <= 0){
             $_err['quantity'] = 'Invalid Quantity';
+            temp('error', "Invalid Quantity");
+        }
+        if($quantity > $stock_quantity->Stock_Quantity){
+            $_err['quantity'] = 'Out of Stock!';
+            temp('error', "Out of Stock!");
         }
         if(!$_err){
             $stm = $_db->prepare('UPDATE cart_product SET quantity = ? WHERE product_id = ? AND cart_id = ?');
@@ -173,7 +182,7 @@
                 <td id = "quantityValue">
                     
                         <?= html_hidden('product_id',$p->Product_ID) ?>
-                        <?= html_number('quantity', $p->Quantity, 1) ?>
+                        <?= html_number('quantity', $p->Quantity, 1, $p->Stock_Quantity) ?>
                 </form>
                 </td>
             </tr>
