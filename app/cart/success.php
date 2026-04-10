@@ -10,13 +10,15 @@
     $session_id = get('session_id');
     $session = \Stripe\Checkout\Session::retrieve($session_id);
     if($session->payment_status !== 'paid'){
-        die("Payment not completed");
+        echo "<h2>Payment wasn't completed!</h2>";
+        die();
     }
     $stm = $_db->prepare('SELECT count(*) FROM invoice WHERE stripe_session_id = ?');
     $stm->execute([$session_id]);
     $count = $stm->fetchColumn();
     if($count > 0){
-        die("Order was already created!");
+        echo "<h2>Order was already created!</h2>";
+        die();
     }   
 
     $cart_id = $session->metadata->cart_id;
@@ -66,18 +68,36 @@
     $stm = $_db->prepare('INSERT INTO receipt (order_id, payment_date, amount_paid) VALUES (?,CURRENT_TIMESTAMP,?)');
     $stm->execute([$order,$session->amount_total/100]); 
     $receipt = $_db->lastInsertId();
+
+    $m = get_mail(); //base.php
+    $m->addAddress($_user->Email, $_user->Name);
+    $m->isHTML(true);
+    $m->Subject = 'AnonFigures Receipt';
+    $m->Body = "
+        
+        <h1 style='color: #FF4060'>Receipt</h1>
+        <h2>Dear $_user->Name,</h2>
+        <p>Below is a link with your receipt attached.</p>
+        <a href = 'http://localhost:8000/cart/receipt.php?receipt_id=$receipt'>Click here to view it.</a>
+        <p>Thank you for shopping at AnonFigures.</p>
+        <h2>From, The AnonFigures Team</h2>
+    ";
+    $m->send();
 ?>
 <style>
-    div .receipt{
-        font-size: 20pt;
-        text-align: center;
+    main >:first-child{
+        display:none;
+    }
+    .receipt h1{
+        color: #FF5E7E;
     }
 </style>
     <div class = "receipt">
-        <h2>Payment was successful!</h2>
+        <h1>Payment was successful!</h1>
         <p>Below is your receipt, a copy has already been sent to your email.</p>
     </div>  
     <iframe src="http://localhost:8000/cart/receipt.php?receipt_id=<?= $receipt ?>" style="border:none; height:100vh; width:100%;"></iframe> 
+    
 <?php 
     include '../_foot.php'
 ?>
