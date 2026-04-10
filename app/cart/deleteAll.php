@@ -1,9 +1,9 @@
 <?php
 include "../_base.php";
 if (is_post()){
-        $cart_id = get_cart();
-        $stm = $_db->prepare('DELETE FROM cart_product WHERE Cart_ID = ?');
-        $stm->execute([$cart_id]);
+        $wishlist_id = get_wishlist();
+        $stm = $_db->prepare('DELETE FROM wishlist_product WHERE wishlist_id = ?');
+        $stm->execute([$wishlist_id]);
     }
-redirect("cart.php");
+redirect("wishlist.php");
 ?>

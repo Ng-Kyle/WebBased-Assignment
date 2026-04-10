@@ -10,10 +10,10 @@
         $stm->execute([$cart_id]);
         $products = $stm->fetchAll();
         
-        //Get MemberID
-        $stm = $_db->prepare('SELECT m.* FROM member m JOIN cart c ON m.Member_ID = c.Member_ID WHERE c.Cart_ID = ?');
+        //Get Member email
+        $stm = $_db->prepare('SELECT m.email FROM member m JOIN cart c ON m.Member_ID = c.Member_ID WHERE c.Cart_ID = ?');
         $stm->execute([$cart_id]);
-        $member = $stm->fetch();
+        $email = $stm->fetchColumn();
     
         $line_items = [];
         foreach($products as $p){
@@ -29,7 +29,7 @@
             ];
         }
         $checkout_session = \Stripe\Checkout\Session::create([
-            "customer_email" => $member->Email,
+            "customer_email" => $email,
             "mode" => "payment",
             "success_url" => "http://localhost:8000/cart/success.php?session_id={CHECKOUT_SESSION_ID}",
             "cancel_url" => "http://localhost:8000/cart/cart.php",

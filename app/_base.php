@@ -368,7 +368,15 @@ function get_mail() {
 // ============================================================================
 // Shopping Cart
 // ============================================================================
-
+function get_wishlist(){
+    global $_db, $_user;
+    if(!$_user){
+        return null;
+    }
+    $stm = $_db->prepare('SELECT wishlist_id FROM wishlist WHERE member_id = ?');
+    $stm->execute([$_user->Member_ID]);
+    return $stm->fetchColumn();
+}
 // Get shopping cart
 function get_cart() {
     global $_db, $_user;
