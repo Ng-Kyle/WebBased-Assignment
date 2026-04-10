@@ -1,7 +1,7 @@
     </main>
 
     <footer>
-        Developed by <b>Gooners</b> &middot;
+        Developed by <b>Gooners/Autistics</b> &middot;
         Copyrighted &copy; <?= date('Y') ?>
     </footer>
 </body>
