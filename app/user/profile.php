@@ -17,7 +17,7 @@ if (is_get()) {
     }
 
     extract((array)$u);
-    $_SESSION['Image_URL'] = $u->photo;
+    $_SESSION['Image_URL'] = $u->Image_URL;
 }
 
 if (is_post()) {
@@ -61,7 +61,7 @@ if (is_post()) {
         if (!str_starts_with($f->type, 'image/')) {
             $_err['photo'] = 'Must be image';
         }
-        else if ($f->size > 1 * 1024 * 1024) {
+        else if ($f->size > 1 * 720 * 720) {
             $_err['photo'] = 'Maximum 1MB';
         }
     }
@@ -70,14 +70,14 @@ if (is_post()) {
     if (!$_err) {
         // (1) Delete and save photo --> optional
         if ($f) {
-            unlink("../photos/$photo");
-            $photo = save_photo($f, '../photos');
+            unlink("../images/$photo");
+            $photo = save_photo($f, '../images');
         }
         
         // (2) Update user (email, name, photo)
         $stm = $_db->prepare('
             UPDATE member
-            SET Email = ?, Name = ?, Photo = ?
+            SET Email = ?, Name = ?, Image_URL = ?
             WHERE Member_ID = ?
         ');
         $stm->execute([$email, $name, $photo, $_user->Member_ID]);
@@ -85,7 +85,7 @@ if (is_post()) {
         // (3) Update global user object
         $_user->Email = $email;
         $_user->Name  = $name;
-        $_user->Photo = $photo;
+        $_user->Image_URL = $photo;
 
         temp('info', 'Record updated');
         redirect('/');
@@ -109,7 +109,7 @@ $_title = 'User | Profile';
     <label for="photo">Photo</label>
     <label class="upload" tabindex="0">
         <?= html_file('photo', 'image/*', 'hidden') ?>
-        <img src="/photos/<?= $_user->Photo ?>">
+        <img src="../<?= $_user->Image_URL ?> ">
     </label>
     <?= err('photo') ?>
 
