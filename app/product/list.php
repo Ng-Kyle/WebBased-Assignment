@@ -139,7 +139,7 @@
                 <?php html_hidden('name', $name); ?>
                 <h3>Filter by Brand</h3>
                 <div class="filter-group">
-                    <?php html_checkboxes('Brands', $brands_options, true) ?>
+                    <?php html_checkboxes('Brand', $brands_options, true) ?>
                 </div>
 
                 <h3>Filter by Series</h3>
