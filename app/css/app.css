@@ -170,15 +170,15 @@ nav.pager a.active {
 
 #info {
     position: fixed;
-    color: #FF5E7E;
-    background: #ffffff;
-    border: 1px solid #FF5E7E;
+    color: black;
+    background: pink;
+    border: 1px solid pink;
     border-radius: 5px;
     padding: 10px 20px;
     left: 50%;
     translate: -50% 0;
     z-index: 999;
-
+    font-weight: bold;
     top: -100px;
     opacity: 0;
 }
@@ -189,8 +189,8 @@ nav.pager a.active {
 
 @keyframes fade {
       0% { top: -100px; opacity: 0; }
-     10% { top:  100px; opacity: 1; }
-     90% { top:  100px; opacity: 1; }
+     10% { top:  90px; opacity: 1; }
+     90% { top:  90px; opacity: 1; }
     100% { top: -100px; opacity: 0; }
 }
 

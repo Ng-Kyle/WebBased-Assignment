@@ -16,11 +16,13 @@
 
         if($quantity <= 0){
             $_err['quantity'] = 'Invalid Quantity';
-            temp('error', "Invalid Quantity");
+            temp('info', "Invalid Quantity!");
+            redirect();
         }
         if($quantity > $stock_quantity->Stock_Quantity){
             $_err['quantity'] = 'Out of Stock!';
-            temp('error', "Out of Stock!");
+            temp('info', "Out of Stock!");
+            redirect();
         }
         if(!$_err){
             $stm = $_db->prepare('UPDATE cart_product SET quantity = ? WHERE product_id = ? AND cart_id = ?');
