@@ -49,7 +49,7 @@ $html = <<<HTML
         padding:0;
     }
     h1 {
-        color:#FF4060; margin-bottom:10px; 
+        color:#FF5E7E; margin-bottom:10px; 
     }
     h2 { 
         margin-bottom:5px; 

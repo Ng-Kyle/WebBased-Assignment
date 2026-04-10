@@ -4,21 +4,23 @@
     $stripe_secret_key = "sk_test_51TJ4OXCIH3Zb8MZN4bU0fQ3AzdKQ3NxcUelsIVfh1BcH5Z0pJQJ9varZAdpmqPQkCuSslybL8inySwPKisrWDLTj004Jf0upaO";
     \Stripe\Stripe::setApiKey($stripe_secret_key);
     $_title = 'Receipt';
+    auth();
     include '../_head.php';
+    
     $_db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     //Check for stripe status
     $session_id = get('session_id');
     $session = \Stripe\Checkout\Session::retrieve($session_id);
     if($session->payment_status !== 'paid'){
-        echo "<h2>Payment wasn't completed!</h2>";
-        die();
+        temp('info', "Payment wasn't completed!");
+        redirect('cart.php');
     }
     $stm = $_db->prepare('SELECT count(*) FROM invoice WHERE stripe_session_id = ?');
     $stm->execute([$session_id]);
     $count = $stm->fetchColumn();
     if($count > 0){
-        echo "<h2>Order was already created!</h2>";
-        die();
+        temp('info',"Receipt was already created!");
+        redirect('cart.php');
     }   
 
     $cart_id = $session->metadata->cart_id;
@@ -31,9 +33,9 @@
     } 
 
     //Get MemberID
-    $stm = $_db->prepare('SELECT m.* FROM member m JOIN cart c ON m.Member_ID = c.Member_ID WHERE c.Cart_ID = ?');
+    $stm = $_db->prepare('SELECT m.member_id FROM member m JOIN cart c ON m.Member_ID = c.Member_ID WHERE c.Cart_ID = ?');
     $stm->execute([$cart_id]);
-    $member = $stm->fetch();
+    $member_id = $stm->fetchColumn();
     
     //Get shippingAddress from stripe
     $address = $session->collected_information->shipping_details;
@@ -52,7 +54,7 @@
     
     $stm = $_db->prepare('INSERT INTO invoice (member_id, order_date, status, total_amount, street_address, post_code, city, state,stripe_session_id) 
     VALUES (?,CURRENT_TIMESTAMP,"Preparing",?,?,?,?,?,?)');
-    $stm->execute([$member->Member_ID,$total,$street_address,$post_code, $city, $state,$session_id]);
+    $stm->execute([$member_id,$total,$street_address,$post_code, $city, $state,$session_id]);
     
     //Create order details for each product in cart
     $order = $_db->lastInsertId();
@@ -91,6 +93,9 @@
     .receipt h1{
         color: #FF5E7E;
     }
+    h2{
+        color: #FF5E7E;
+    }
 </style>
     <div class = "receipt">
         <h1>Payment was successful!</h1>
@@ -99,6 +104,6 @@
     <iframe src="http://localhost:8000/cart/receipt.php?receipt_id=<?= $receipt ?>" style="border:none; height:100vh; width:100%;"></iframe> 
     
 <?php 
-    include '../_foot.php'
+    include '../_foot.php';
 ?>
 

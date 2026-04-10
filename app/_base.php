@@ -333,7 +333,7 @@ function auth(...$roles) {
         }
     }
     
-    redirect('/login.php');
+    redirect('/login/login.php');
 }
 
 // ============================================================================
@@ -371,7 +371,14 @@ function get_mail() {
 
 // Get shopping cart
 function get_cart() {
-    return $_SESSION['cart'] ?? [];
+    global $_db, $_user;
+    if(!$_user){
+        return null;
+    }
+    $stm = $_db->prepare('SELECT cart_id FROM cart WHERE member_id = ?');
+    $stm->execute([$_user->Member_ID]);
+    return $stm->fetchColumn();
+
 }
 
 // Set shopping cart

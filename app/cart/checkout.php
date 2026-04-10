@@ -3,9 +3,9 @@
     require __DIR__ . "/../vendor/autoload.php";
     $stripe_secret_key = "sk_test_51TJ4OXCIH3Zb8MZN4bU0fQ3AzdKQ3NxcUelsIVfh1BcH5Z0pJQJ9varZAdpmqPQkCuSslybL8inySwPKisrWDLTj004Jf0upaO";
     \Stripe\Stripe::setApiKey($stripe_secret_key);
-
+    auth();
     if (is_post()){
-        $cart_id = req('cart_id');
+        $cart_id = get_cart();
         $stm = $_db->prepare('SELECT p.*, cp.* FROM cart_product cp JOIN product p ON cp.Product_ID = p.Product_ID WHERE cp.Cart_ID = ?');
         $stm->execute([$cart_id]);
         $products = $stm->fetchAll();

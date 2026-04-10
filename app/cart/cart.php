@@ -1,39 +1,37 @@
 <?php
     include '../_base.php';
     $_title = 'Shopping Cart';
+    auth();
     include '../_head.php';
-    $stm = $_db->prepare('SELECT * FROM cart WHERE member_id = ?');
-    $stm->execute([$_user->Member_ID]);
-    $cart_id = $stm->fetch();
 
+    
+    $cart_id = get_cart();
 
     if(is_post()){
         $product_id = req('product_id');
         $quantity = req('quantity');
-        $stm = $_db->prepare('SELECT * FROM product WHERE product_id = ?');
+        $stm = $_db->prepare('SELECT stock_quantity FROM product WHERE product_id = ?');
         $stm->execute([$product_id]);
-        $stock_quantity = $stm->fetch();
+        $stock_quantity = $stm->fetchColumn();
 
         if($quantity <= 0){
             $_err['quantity'] = 'Invalid Quantity';
             temp('info', "Invalid Quantity!");
             redirect();
         }
-        if($quantity > $stock_quantity->Stock_Quantity){
+        if($quantity > $stock_quantity){
             $_err['quantity'] = 'Out of Stock!';
             temp('info', "Out of Stock!");
             redirect();
         }
         if(!$_err){
             $stm = $_db->prepare('UPDATE cart_product SET quantity = ? WHERE product_id = ? AND cart_id = ?');
-            $stm->execute([$quantity,$product_id, $cart_id->Cart_ID]);
+            $stm->execute([$quantity,$product_id, $cart_id]);
         }
     }
-    $_db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
 
     $stm = $_db->prepare('SELECT p.*, cp.* FROM cart_product cp JOIN product p ON cp.Product_ID = p.Product_ID WHERE cp.Cart_ID = ?');    
-    $stm->execute([$cart_id->Cart_ID]);
+    $stm->execute([$cart_id]);
     $products = $stm->fetchAll();
     $product_image = [];
     $total = 0;
@@ -175,28 +173,30 @@
                 <td rowspan = "3"><a><img id = productImage src = <?= $product_image[$p->Product_ID][0]->Image_URL ?> alt = <?= $product_image[$p->Product_ID][0]->Alt_Text ?>></a></td>
                 <td class = productDetails><b><?= $p->Name ?></b><br><span id="productCategory"><?= $p->Brand." ".$p->Scale." ".$p->Series ?></span></td>
                 <td></td>
-                <td class = removeBtn><button data-post="delete.php?cart_id=<?=$p->Cart_ID?>&product_id=<?=$p->Product_ID?>"><img src = "/images/trash.png" alt = "trash">Remove</button></td>
+                <td class = removeBtn><button data-post="delete.php?product_id=<?=$p->Product_ID?>"><img src = "/images/trash.png" alt = "trash">Remove</button></td>
             </tr>
+            <form method = "post">
             <tr class = productRowMiddle>
                 <td class = productPrice>RM <?= number_format($p->Price,2) ?></td>
                 <td id = "productQuantity"><label for="quantity">Quantity:</label></td>
-                <form method = "post">
+                
                 <td id = "quantityValue">
                     
                         <?= html_hidden('product_id',$p->Product_ID) ?>
                         <?= html_number('quantity', $p->Quantity, 1, $p->Stock_Quantity) ?>
-                </form>
                 </td>
+                
             </tr>
+            </form>
             <tr class = productRowBottom></tr>
             <?php endforeach ?>
         </table>
     
     <div class = totalPriceArea>
             <p id = totalItems>Total Items: <?= $totalItems ?></p>
-            <button class = "removeBtn" data-post="deleteAll.php?cart_id=<?=$cart_id->Cart_ID?>"><img src="/images/trash.png" alt="trash">Remove All</button>
+            <button class = "removeBtn" data-post="deleteAll.php"><img src="/images/trash.png" alt="trash">Remove All</button>
         <p id = subTotal>Subtotal: RM<?= number_format($total,2) ?></p>
-            <button id = "checkOutBtn" data-post = "checkout.php?cart_id=<?=$cart_id->Cart_ID?>">Check Out</button>
+            <button id = "checkOutBtn" data-post = "checkout.php">Check Out</button>
     </div>
     <?php else: ?>
     <p id = "emptyCart">Your cart is currently empty.</p>
