@@ -169,9 +169,9 @@ nav.pager a.active {
 
 #info {
     position: fixed;
-    color: #fff;
-    background: #666;
-    border: 1px solid #333;
+    color: #FF5E7E;
+    background: #ffffff;
+    border: 1px solid #FF5E7E;
     border-radius: 5px;
     padding: 10px 20px;
     left: 50%;

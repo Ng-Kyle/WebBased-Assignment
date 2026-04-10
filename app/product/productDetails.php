@@ -28,7 +28,7 @@
                     $stm->execute([$quantity,$product_id,$cart_id]);
                 }else{
                     //insert new product
-                    $stm = $_db->prepare('INSERT INTO cart_product (Product_ID, Cart_ID,Quantity) VALUES (?,?,?)');
+                    $stm = $_db->prepare('INSERT INTO cart_product (Product_ID, Cart_ID, Quantity) VALUES (?,?,?)');
                     $stm->execute([$product_id,$cart_id,$quantity]);
                 }
 
@@ -36,7 +36,7 @@
             }
         }
     }
-     
+
     $id = req('Product_ID');
     $stm = $_db->prepare('SELECT p.*, pi.* FROM product p LEFT JOIN product_image pi ON p.Product_ID = pi.Product_ID WHERE p.Product_ID = ?');
     $stm->execute([$id]);
@@ -130,7 +130,7 @@
     <p>Stock Quantity: <?=($products['Stock_Quantity']) ?></p> <p>Status: <?=($products['Status']) ?></p>
 
     <form method="post">
-        <?php html_hidden('Product_ID', 'value="'. $products['Product_ID'] . '"') ?>
+        <?php html_hidden('Product_ID', $products['Product_ID']) ?>
 
         <label>Quantity:</label>
         <?php html_number('Quantity', 1, 1, $products['Stock_Quantity']) ?>

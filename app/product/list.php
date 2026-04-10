@@ -4,7 +4,24 @@
     include '../_head.php';
 
     $name = req('name');
+    $brands = req('Brand');
+    $series = req('Series');
+    $scale = req('Scale');
 
+    //for fetching the stuff
+    $stm = $_db->query('SELECT DISTINCT Brand FROM product WHERE Brand IS NOT NULL');
+    $brands_list = $stm->fetchAll(PDO::FETCH_COLUMN);
+    $brands_options = array_combine($brands_list, $brands_list);
+
+    $stm = $_db->query('SELECT DISTINCT Series FROM product WHERE Series IS NOT NULL');
+    $series_list = $stm->fetchAll(PDO::FETCH_COLUMN);
+    $series_options = array_combine($series_list, $series_list);
+
+    $stm = $_db->query('SELECT DISTINCT Scale FROM product WHERE Scale IS NOT NULL');
+    $scale_list = $stm->fetchAll(PDO::FETCH_COLUMN);
+    $scale_options = array_combine($scale_list, $scale_list);
+
+    //Quick Add stuff
     if (is_post()){
         $product_id = req('Product_ID');
         $quantity = req('Quantity');
@@ -34,9 +51,29 @@
             redirect();
         }
     }
-    $stm = $_db->prepare('SELECT p.*, pi.Image_URL FROM product p JOIN product_image pi ON p.Product_ID = pi.Product_ID
-                          WHERE p.Name LIKE ? GROUP BY p.Product_ID');
-    $stm->execute(["%$name%"]);
+
+    $filter = 'SELECT p.*, pi.Image_URL FROM product p JOIN product_image pi ON p.Product_ID = pi.Product_ID WHERE p.Name LIKE ?';
+    $params = ["%$name%"];
+
+    if (!empty($brands)){
+        $placeholder = implode(',', array_fill(0, count($brands), '?'));
+        $filter .= " AND p.Brand IN ($placeholder)";
+        $params = array_merge($params, $brands);
+    }
+    if (!empty($series)){
+        $placeholder = implode(',', array_fill(0, count($series), '?'));
+        $filter .= " AND p.Series IN ($placeholder)";
+        $params = array_merge($params, $series);
+    }
+    if (!empty($scale)){
+        $placeholder = implode(',', array_fill(0, count($scale), '?'));
+        $filter .= " AND p.Scale IN ($placeholder)";
+        $params = array_merge($params, $scale);
+    }
+
+    $filter .= ' GROUP BY p.Product_ID';
+    $stm = $_db->prepare($filter);
+    $stm->execute($params);
     $products = $stm->fetchAll();
 
 ?>
@@ -89,33 +126,39 @@
         font-weight: bold; 
         font-size: 1.3; 
     }
-    .msg { background: #d4edda; 
-        color: #155724; 
-        padding: 15px; 
-        margin: 20px; 
-        border-radius: 5px; 
-        text-align: center; 
-    }
 </style>
     <div class="search-bar">
-        <form action="" method="get"?>
+        <form action="" method="get">
             <?= html_search('name', 'placeholder="Search figues..."') ?>
         </form>
     </div>
 
     <div class="search-container">
         <aside class="sidebar">
-            <h3>Filter by</h3>
-            <p>Category Filters coming soon..</p>
+            <form id="filter" action="" method ="get">
+                <?php html_hidden('name', $name); ?>
+                <h3>Filter by Brand</h3>
+                <div class="filter-group">
+                    <?php html_checkboxes('Brands', $brands_options, true) ?>
+                </div>
+
+                <h3>Filter by Series</h3>
+                <div class="filter-group">
+                    <?php html_checkboxes('Series', $series_options, true) ?>
+                </div>
+
+                <h3>Filter by Scale</h3>
+                <div class="filter-group">
+                    <?php html_checkboxes('Scale', $scale_options, true) ?>
+                </div>
+
+                <button type="submit">Apply Filters</button>
+                <a href="<?= base('product/list.php') ?>">Clear All</a>
+            </form>
         </aside>
 
         <div class="content">
             <h1>All Figures</h1>
-            <?php if ($m = temp('info')): ?>
-                <div class="msg"><?= encode($m) ?></div>
-            <?php endif; ?>
-        
-
             <div class="products-side">
                 <?php foreach ($products as $p): ?>
                     <div class="products-card">
