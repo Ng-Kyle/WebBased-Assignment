@@ -65,17 +65,13 @@ header div {
     text-align: right;
 }
 
-header img { /* NEW */
+header img {
     width: 36px;
     height: 36px;
     border: 1px solid #333;
     border-radius: 5px;
     
 }
-
-
-
-
 
 
 .store{
