@@ -9,7 +9,7 @@ auth();
 
 if (is_get()) {
     $stm = $_db->prepare('SELECT * FROM member WHERE Member_ID = ?');
-    $stm->execute([$_user->Member_ID]);
+    $stm->execute([$_user->member_id]);
     $u = $stm->fetch();
 
     if (!$u) {
@@ -17,7 +17,7 @@ if (is_get()) {
     }
 
     extract((array)$u);
-    $_SESSION['Image_URL'] = $u->Image_URL;
+    $_SESSION['Image_URL'] = $u->image_url;
 }
 
 if (is_post()) {
@@ -41,7 +41,7 @@ if (is_post()) {
             SELECT COUNT(*) FROM member
             WHERE Email = ? AND Member_ID != ?
         ');
-        $stm->execute([$email, $_user->Member_ID]);
+        $stm->execute([$email, $_user->member_id]);
 
         if ($stm->fetchColumn() > 0) {
             $_err['email'] = 'Duplicated';
@@ -80,13 +80,13 @@ if (is_post()) {
             SET Email = ?, Name = ?, Image_URL = , Password = ?
             WHERE Member_ID = ?
         ');
-        $stm->execute([$email, $name, $photo, $password, $_user->Member_ID]);
+        $stm->execute([$email, $name, $photo, $password, $_user->member_id]);
 
         // (3) Update global user object
-        $_user->Email = $email;
-        $_user->Name  = $name;
-        $_user->Image_URL = $photo;
-        $_user->Password = $password;
+        $_user->email = $email;
+        $_user->name  = $name;
+        $_user->image_url= $photo;
+        $_user->password = $password;
 
         temp('info', 'Record updated');
         redirect('/');
@@ -184,17 +184,17 @@ $_title = 'User | Profile';
 
 <form method="post" class="form" enctype="multipart/form-data">
     <label for="email">Email</label>
-    <?= html_text('email', $_user->Email, 'maxlength="100"') ?>
+    <?= html_text('email', $_user->email, 'maxlength="100"') ?>
     <?= err('email') ?>
 
     <label for="name">Name</label>
-    <?= html_text('name', $_user->Name, 'maxlength="100"') ?>
+    <?= html_text('name', $_user->name, 'maxlength="100"') ?>
     <?= err('name') ?>
 
     <label for="photo">Photo</label>
     <label class="upload" tabindex="0">
         <?= html_file('photo', 'image/*', 'hidden') ?>
-        <img src="../<?= $_user->Image_URL ?> ">
+        <img src="../<?= $_user->image_url ?> ">
     </label>
     <?= err('photo') ?>
 
@@ -209,15 +209,15 @@ $_title = 'User | Profile';
         <table>
             <?php foreach($orders as $o): ?>       
             <tr class = productRowTop>
-                <td class = productDetails><b>Order #<?= $o->Order_ID." ". $o->Order_Date ?></b></td>
+                <td class = productDetails><b>Order #<?= $o->order_id." ". $o->order_date ?></b></td>
                 <td></td>
-                <td id = "viewDetailBtn"><button data-post="order_detail.php?order_id=<?= $o->Order_ID ?>">View Details</button></td>
+                <td id = "viewDetailBtn"><button data-post="order_detail.php?order_id=<?= $o->order_id ?>">View Details</button></td>
             </tr>
             
             <tr class = productRowMiddle>
-                <td id = "orderAddress"><span>Shipping Address:</span><br><?= $o->Street_Address . ', ' . $o->City . ', ' . $o->State . ' ' . $o->Post_Code;?></td>
-                <td class = productPrice>RM <?= number_format($o->Total_Amount,2) ?></td>
-                <td id = "productQuantity">Status: <?= $o->Status ?></td>  
+                <td id = "orderAddress"><span>Shipping Address:</span><br><?= $o->street_address . ', ' . $o->city . ', ' . $o->state . ' ' . $o->post_code;?></td>
+                <td class = productPrice>RM <?= number_format($o->total_amount,2) ?></td>
+                <td id = "productQuantity">Status: <?= $o->status ?></td>  
             </tr>
             <tr class = productRowBottom></tr>
             <?php endforeach ?>

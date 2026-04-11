@@ -374,7 +374,7 @@ function get_wishlist(){
         return null;
     }
     $stm = $_db->prepare('SELECT wishlist_id FROM wishlist WHERE member_id = ?');
-    $stm->execute([$_user->Member_ID]);
+    $stm->execute([$_user->member_id]);
     return $stm->fetchColumn();
 }
 // Get shopping cart
@@ -384,7 +384,7 @@ function get_cart() {
         return null;
     }
     $stm = $_db->prepare('SELECT cart_id FROM cart WHERE member_id = ?');
-    $stm->execute([$_user->Member_ID]);
+    $stm->execute([$_user->member_id]);
     return $stm->fetchColumn();
 
 }

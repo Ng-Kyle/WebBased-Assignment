@@ -37,12 +37,12 @@
     $total = 0;
     $totalItems = 0;
     foreach($products as $p){
-            $total+=$p->Price * $p->Quantity;
-            $totalItems += $p->Quantity;
+            $total+=$p->price * $p->quantity;
+            $totalItems += $p->quantity;
             $stm = $_db->prepare('SELECT * FROM product_image WHERE product_id = ?');
-            $stm->execute([$p->Product_ID]);
+            $stm->execute([$p->product_id]);
             $image = $stm->fetchAll();
-            $product_image[$p->Product_ID] = $image;
+            $product_image[$p->product_id] = $image;
         } 
     
 ?>
@@ -170,20 +170,20 @@
         <table>
             <?php foreach($products as $p): ?>        
             <tr class = productRowTop>
-                <td rowspan = "3"><a><img id = productImage src = <?= $product_image[$p->Product_ID][0]->Image_URL ?> alt = <?= $product_image[$p->Product_ID][0]->Alt_Text ?>></a></td>
-                <td class = productDetails><b><?= $p->Name ?></b><br><span id="productCategory"><?= $p->Brand." ".$p->Scale." ".$p->Series ?></span></td>
+                <td rowspan = "3"><a><img id = productImage src = <?= $product_image[$p->product_ID][0]->image_url ?> alt = <?= $product_image[$p->product_id][0]->alt_text ?>></a></td>
+                <td class = productDetails><b><?= $p->name ?></b><br><span id="productCategory"><?= $p->brand." ".$p->scale." ".$p->series ?></span></td>
                 <td></td>
                 <td class = removeBtn><button data-post="delete.php"><img src = "/images/trash.png" alt = "trash">Remove</button></td>
             </tr>
             
             <tr class = productRowMiddle>
-                <td class = productPrice>RM <?= number_format($p->Price,2) ?></td>
+                <td class = productPrice>RM <?= number_format($p->price,2) ?></td>
                 <td id = "productQuantity"><label for="quantity">Quantity:</label></td>
                 
                 <td id = "quantityValue">
                     <form method = "post">
-                        <?= html_hidden('product_id',$p->Product_ID) ?>
-                        <?= html_number('quantity', $p->Quantity, 1, $p->Stock_Quantity) ?>
+                        <?= html_hidden('product_id',$p->product_id) ?>
+                        <?= html_number('quantity', $p->quantity, 1, $p->stock_quantity) ?>
                     </form>
                 </td>
                 

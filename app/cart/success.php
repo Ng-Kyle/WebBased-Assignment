@@ -28,7 +28,7 @@
     $products = $stm->fetchAll();
     $total = 0;
     foreach($products as $p){
-        $total+=$p->Price * $p->Quantity;
+        $total+=$p->price * $p->quantity;
     } 
 
 
@@ -59,7 +59,7 @@
     $order = $_db->lastInsertId();
     foreach($products as $p){
         $stm = $_db->prepare('INSERT INTO order_details (order_id,product_id,quantity) VALUES (?,?,?)');
-        $stm->execute([$order,$p->Product_ID, $p->Quantity]);
+        $stm->execute([$order,$p->product_id, $p->quantity]);
     }
 
     $stm = $_db->prepare('DELETE FROM cart_product WHERE cart_id = ?');
@@ -70,13 +70,13 @@
     $receipt = $_db->lastInsertId();
 
     $m = get_mail();
-    $m->addAddress($_user->Email, $_user->Name);
+    $m->addAddress($_user->email, $_user->name);
     $m->isHTML(true);
     $m->Subject = 'AnonFigures Receipt';
     $m->Body = "
         
         <h1 style='color: #FF4060'>Receipt</h1>
-        <h2>Dear $_user->Name,</h2>
+        <h2>Dear $_user->name,</h2>
         <p>Below is a link with your receipt attached.</p>
         <a href = 'http://localhost:8000/cart/receipt.php?receipt_id=$receipt'>Click here to view it.</a>
         <p>Thank you for shopping at AnonFigures.</p>

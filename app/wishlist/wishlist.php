@@ -13,9 +13,9 @@
     $product_image = [];
     foreach($products as $p){
             $stm = $_db->prepare('SELECT * FROM product_image WHERE product_id = ?');
-            $stm->execute([$p->Product_ID]);
+            $stm->execute([$p->product_id]);
             $image = $stm->fetchAll();
-            $product_image[$p->Product_ID] = $image;
+            $product_image[$p->product_id] = $image;
         } 
 
     if (is_post()){
@@ -156,21 +156,21 @@
         <table>
             <?php foreach($products as $p): ?>        
             <tr class = productRowTop>
-                <td rowspan = "3"><a><img id = productImage src = <?= $product_image[$p->Product_ID][0]->Image_URL ?> alt = <?= $product_image[$p->Product_ID][0]->Alt_Text ?>></a></td>
-                <td class = productDetails><b><?= $p->Name ?></b><br><span id="productCategory"><?= $p->Brand." ".$p->Scale." ".$p->Series ?></span></td>
+                <td rowspan = "3"><a><img id = productImage src = <?= $product_image[$p->product_id][0]->image_url ?> alt = <?= $product_image[$p->product_id][0]->alt_text ?>></a></td>
+                <td class = productDetails><b><?= $p->name ?></b><br><span id="productCategory"><?= $p->brand." ".$p->scale." ".$p->series ?></span></td>
                 <td></td>
-                <td class = removeBtn><button data-post="delete.php?product_id=<?=$p->Product_ID?>"><img src = "/images/trash.png" alt = "trash">Remove</button></td>
+                <td class = removeBtn><button data-post="delete.php?product_id=<?=$p->product_id?>"><img src = "/images/trash.png" alt = "trash">Remove</button></td>
             </tr>
             <tr class = productRowMiddle>
-                <td class = productPrice>RM <?= number_format($p->Price,2) ?></td>
+                <td class = productPrice>RM <?= number_format($p->price,2) ?></td>
                 <td id = "productQuantity">Status:</td>
-                <td id = "quantityValue"><?= $p->Status ?></td>
+                <td id = "quantityValue"><?= $p->status ?></td>
                 
             </tr>
             <tr class = productRowBottom>
                 <td></td>
                 <td></td>
-                <td class = "cartBtn"><button data-post="?Product_ID=<?= $p->Product_ID ?>"><img src = "/images/cart.png" alt = "cart">Add Cart</button></td>
+                <td class = "cartBtn"><button data-post="?Product_ID=<?= $p->product_id ?>"><img src = "/images/cart.png" alt = "cart">Add Cart</button></td>
             </tr>
             <?php endforeach ?>
         </table>
