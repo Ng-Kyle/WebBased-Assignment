@@ -20,130 +20,276 @@ include '_head.php';
  </style>
 
 
-<!-- decription-->
 
-    
-    <div class ="welcome-container">
-        <h1 class="welcometext">Welcome</h1>
-        <p class="comp-description"> Welcome to AnonFigures, where your favorite worlds come to life! 
-            Whether you are a master Gunpla builder or just looking for the latest viral meme figure to brighten your desk, 
-            we got you covered. From iconic anime heroes to the legendary mobile suits of Gundam, 
-            we source the finest collectibles for every kind of fan. Step in, browse our latest arrivals 
-            and find the perfect addition to your shelf today!</p>
-    </div>
 
-    
 
-    <!--side image-->
-    <div>                                                        
-        <button onclick="nextimage()" class="right-arrow-btn">></button>
 
-        <div class="image-container">
-        <img id="displayImage" src="/images/shrek.jpg">
+<div class="slider-container">
+
+        <!-- Slides -->
+        <div class="slide active">
+            <img src="/images/anime1.jpg">
         </div>
 
-        <button onclick="previousimage()" class="left-arrow-btn"><</button>
-    </div>
+        <div class="slide">
+            <img src="/images/anime2.jpg">
+        </div>
 
-    
-   
+        <div class="slide">
+            <img src="/images/anime3.jpg">
+        </div>
+
+        <!-- Arrows -->
+        <button class="arrow left" onclick="prevSlide()"><</button>
+        <button class="arrow right" onclick="nextSlide()">></button>
+
+</div>
+
+<div class="description">
+
+        <h2 class="com-desc">Welcome to AnonFigures!</h2>
+        <p class = "desc">AnonFigures is a hobby and collectibles store for anime and mecha fans,
+            specializing in Gundam model kits, figurines, and anime merchandise.
+            The store offers a wide selection of items ranging from detailed Gunpla
+            builds to collectible figures, accessories, and fan merchandise inspired
+            by popular series. It is designed as a go-to spot for collectors who enjoy building,
+            displaying, and expanding their anime figure collections.
+        </p>
+
+</div>
+
+<div class="slider-container2">
+
+        <h2 class="sales-products">On Sales🔥</h2>
+
+        <div class="product-slider">
+
+            <div class="product-card">
+                <span class="sale-badge">HOT</span>
+                <img src="/images/shrek.jpg" alt="Gundam">
+                <div class="info">
+                <h3>RG Hi-Nu Gundam</h3>
+                <p class="price">RM48.99</p>
+                </div>
+            </div>
+            
+            <div class="product-card">
+                <span class="sale-badge">HOT</span>
+                <img class="product-image" src="/images/image2.png" alt="Meme Figure">
+                <div class="info">
+                <h3>Doge Figurine</h3>
+                <p class="price">RM19.99</p>    
+                </div>
+            </div>
+
+            <div class="product-card">
+                <span class="sale-badge">HOT</span>
+                <img class="product-image" src="/images/anonfigure.jpg" alt="Meme Figure">
+                <div class="info">
+                <h3>Doge Figurine</h3>
+                <p class="price">RM19.99</p>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <span class="sale-badge">HOT</span>
+                <img class="product-image" src="/images/image.png" alt="Meme Figure">
+                <div class="info">
+                <h3>Doge Figurine</h3>
+                <p class="price">RM19.99</p>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <span class="sale-badge">HOT</span>
+                <img class="product-image" src="/images/anime1.jpg" alt="Meme Figure">
+                <div class="info">
+                <h3>Doge Figurine</h3>
+                <p class="price">RM19.99</p>
+                </div>
+            </div>
+
+            
+        </div>
+</div>
+
+
 <style>
-.welcome-container{
-    width: 500px;   
-    
-}
 
-.welcometext{
-    text-align: left; 
-    width : 100px;
-    font-size: 50px;
-    
-}
+    .description{
+        width: 45%;
+        position: relative;
+        left: 800px;
+        top: -300px;
+        font-size: 20px;
+        
+    }
 
-.comp-description{
-    text-align: left; 
-    width:550px; 
-    font-size: 20px;
-}
+    /* Main container */
+    .slider-container {
+        width: 50%;
+        height: 400px;
+        position: relative;
+        background: #1a1a1a;
+        border-radius: 20px;
+        overflow: hidden;
+    }
 
+    /* Images */
+    .slide {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        transition: opacity 0.6s;
+    }
 
-.right-arrow-btn{
-    width: 50px;
-    height: 30px;
-    position: relative;
-    float: right;
-    top: -120px;
-    background-color: pink;
-    border-radius: 50%;
-    border: none;
-}
+    .slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        image-rendering: auto;
+    }
 
-.image-container{
-    display:flex;
-    justify-content: center;
-    align-items: center;
-    width: 400px;
-    height: 400px;
-    position: relative;
-    top: -300px;
-    float: right;
-    right: 10px;
-    object-fit: fill;
-    overflow: hidden;
-}
+    /* Active image */
+    .active {
+        opacity: 1;
+    }
 
-#displayImage{
-    width: 400px;
-    height: 400px;
-    position: relative;
-    object-fit: contain;
-    object-position: center;
-}
+    /* Arrow buttons */
+    .arrow {
+        position: absolute;
+        top: 180px;
+        font-size: 30px;
+        background-color: #535353;
+        border: none;
+        color: white;
+        padding: 10px 15px;
+        cursor: pointer;
+        border-radius: 50%;
+        z-index: 10;
+    }
 
-.left-arrow-btn{
-    width: 50px;
-    height: 30px;
-    position: relative;
-    float: right;
-    right: 20px;
-    top: -120px;
-    background-color: pink;
-    border-radius: 50%;
-    border: none;
-}
+    .arrow:hover {
+        background: rgba(255,255,255,0.2);
+    }
+
+    .left {
+        left: 20px;
+    }
+
+    .right {
+        right: 20px;
+    }
 
 </style>
 
+<style>
+   .slider-container2 {
+    width: 100%;
+    max-width: 1100px;
+    margin: 20px auto;
+    margin-top: -250px;
+   
+    }
+
+    .product-slider {
+        display: flex;
+        gap: 20px;
+        overflow-x: scroll;
+        padding: 20px 10px;
+        scroll-behavior: smooth;
+        scroll-snap-type: x mandatory; 
+    }
+    
+    .product-slider::-webkit-scrollbar {
+        height: 10px;
+    }
+
+    .product-slider::-webkit-scrollbar-thumb {
+        background: #ff7c87; 
+        border-radius: 10px;
+    }
+
+    .product-slider::-webkit-scrollbar-track {
+        background: #e0e0e0;
+        border-radius: 10px;
+    }
+
+    .product-card {
+        min-width: 220px;
+        background: #fff;
+        border-radius: 12px;
+        padding: 15px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        position: relative;
+        text-align: center;
+        scroll-snap-align: start;
+    }
+
+    .sales-products {
+        margin-bottom: 0%;
+        font-size: 30px;
+        color: #333;
+    }
+
+    .sale-badge {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background: #ff4757;
+        color: white;
+        padding: 4px 8px;
+        font-size: 12px;
+        font-weight: bold;
+        border-radius: 4px;
+    }
+
+    .product-card img {
+        width: 100%;
+        border-radius: 8px;
+        
+    }
+</style>
 
 <script>
+let currentIndex = 0;
+const slides = document.querySelectorAll('.slide');
 
- // 3. List your images here in the order you want them to show
-    var myImages = [" /images/shrek.jpg", " /images/69d78e1830754.jpg", " /images/69d7911df1613.jpg"];
-    var i = 0; // This keeps track of which image we are on
+function showSlide(index) {
+    slides.forEach((slide, i) => {
+        slide.classList.remove('active');
+    });
 
-    function nextimage() {
-        i++; 
-        
-       
-        if (i >= myImages.length) {
-            i = 0;
-        }
+    slides[index].classList.add('active');
+}
 
-        document.getElementById("displayImage").src = myImages[i];
+function nextSlide() {
+    currentIndex++;
+    if (currentIndex >= slides.length) {
+        currentIndex = 0;
     }
+    showSlide(currentIndex);
+}
 
-    function previousimage() {
-        i--; 
-        
-       
-        if (i < 0) {
-            i = myImages.length - 1;
-        }
-
-        document.getElementById("displayImage").src = myImages[i];
+function prevSlide() {
+    currentIndex--;
+    if (currentIndex < 0) {
+        currentIndex = slides.length - 1;
     }
-
+    showSlide(currentIndex);
+}
 </script>
+
+
+
+
+
+
+
+
+
+
 
 
 

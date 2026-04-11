@@ -16,6 +16,14 @@
 
     <header>
         <h1 class="store"><a href="/index.php">AnonFigures</a></h1>
+
+         <div class="search-container">
+            <form action="/action_page.php">
+            <input type="text" placeholder="Search.." name="search">
+            <button type="submit"><i class="fa fa-search"></i></button>
+            </form>
+         </div>
+         
         <a class = "store" href="/product/list.php">Product</a>
        
         <?php if(!$_user): ?>

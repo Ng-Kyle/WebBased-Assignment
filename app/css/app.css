@@ -81,6 +81,14 @@ header img {
     
 }
 
+.search-container input[type=text] {
+    width: 300px;
+}
+
+.fa-search {
+    color: black;
+    
+}
 
 
 main {
