@@ -1,7 +1,6 @@
 <?php 
     include '../_base.php';
 
-    $member_id = $_SESSION['user']->Member_ID ?? 1;
 
     if (is_post()){
         $product_id = post('Product_ID');

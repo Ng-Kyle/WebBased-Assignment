@@ -1,8 +1,8 @@
     </main>
 
     <footer>
-        Developed by <b>Gooners/Autistics</b> &middot;
-        Copyrighted &copy; <?= date('Y') ?>
+        Reference to <b>BanG Dream! It's MyGO!!!!!</b> &middot;
+        <b>Copyrighted &copy;</b> <?= date('Y') ?>
     </footer>
 </body>
 </html>

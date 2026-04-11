@@ -1,7 +1,6 @@
 <?php
     include '../_base.php';
     $_title = "Product List";
-    include '../_head.php';
 
     $min = req('min');
     $max = req('max');
@@ -25,44 +24,50 @@
 
     //Quick Add stuff
     if (is_post()){
-
         if (!$_user){
             temp('info', 'Please login to add an item into your cart!');
             redirect('../login/login.php');
         }
 
         $product_id = req('Product_ID');
-        $quantity = req('Quantity');
-        $member_id = $_SESSION['user']->Member_ID ?? 1;
+        
+        if (req('action') == 'wishlist'){
+            $wishlist_id = get_wishlist();
 
-        $stm = $_db->prepare('SELECT Cart_ID FROM cart WHERE Member_ID = ?');
-        $stm->execute([$member_id]);
-        $cart = $stm->fetch();
+            $stm = $_db->prepare('SELECT 1 FROM wishlist_product WHERE wishlist_ID = ? AND Product_ID = ?');
+            $stm->execute([$wishlist_id, $product_id]);
+            $duplicates = $stm->fetch();
 
-        if($cart){
-            $cart_id = $cart->Cart_ID;   
+            if (!$duplicates){
+                $stm = $_db->prepare('INSERT INTO wishlist_product (wishlist_ID, Product_ID) VALUES (?,?)');
+                $stm->execute([$wishlist_id, $product_id]);
+                temp('info', 'Added to Wishlist! ❤️');
+            }else {
+                temp('info', 'Already in your Wishlist! 😊');
+            }
+        }else{
+            $quantity = req('Quantity');
+            $cart_id = get_cart();
             //this is for checking if the product exists in the member's cart
             $stm = $_db->prepare('SELECT * FROM cart_product WHERE Product_ID = ? AND Cart_ID = ? ');
             $stm->execute([$product_id,$cart_id]);
             $exists = $stm->fetch();
 
             if($exists){
-                 //update existing product
+                //update existing product
                 $stm = $_db->prepare('UPDATE cart_product SET Quantity = Quantity + ? WHERE Product_ID = ? AND Cart_ID = ?');
                 $stm->execute([$quantity,$product_id,$cart_id]);
             }else{
-                 //insert new product
-                $stm = $_db->prepare('INSERT INTO cart_product (Product_ID, Cart_ID,Quantity) VALUES (?,?,?)');
+                //insert new product
+                $stm = $_db->prepare('INSERT INTO cart_product (Product_ID, Cart_ID, Quantity) VALUES (?,?,?)');
                 $stm->execute([$product_id,$cart_id,$quantity]);
             }
-            temp('info', 'Product successfully added to cart!');
-            redirect();
+            temp('info', 'Product successfully added to cart🛒!');
         }
-    }
-
+        redirect();
+    }   
     $filter = 'SELECT p.*, pi.Image_URL FROM product p JOIN product_image pi ON p.Product_ID = pi.Product_ID WHERE p.Name LIKE ?';
     $params = ["%$name%"];
-
     //changed from separate to a foreach loop using $Globals from base file
     foreach(['Brand', 'Series', 'Scale'] as $key){
         if (!empty($GLOBALS[$key])){
@@ -72,20 +77,19 @@
         }
     }
     if ($min){
-        $filter .= "AND p.Price >= ?";
+        $filter .= " AND p.Price >= ?";
         $params[] = $min;
     }
     if ($max){
-        $filter .= "AND p.Price <= ?";
+        $filter .= " AND p.Price <= ?";
         $params[] = $max;
     }
-
-
     $filter .= ' GROUP BY p.Product_ID';
     $stm = $_db->prepare($filter);
     $stm->execute($params);
     $products = $stm->fetchAll();
 
+    include '../_head.php';
 ?>
 
 <style>
@@ -98,6 +102,11 @@
         padding: 10px;
         border-radius: 20px;
         border: 2px solid #FF5E7E;
+    }
+    .search-bar input:focus{
+        border-color:#ff1f4b;
+        outline: none;
+        box-shadow: 0 0 8px rgba(255, 94, 126, 0.3);
     }
     .search-container{
         display: flex;
@@ -131,6 +140,10 @@
         height: 200px;
         object-fit: contain;
     }
+    .products-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
     .price-tag { 
         color: #ff6b81; 
         font-weight: bold; 
@@ -139,7 +152,7 @@
 </style>
     <div class="search-bar">
         <form action="" method="get">
-            <?= html_search('name', 'placeholder="Search figues..."') ?>
+            <?= html_search('name', 'placeholder="Search figures..."') ?>
         </form>
     </div>
 
@@ -184,8 +197,8 @@
                             <p class="price">RM <?= number_format($p->Price,2) ?></p>
                         </a>
                         <div class="buttonGroup">
-                        <button data-post="?Product_ID=<?= $p->Product_ID ?>&Quantity=1">Quick Add</button>
-                        <button data-post="../wishlist/wishlist.php?Product_ID=<?= $p->Product_ID ?>">❤️</button>
+                        <button data-post="?Product_ID=<?= $p->Product_ID ?>&Quantity=1">Quick Add🌟</button>
+                        <button data-post="?Product_ID=<?= $p->Product_ID ?>&action=wishlist">❤️</button>
                         </div>
                     </div>
                 <?php endforeach; ?>
