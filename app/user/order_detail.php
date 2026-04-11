@@ -3,13 +3,15 @@
 
     if(is_post()){
         $order_id = req('order_id');
-        $stm = $_db->prepare("SELECT p.*, od.*, o.* FROM order_details od INNER JOIN product p ON od.product_id = p.product_id INNER JOIN invoice o ON od.order_id = o.order_id WHERE od.order_id = ? AND o.member_id = ?");
+        $stm = $_db->prepare("SELECT * FROM invoice WHERE order_id = ? AND member_id = ?");
         $stm->execute([$order_id, $_user->Member_ID]);
+        $order = $stm->fetch();
+
+        $stm = $_db->prepare('SELECT p.*, od.* FROM order_details od JOIN product p ON od.product_id = p.product_id WHERE order_id = ?');
+        $stm->execute([$order_id]);
         $products = $stm->fetchAll();
 
         foreach($products as $p){
-            $total+=$p->Price * $p->Quantity;
-            $totalItems += $p->Quantity;
             $stm = $_db->prepare('SELECT * FROM product_image WHERE product_id = ?');
             $stm->execute([$p->Product_ID]);
             $image = $stm->fetchAll();
@@ -20,12 +22,12 @@
         temp('info', 'No order was found!');
         redirect('profile.php');
     }
-    $_title = "Order #".$order_id;
+    $_title = "Order #".$order_id." ".$order->Order_Date;
     include '../_head.php';
     
 ?>
 <style>
-            #productImage{
+        #productImage{
             padding-top:5px;
             padding-right:10px;
             width: 150px;
@@ -48,7 +50,6 @@
             border-collapse: collapse; 
         }
         h2{
-            text-align:center;
             font-size: 35px;
             color:#FF5E7E;
             padding-top:40px;
@@ -126,14 +127,34 @@
             width:30%;
             font-weight:bold;
             color: #FF5E7E;
-            margin-right:5px;
         }
 
         .productDetails{
             font-size:14pt;
         }
+        #shippingAddressText{
+            width:90%;
+        }
+        .orderDetails h2{
+            padding-top: 0px;
+            margin-bottom:5px;
+            font-size:24pt;
+        }
+        #shippingAddress{
+            font-weight:bold;
+            font-size:14pt;
+        }
 </style>
-
+<table>
+    <tr class = orderDetails>
+        <td id = "shippingAddressText"><h2>Shipping Address:</h2></td>
+        <td id = "status"><h2>Status:</h2></td>
+        <td><h2><?= $order->Status ?></h2></td>
+    </tr>
+    <tr>
+        <td id = "shippingAddress"><?= $order->Street_Address . ', ' . $order->City . ', ' . $order->State . ' ' . $order->Post_Code?></td>
+    </tr>
+</table>
 <?php if($products): ?>
         <table>
             <?php foreach($products as $p): ?>        
@@ -145,8 +166,8 @@
             </tr>
             <tr class = productRowMiddle>
                 <td class = productPrice>RM <?= number_format($p->Price,2) ?></td>
-                <td id = "productQuantity"></td>
-                <td id = "quantityValue"></td>
+                <td id = "productQuantity">Quantity:</td>
+                <td id = "quantityValue"><?= $p->Quantity ?></td>
                 
             </tr>
             <tr class = productRowBottom>
@@ -156,8 +177,8 @@
             </tr>
             <?php endforeach ?>
         </table>
-    
-    <div class = totalPriceArea>
-           
-    </div>
     <?php endif?>
+    <div class = totalPriceArea>
+        <p id = subTotal>Total: RM<?= number_format($order->Total_Amount,2) ?></p>
+    </div>
+<?php include '../_foot.php' ?>

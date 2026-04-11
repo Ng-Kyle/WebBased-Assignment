@@ -10,7 +10,7 @@ $mpdf = new \Mpdf\Mpdf([
     'margin_right' => 20,
 ]);
 
-$_db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
 
 $receipt_id = req('receipt_id');
 
