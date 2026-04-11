@@ -30,7 +30,10 @@
         }
 
         $product_id = req('Product_ID');
-        
+        if (!$product_id){
+            redirect();
+        }
+
         if (req('action') == 'wishlist'){
             $wishlist_id = get_wishlist();
 
@@ -66,7 +69,7 @@
         }
         redirect();
     }   
-    $filter = 'SELECT p.*, pi.Image_URL FROM product p JOIN product_image pi ON p.Product_ID = pi.Product_ID WHERE p.Name LIKE ?';
+    $filter = 'SELECT p.*, pi.Image_URL FROM product p LEFT JOIN product_image pi ON p.Product_ID = pi.Product_ID WHERE p.Name LIKE ?';
     $params = ["%$name%"];
     //changed from separate to a foreach loop using $Globals from base file
     foreach(['Brand', 'Series', 'Scale'] as $key){

@@ -6,16 +6,14 @@
         $product_id = post('Product_ID');
         $quantity = post('Quantity');
 
-        if ($quantity>0){
-        $stm = $_db->prepare('SELECT Cart_ID FROM cart WHERE Member_ID = ?');
-        $stm->execute([$member_id]);
-        $cart = $stm->fetch();
-        
+        $stm = $_db->prepare('SELECT Stock_Quantity FROM product WHERE Product_ID = ?');
+        $stm->execute([$product_id]);
+        $real_stock = $stm->fetchColumn();
 
-            if($cart){
-            $cart_id = $cart->Cart_ID;   
-            
-
+        if ($quantity>0 && $quantity<= $real_stock){
+            $member = $_user->Member_ID;
+            if($member){
+            $cart_id = get_cart();
                 //this is for checking if the product exists in the member's cart
                 $stm = $_db->prepare('SELECT * FROM cart_product WHERE Product_ID = ? AND Cart_ID = ? ');
                 $stm->execute([$product_id,$cart_id]);
@@ -33,6 +31,9 @@
 
                 redirect('../cart/cart.php');
             }
+        }else{
+            temp('info', 'Invalid Quantity 😡!!');
+            redirect();
         }
     }
 
@@ -124,9 +125,9 @@
 <!-- Display product info -->
  <div class="products-details">
     <p>Price: RM<?= number_format($products['Price'],2) ?></p>
-    <p>Scale: <?= ($products['Scale']) ?></p>
-    <p>Description: <br><?= ($products['Description']) ?> </p>
-    <p>Stock Quantity: <?=($products['Stock_Quantity']) ?></p> <p>Status: <?=($products['Status']) ?></p>
+    <p>Scale: <?= encode($products['Scale']) ?></p>
+    <p>Description: <br><?= encode($products['Description']) ?> </p>
+    <p>Stock Quantity: <?=encode($products['Stock_Quantity']) ?></p> <p>Status: <?=encode($products['Status']) ?></p>
 
     <form method="post">
         <?php html_hidden('Product_ID', $products['Product_ID']) ?>
