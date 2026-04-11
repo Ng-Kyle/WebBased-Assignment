@@ -148,6 +148,7 @@ $_title = 'User | Profile';
             white-space: nowrap;
             font-weight: bold;
             color: #FF5E7E;
+            padding-right:35px;
         }
         #productCategory{
             color:gray;
@@ -158,10 +159,10 @@ $_title = 'User | Profile';
             font-weight: bold;
             color: #FF5E7E;
             white-space:nowrap;
-            padding-right:25px;
+            
         }
         .productDetails{
-            font-size:20pt;
+            font-size:16pt;
             
         }
         #orderAddress{
@@ -215,8 +216,8 @@ $_title = 'User | Profile';
             
             <tr class = productRowMiddle>
                 <td id = "orderAddress"><span>Shipping Address:</span><br><?= $o->Street_Address . ', ' . $o->City . ', ' . $o->State . ' ' . $o->Post_Code;?></td>
-                <td id = "productQuantity">Status: <?= $o->Status ?></td>                    
                 <td class = productPrice>RM <?= number_format($o->Total_Amount,2) ?></td>
+                <td id = "productQuantity">Status: <?= $o->Status ?></td>  
             </tr>
             <tr class = productRowBottom></tr>
             <?php endforeach ?>
