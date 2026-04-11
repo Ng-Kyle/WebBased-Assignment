@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 09, 2026 at 01:39 PM
+-- Generation Time: Apr 11, 2026 at 11:51 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -52,7 +52,12 @@ CREATE TABLE `cart` (
 INSERT INTO `cart` (`Cart_ID`, `Member_ID`) VALUES
 (1, 1),
 (2, 6),
-(3, 7);
+(3, 7),
+(4, 8),
+(5, 9),
+(6, 10),
+(7, 11),
+(8, 12);
 
 -- --------------------------------------------------------
 
@@ -71,9 +76,12 @@ CREATE TABLE `cart_product` (
 --
 
 INSERT INTO `cart_product` (`Product_ID`, `Cart_ID`, `Quantity`) VALUES
-(1, 1, 1),
+(1, 1, 2),
 (1, 2, 1),
-(1, 3, 2);
+(1, 3, 2),
+(1, 6, 1),
+(1, 7, 1),
+(1, 8, 1);
 
 -- --------------------------------------------------------
 
@@ -105,7 +113,14 @@ INSERT INTO `invoice` (`Order_ID`, `Member_ID`, `Order_Date`, `Status`, `Total_A
 (4, 6, '2026-04-09 18:41:02', 'Preparing', 201.00, 'Jalan Bayam,8-6-3, Cheras', 55100, 'Cheras', 'Wilayah Persekutuan Kuala Lumpur', 'cs_test_a1bclFrDfkRTnP61ae6OPort7wB7VFodWGzUDkBvsfEXUANIJ9AaY1Y3e4'),
 (5, 7, '2026-04-09 19:02:44', 'Preparing', 100.50, '188 Jalan Persisiran Pantai,Pekan Klebang', 75250, 'Klebang', 'Melaka', 'cs_test_a1ISYAq7sZWLiCjUzCeaVFziMGsNuknmIQbSoNjujDQLlgA0kG6HlbZUvb'),
 (6, 7, '2026-04-09 19:04:49', 'Preparing', 100.50, '188 Jalan Persisiran Pantai,Pekan Klebang', 75250, 'Klebang', 'Melaka', 'cs_test_a1peU9kP5dIpGfjnU7Z2p68Xfx83hSE3Xi3cbbmu1HY6uVuftw4W5Egd1n'),
-(7, 7, '2026-04-09 19:11:44', 'Preparing', 100.50, 'LOT 4242 Alur Rindu 1,Kampung Tersusun Seri Rahmat', 31000, 'Batu Gajah', 'Perak', 'cs_test_a1UDadCck6ukDfmSXGBZly3l20auplzvpgXhcTNb9GaFdOvs7Q9JCVfETC');
+(7, 7, '2026-04-09 19:11:44', 'Preparing', 100.50, 'LOT 4242 Alur Rindu 1,Kampung Tersusun Seri Rahmat', 31000, 'Batu Gajah', 'Perak', 'cs_test_a1UDadCck6ukDfmSXGBZly3l20auplzvpgXhcTNb9GaFdOvs7Q9JCVfETC'),
+(8, 7, '2026-04-09 19:55:27', 'Preparing', 201.00, 'LOT 4242 Alur Rindu 1,Kampung Tersusun Seri Rahmat', 31000, 'Batu Gajah', 'Perak', 'cs_test_a18YRXfg1ZAvZag6SWwvQ1tl5RWfy2BXJxDzkIsGJrxBst4iPY6TVNMJUf'),
+(9, 7, '2026-04-09 20:00:22', 'Preparing', 100.50, '1234, Lorong Desa Seni 6/3,Taman Sejahtera Jaya', 9600, 'Lunas', 'Kedah', 'cs_test_a14bQKv06gXK7q8ohbK0MPWExUL4sqydgLPczW98Vw6uBNwOtC8doRqoG1'),
+(10, 8, '2026-04-09 20:24:47', 'Preparing', 100.50, '1234, Lorong Desa Seni 6/3,Taman Sejahtera Jaya', 9600, 'Lunas', 'Kedah', 'cs_test_a1uMacrVcV7FfLLE6Swv5EClo00BJDsvAxici2S7vaCp6Sn765eNFbnESf'),
+(11, 8, '2026-04-09 20:33:39', 'Preparing', 100.50, 'Jalan Teluk Baru', 7000, 'Langkawi', 'Kedah', 'cs_test_a1fwpHtUcgjIlMawXnSCv9pWylmiYs4TjAF5p0yOZhQb7h1obwVqHQu05m'),
+(12, 8, '2026-04-09 20:35:37', 'Preparing', 100.50, 'LOT 4242 Alur Rindu 1,Kampung Tersusun Seri Rahmat', 31000, 'Batu Gajah', 'Perak', 'cs_test_a1fHidAusuxDU94sAS03NSca2cZUHhLpS32uHMW0P27Ucvo8WaC35OS0pE'),
+(13, 10, '2026-04-11 00:33:28', 'Preparing', 100.50, '12347, Jalan Terkukur 8,Bandar Putra Kulai', 81000, 'Kulai', 'Johor Darul Ta\'zim', 'cs_test_a1Jpmy9qMvm0tgDZa8UMao9SOzIOsJul1uPh7Ix8Q2D4QzCDiTgtrh9BLI'),
+(14, 12, '2026-04-11 16:22:28', 'Preparing', 100.50, '4213, Lorong Ria 3b', 91000, 'Tawau', 'Sabah', 'cs_test_a1WgrzIBT4rNSJersVewgvXGehebHfM3eKVAQBkaxv6MoqeV2FtlxJkPTK');
 
 -- --------------------------------------------------------
 
@@ -130,7 +145,12 @@ INSERT INTO `member` (`Member_ID`, `Name`, `Email`, `Password`, `Phone_Number`, 
 (1, 'Kyle', 'ngkyle.trp@gmail.com', '1', '0123456789', '/images/image.png'),
 (5, 'test', '123@gmail.com', '601f1889667efaebb33b8c12572835da3f027f78', '123', '/images/69d74eb7af259.jpg'),
 (6, 'test', 'test@gmai.com', '8cb2237d0679ca88db6464eac60da96345513964', '0123456789', '/images/69d77fffda72e.jpg'),
-(7, '222', '222@gmail.com', '1a9b9508b6003b68ddfe03a9c8cbc4bd4388339b', '222', '/images/69d7871925572.jpg');
+(7, '222', '222@gmail.com', '1a9b9508b6003b68ddfe03a9c8cbc4bd4388339b', '222', '/images/69d7871925572.jpg'),
+(8, '123', 'agentbloon@gmail.com', '601f1889667efaebb33b8c12572835da3f027f78', '123123', '/images/69d79a5c5fdd9.jpg'),
+(9, 'hi', 'hi@gmail.com', '7c4a8d09ca3762af61e59520943dc26494f8941b', '123456', '/images/69d85fc0a3841.jpg'),
+(10, '12345', '12345@gmail.com', '601f1889667efaebb33b8c12572835da3f027f78', '123', '/images/69d9175b32905.jpg'),
+(11, 'kyle', 'kyle@gmail.com', '8cb2237d0679ca88db6464eac60da96345513964', '1234', '/images/69d930fa730a6.jpg'),
+(12, '12345', 'amongus@gmail.com', '8cb2237d0679ca88db6464eac60da96345513964', '12345', '/images/69da0451eb8de.jpg');
 
 --
 -- Triggers `member`
@@ -138,6 +158,8 @@ INSERT INTO `member` (`Member_ID`, `Name`, `Email`, `Password`, `Phone_Number`, 
 DELIMITER $$
 CREATE TRIGGER `after_members_insert` AFTER INSERT ON `member` FOR EACH ROW BEGIN
 	INSERT INTO cart(member_id)
+    VALUES(new.member_id);
+    INSERT INTO wishlist(member_id)
     VALUES(new.member_id);
 END
 $$
@@ -167,7 +189,14 @@ INSERT INTO `order_details` (`Order_Details_ID`, `Order_ID`, `Product_ID`, `Quan
 (4, 4, 1, 2),
 (5, 5, 1, 1),
 (6, 6, 1, 1),
-(7, 7, 1, 1);
+(7, 7, 1, 1),
+(8, 8, 1, 2),
+(9, 9, 1, 1),
+(10, 10, 1, 1),
+(11, 11, 1, 1),
+(12, 12, 1, 1),
+(13, 13, 1, 1),
+(14, 14, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -239,7 +268,14 @@ INSERT INTO `receipt` (`Receipt_ID`, `Order_ID`, `Payment_Date`, `Amount_Paid`) 
 (4, 4, '2026-04-09 18:41:03', 201.00),
 (5, 5, '2026-04-09 19:02:44', 100.50),
 (6, 6, '2026-04-09 19:04:49', 100.50),
-(7, 7, '2026-04-09 19:11:44', 100.50);
+(7, 7, '2026-04-09 19:11:44', 100.50),
+(8, 8, '2026-04-09 19:55:27', 201.00),
+(9, 9, '2026-04-09 20:00:22', 100.50),
+(10, 10, '2026-04-09 20:24:47', 100.50),
+(11, 11, '2026-04-09 20:33:39', 100.50),
+(12, 12, '2026-04-09 20:35:37', 100.50),
+(13, 13, '2026-04-11 00:33:28', 100.50),
+(14, 14, '2026-04-11 16:22:28', 100.50);
 
 -- --------------------------------------------------------
 
@@ -278,6 +314,18 @@ INSERT INTO `supplier` (`Supplier_ID`, `Name`, `Email`, `Phone_Number`, `Address
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `token`
+--
+
+CREATE TABLE `token` (
+  `id` varchar(100) NOT NULL,
+  `expire` datetime NOT NULL,
+  `Member_ID` int(6) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `wishlist`
 --
 
@@ -285,6 +333,14 @@ CREATE TABLE `wishlist` (
   `Wishlist_ID` int(6) NOT NULL,
   `Member_ID` int(6) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `wishlist`
+--
+
+INSERT INTO `wishlist` (`Wishlist_ID`, `Member_ID`) VALUES
+(1, 11),
+(2, 12);
 
 -- --------------------------------------------------------
 
@@ -377,6 +433,13 @@ ALTER TABLE `supplier`
   ADD PRIMARY KEY (`Supplier_ID`);
 
 --
+-- Indexes for table `token`
+--
+ALTER TABLE `token`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`Member_ID`);
+
+--
 -- Indexes for table `wishlist`
 --
 ALTER TABLE `wishlist`
@@ -404,25 +467,25 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `Cart_ID` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `Cart_ID` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `invoice`
 --
 ALTER TABLE `invoice`
-  MODIFY `Order_ID` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `Order_ID` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `member`
 --
 ALTER TABLE `member`
-  MODIFY `Member_ID` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `Member_ID` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `order_details`
 --
 ALTER TABLE `order_details`
-  MODIFY `Order_Details_ID` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `Order_Details_ID` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `product`
@@ -440,7 +503,7 @@ ALTER TABLE `product_image`
 -- AUTO_INCREMENT for table `receipt`
 --
 ALTER TABLE `receipt`
-  MODIFY `Receipt_ID` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `Receipt_ID` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `review`
@@ -458,7 +521,7 @@ ALTER TABLE `supplier`
 -- AUTO_INCREMENT for table `wishlist`
 --
 ALTER TABLE `wishlist`
-  MODIFY `Wishlist_ID` int(6) NOT NULL AUTO_INCREMENT;
+  MODIFY `Wishlist_ID` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables
@@ -513,6 +576,12 @@ ALTER TABLE `receipt`
 --
 ALTER TABLE `review`
   ADD CONSTRAINT `review_ibfk_1` FOREIGN KEY (`Order_Details_ID`) REFERENCES `order_details` (`Order_Details_ID`);
+
+--
+-- Constraints for table `token`
+--
+ALTER TABLE `token`
+  ADD CONSTRAINT `token_ibfk_1` FOREIGN KEY (`Member_ID`) REFERENCES `member` (`Member_ID`);
 
 --
 -- Constraints for table `wishlist`
