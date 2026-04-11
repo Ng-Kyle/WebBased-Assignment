@@ -3,10 +3,12 @@
     $_title = "Product List";
     include '../_head.php';
 
+    $min = req('min');
+    $max = req('max');
     $name = req('name');
-    $brands = req('Brand');
-    $series = req('Series');
-    $scale = req('Scale');
+    $GLOBALS['Brand'] = req('Brand', []); 
+    $GLOBALS['Series'] = req('Series', []);
+    $GLOBALS['Scale'] = req('Scale', []);
 
     //for fetching the stuff
     $stm = $_db->query('SELECT DISTINCT Brand FROM product WHERE Brand IS NOT NULL');
@@ -23,6 +25,12 @@
 
     //Quick Add stuff
     if (is_post()){
+
+        if (!$_user){
+            temp('info', 'Please login to add an item into your cart!');
+            redirect('../login/login.php');
+        }
+
         $product_id = req('Product_ID');
         $quantity = req('Quantity');
         $member_id = $_SESSION['user']->Member_ID ?? 1;
@@ -55,21 +63,23 @@
     $filter = 'SELECT p.*, pi.Image_URL FROM product p JOIN product_image pi ON p.Product_ID = pi.Product_ID WHERE p.Name LIKE ?';
     $params = ["%$name%"];
 
-    if (!empty($brands)){
-        $placeholder = implode(',', array_fill(0, count($brands), '?'));
-        $filter .= " AND p.Brand IN ($placeholder)";
-        $params = array_merge($params, $brands);
+    //changed from separate to a foreach loop using $Globals from base file
+    foreach(['Brand', 'Series', 'Scale'] as $key){
+        if (!empty($GLOBALS[$key])){
+            $placeholder = implode(',', array_fill(0, count($GLOBALS[$key]), '?'));
+            $filter .= " AND p.$key IN ($placeholder)";
+            $params = array_merge($params, $GLOBALS[$key]);
+        }
     }
-    if (!empty($series)){
-        $placeholder = implode(',', array_fill(0, count($series), '?'));
-        $filter .= " AND p.Series IN ($placeholder)";
-        $params = array_merge($params, $series);
+    if ($min){
+        $filter .= "AND p.Price >= ?";
+        $params[] = $min;
     }
-    if (!empty($scale)){
-        $placeholder = implode(',', array_fill(0, count($scale), '?'));
-        $filter .= " AND p.Scale IN ($placeholder)";
-        $params = array_merge($params, $scale);
+    if ($max){
+        $filter .= "AND p.Price <= ?";
+        $params[] = $max;
     }
+
 
     $filter .= ' GROUP BY p.Product_ID';
     $stm = $_db->prepare($filter);
@@ -152,6 +162,12 @@
                     <?php html_checkboxes('Scale', $scale_options, true) ?>
                 </div>
 
+                <h3>Filter by Price</h3>
+                <div class="filter-group">
+                    <?php html_number('min', $min, 0, 9999, 1, 'placeholder="Min"'); ?>
+                    <?php html_number('max', $max, 0, 9999, 1, 'placeholder="Max"'); ?>
+                </div>
+
                 <button type="submit">Apply Filters</button>
                 <a href="<?= base('product/list.php') ?>">Clear All</a>
             </form>
@@ -167,7 +183,10 @@
                             <h3><?= encode($p->Name) ?></h3>
                             <p class="price">RM <?= number_format($p->Price,2) ?></p>
                         </a>
+                        <div class="buttonGroup">
                         <button data-post="?Product_ID=<?= $p->Product_ID ?>&Quantity=1">Quick Add</button>
+                        <button data-post="../wishlist/wishlist.php?Product_ID=<?= $p->Product_ID ?>">❤️</button>
+                        </div>
                     </div>
                 <?php endforeach; ?>
             </div>
