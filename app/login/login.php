@@ -1,5 +1,6 @@
 <?php
 include '../_base.php';
+$_title = 'Login';
 include '../_head.php';
 
 
@@ -38,8 +39,6 @@ if (is_post()) {
         }
     }
 }
-
-$_title = 'Login';
 ?>
 
 <form method="post" class="element">
@@ -53,11 +52,12 @@ $_title = 'Login';
 
     <section method="post" class="button">
         <button>Login</button>
-        <button type="reset">Reset</button>
+
     </section>
 
-    <section>
-        <a href="register.php">Don't have an account?</a>
+    <section style="text-align: center;">
+        Don't have an account? 
+        <a href="register.php" style="display: inline; margin-left: 5px;">Register here</a>
     </section>
 
     <section>
@@ -68,90 +68,91 @@ $_title = 'Login';
 </form>
 
 <style>
-        /* Login */
-    .element{
-        display: grid;
+    /* 1. Page Background */
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f2f5;
+        margin: 0;
+        display: flex;
         justify-content: center;
         align-items: center;
-    }
-    #email{
-        border-radius: 12px;
-        padding:5px;
-    }
-    #password{
-        border-radius: 12px;
-        padding:5px
-
-    }
-    .sumbit{
-        border-radius: 12px;
-        padding:5px
+        height: 100vh; /* Centering the form in the viewport */
     }
 
-    <!--Register-->
-    #email{
-        border-radius: 12px;
-        padding: 5px;
-        gap: 10px;
-    }
-
-    #f_password{
-        border-radius: 12px;
-        padding: 5px;
-        gap: 10px;
-    }
-
-    #d_password{
-        border-radius: 12px;
-        padding: 5px;
-
-
-    }
-    .button{
-        background-color: #ffffff;
-        color: black;
-        padding: 10px 20px;
-        border-radius: 12px;
-    }
-    .sumbit{
-        border-radius: 12px;
-        padding:5px
-    }
-    .password_element{
-        display: grid;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .register_element{
-        display: grid;
-        justify-content: center;
-        align-items: center;
-    }
-    #fc_password{
-        border-radius: 12px;
-        padding:5px;
-    }
-    .err{
-        color: red;
-    }
-    #info {
+    /* 2. Header Fix - Moves it to the top */
+    header {
         position: fixed;
-        color: #fff;
-        background: #666;
-        border: 1px solid #333;
-        border-radius: 5px;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: #ffb6c1; /* The pink color from your image */
         padding: 10px 20px;
-        left: 50%;
-        translate: -50% 0;
-        z-index: 999;
-
-        top: -100px;
-        opacity: 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-sizing: border-box;
+        z-index: 1000;
     }
 
-    #info:not(:empty) {
-        animation: fade 5s;
+    /* 3. The Login Card */
+    .element {
+        background: white;
+        padding: 40px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        width: 350px;
+        margin-top: 60px; /* Pushes it down slightly so it doesn't touch the header */
     }
+
+    label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    input {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        box-sizing: border-box;
+    }
+
+    /* 4. Login Button Styling */
+    .button {
+        display: flex;
+        margin-bottom: 15px;
+    }
+
+    button {
+        flex: 1;
+        padding: 12px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: bold;
+        background-color: #ffb6c1; /* Pink to match header */
+        color: white;              /* White text for contrast */
+        font-size: 16px;
+    }
+
+    button:hover {
+        background-color: #ff8da1; /* Slightly darker pink on hover */
+    }
+
+    /* 5. Links */
+    section a {
+        display: block;
+        text-align: center;
+        font-size: 14px;
+        color: #FF5E7E;
+        text-decoration: none;
+        margin-top: 8px;
+    }
+
+    .err { color: red; font-size: 12px; display: block; margin-top: -10px; margin-bottom: 10px; }
 </style>
-<?php
+
+<?php 
+?>
