@@ -96,6 +96,81 @@ if (is_post()) {
 
 $_title = 'User | Profile';
 ?>
+    <style>
+        .productRowTop{
+            border-top: 3px solid pink;
+        }
+        .productRowMiddle{
+            vertical-align: top;
+            font-size:20pt;
+            font-weight: bold;
+            color: #FF5E7E;
+            white-space:nowrap;
+            padding-right:25px;
+        }
+        .productRowBottom{
+            border-bottom: 3px solid pink;
+        }
+        .productDetails{
+            width: 80%;
+            vertical-align: bottom;
+        }
+        table{
+            border-collapse: collapse; 
+        }
+        h2{
+            text-align:center;
+            font-size: 35px;
+            color:#FF5E7E;
+            padding-top:40px;
+        }
+        button:hover{
+            cursor:pointer
+        }
+        #emptyCart{
+            text-align:center;
+            padding-top: 30px;
+            padding-bottom:180px;
+            font-size:25pt;
+            font-weight:bold;
+        }
+        .productPrice{
+            font-size:20pt;
+            white-space: nowrap;
+            font-weight: bold;
+            color: #FF5E7E;
+        }
+        #productCategory{
+            color:gray;
+            font-size:10pt;
+        }
+        #productQuantity{
+            font-size:20pt;
+            font-weight: bold;
+            color: #FF5E7E;
+            white-space:nowrap;
+            padding-right:25px;
+        }
+        .productDetails{
+            font-size:20pt;
+            
+        }
+        #orderAddress{
+            font-size:20pt;
+        }
+        #viewDetailBtn{
+            text-align:right;
+            
+        }
+        button{
+            border: none;
+            background-color: white;
+            color:#FF5E7E;
+            font-size: 15pt;
+            font-weight: bold;
+            text-decoration: underline 2pt;
+        }
+</style>
 
 <form method="post" class="form" enctype="multipart/form-data">
     <label for="email">Email</label>
@@ -118,6 +193,28 @@ $_title = 'User | Profile';
         <button type="reset">Reset</button>
     </section>
 </form>
-
+<div class = "orderhistory">
+<h2>Order History</h2>
+    <?php if($orders): ?>
+        <table>
+            <?php foreach($orders as $o): ?>       
+            <tr class = productRowTop>
+                <td class = productDetails><b>Order #<?= $o->Order_ID." ". $o->Order_Date ?></b></td>
+                <td></td>
+                <td id = "viewDetailBtn"><button data-post="order_detail.php?order_id=<?= $o->Order_ID ?>">View Details</button></td>
+            </tr>
+            
+            <tr class = productRowMiddle>
+                <td id = "orderAddress"><span>Shipping Address:</span><br><?= $o->Street_Address . ', ' . $o->City . ', ' . $o->State . ' ' . $o->Post_Code;?></td>
+                <td id = "productQuantity">Status: <?= $o->Status ?></td>                    
+                <td class = productPrice>RM <?= number_format($o->Total_Amount,2) ?></td>
+            </tr>
+            <tr class = productRowBottom></tr>
+            <?php endforeach ?>
+        </table>
+    <?php else: ?>
+        <p>You have no previous orders!</p>
+    <?php endif ?>
+</div>
 <?php
 include '../_foot.php';

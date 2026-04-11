@@ -41,58 +41,13 @@ if (is_post()) {
 }
 ?>
 
-<form method="post" class="element">
-    <label for="email">Email</label>
-    <?= html_text('email',"", 'maxlength="100"') ?>
-    <?= err('email') ?>
-
-    <label for="password">Password</label>
-    <?= html_password('password', '',) ?>
-    <?= err('password') ?>
-
-    <section method="post" class="button">
-        <button>Login</button>
-
-    </section>
-
-    <section style="text-align: center;">
-        Don't have an account? 
-        <a href="register.php" style="display: inline; margin-left: 5px;">Register here</a>
-    </section>
-
-    <section>
-        <a href="reset.php">Forgot your password?</a>
-    </section>
-
-
-</form>
 
 <style>
     /* 1. Page Background */
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f0f2f5;
-        margin: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh; /* Centering the form in the viewport */
-    }
+
 
     /* 2. Header Fix - Moves it to the top */
-    header {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        background-color: #ffb6c1; /* The pink color from your image */
-        padding: 10px 20px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        box-sizing: border-box;
-        z-index: 1000;
-    }
+
 
     /* 3. The Login Card */
     .element {
@@ -110,14 +65,7 @@ if (is_post()) {
         margin-bottom: 5px;
     }
 
-    input {
-        width: 100%;
-        padding: 10px;
-        margin-bottom: 15px;
-        border: 1px solid #ccc;
-        border-radius: 6px;
-        box-sizing: border-box;
-    }
+
 
     /* 4. Login Button Styling */
     .button {
@@ -153,6 +101,36 @@ if (is_post()) {
 
     .err { color: red; font-size: 12px; display: block; margin-top: -10px; margin-bottom: 10px; }
 </style>
+
+
+
+<form method="post" class="element">
+    <label for="email" >Email</label>
+    <?= html_text('email',"", 'maxlength="100"') ?>
+    <?= err('email') ?>
+
+    <label for="password">Password</label>
+    <?= html_password('password', '',) ?>
+    <?= err('password') ?>
+
+    <section method="post" class="button">
+        <button>Login</button>
+
+    </section>
+
+    <section style="text-align: center;">
+        Don't have an account? 
+        <a href="register.php" style="display: inline; margin-left: 5px;">Register here</a>
+    </section>
+
+    <section>
+        <a href="reset.php">Forgot your password?</a>
+    </section>
+
+
+</form>
+
+
 
 <?php 
 ?>

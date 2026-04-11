@@ -7,8 +7,7 @@
     auth();
     include '../_head.php';
     
-    $_db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    //Check for stripe status
+
     $session_id = get('session_id');
     $session = \Stripe\Checkout\Session::retrieve($session_id);
     if($session->payment_status !== 'paid'){
@@ -32,12 +31,12 @@
         $total+=$p->Price * $p->Quantity;
     } 
 
-    //Get MemberID
+
     $stm = $_db->prepare('SELECT m.member_id FROM member m JOIN cart c ON m.Member_ID = c.Member_ID WHERE c.Cart_ID = ?');
     $stm->execute([$cart_id]);
     $member_id = $stm->fetchColumn();
     
-    //Get shippingAddress from stripe
+ 
     $address = $session->collected_information->shipping_details;
     if($address){
         $street_address = $address->address->line1;
@@ -49,21 +48,20 @@
         $city = $address->address->city;
         $state = $address->address->state;
     }
-    //Create Order
+
     
     
     $stm = $_db->prepare('INSERT INTO invoice (member_id, order_date, status, total_amount, street_address, post_code, city, state,stripe_session_id) 
     VALUES (?,CURRENT_TIMESTAMP,"Preparing",?,?,?,?,?,?)');
     $stm->execute([$member_id,$total,$street_address,$post_code, $city, $state,$session_id]);
     
-    //Create order details for each product in cart
+
     $order = $_db->lastInsertId();
     foreach($products as $p){
         $stm = $_db->prepare('INSERT INTO order_details (order_id,product_id,quantity) VALUES (?,?,?)');
         $stm->execute([$order,$p->Product_ID, $p->Quantity]);
     }
 
-    //Delete all products from cart.
     $stm = $_db->prepare('DELETE FROM cart_product WHERE cart_id = ?');
     $stm->execute([$cart_id]);
     
@@ -71,7 +69,7 @@
     $stm->execute([$order,$session->amount_total/100]); 
     $receipt = $_db->lastInsertId();
 
-    $m = get_mail(); //base.php
+    $m = get_mail();
     $m->addAddress($_user->Email, $_user->Name);
     $m->isHTML(true);
     $m->Subject = 'AnonFigures Receipt';
