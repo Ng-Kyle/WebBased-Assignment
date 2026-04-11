@@ -14,8 +14,6 @@
     $total = 0;
     $totalItems = 0;
     foreach($products as $p){
-            $total+=$p->Price * $p->Quantity;
-            $totalItems += $p->Quantity;
             $stm = $_db->prepare('SELECT * FROM product_image WHERE product_id = ?');
             $stm->execute([$p->Product_ID]);
             $image = $stm->fetchAll();
