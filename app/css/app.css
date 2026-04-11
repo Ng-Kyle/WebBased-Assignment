@@ -59,6 +59,7 @@ header h1 {
 header a {
     color: black; 
     text-decoration: none;
+    font-weight:bold;
 }
 
 header div { 
@@ -165,15 +166,15 @@ nav.pager a.active {
 
 #info {
     position: fixed;
-    color: #fff;
-    background: #666;
-    border: 1px solid #333;
+    color: black;
+    background: pink;
+    border: 1px solid pink;
     border-radius: 5px;
     padding: 10px 20px;
     left: 50%;
     translate: -50% 0;
     z-index: 999;
-
+    font-weight: bold;
     top: -100px;
     opacity: 0;
 }
@@ -184,8 +185,8 @@ nav.pager a.active {
 
 @keyframes fade {
       0% { top: -100px; opacity: 0; }
-     10% { top:  100px; opacity: 1; }
-     90% { top:  100px; opacity: 1; }
+     10% { top:  90px; opacity: 1; }
+     90% { top:  90px; opacity: 1; }
     100% { top: -100px; opacity: 0; }
 }
 
@@ -227,94 +228,4 @@ label.upload img {
     height: 200px;
     object-fit: cover;
     cursor: pointer;
-}
-
-
-  
-
-
-/* Login */
-.element{
-    display: grid;
-    justify-content: center;
-    align-items: center;
-}
-#email{
-    border-radius: 12px;
-    padding:5px;
-}
-#password{
-    border-radius: 12px;
-    padding:5px
-
-}
-.sumbit{
-    border-radius: 12px;
-    padding:5px
-}
-
-<!--Register-->
-#email{
-    border-radius: 12px;
-    padding: 5px;
-    gap: 10px;
-}
-
-#f_password{
-    border-radius: 12px;
-    padding: 5px;
-    gap: 10px;
-}
-
-#d_password{
-    border-radius: 12px;
-    padding: 5px;
-
-
-}
-.button{
-    background-color: #ffffff;
-    color: black;
-    padding: 10px 20px;
-    border-radius: 12px;
-}
-.sumbit{
-    border-radius: 12px;
-    padding:5px
-}
-.password_element{
-    display: grid;
-    justify-content: center;
-    align-items: center;
-}
-
-.register_element{
-    display: grid;
-    justify-content: center;
-    align-items: center;
-}
-#fc_password{
-    border-radius: 12px;
-    padding:5px;
-}
-.err{
-    color: red;
-}
-#info {
-    position: fixed;
-    color: #fff;
-    background: #666;
-    border: 1px solid #333;
-    border-radius: 5px;
-    padding: 10px 20px;
-    left: 50%;
-    translate: -50% 0;
-    z-index: 999;
-
-    top: -100px;
-    opacity: 0;
-}
-
-#info:not(:empty) {
-    animation: fade 5s;
 }

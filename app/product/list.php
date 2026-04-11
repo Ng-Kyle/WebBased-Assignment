@@ -3,6 +3,25 @@
     $_title = "Product List";
     include '../_head.php';
 
+    $name = req('name');
+    $brands = req('Brand');
+    $series = req('Series');
+    $scale = req('Scale');
+
+    //for fetching the stuff
+    $stm = $_db->query('SELECT DISTINCT Brand FROM product WHERE Brand IS NOT NULL');
+    $brands_list = $stm->fetchAll(PDO::FETCH_COLUMN);
+    $brands_options = array_combine($brands_list, $brands_list);
+
+    $stm = $_db->query('SELECT DISTINCT Series FROM product WHERE Series IS NOT NULL');
+    $series_list = $stm->fetchAll(PDO::FETCH_COLUMN);
+    $series_options = array_combine($series_list, $series_list);
+
+    $stm = $_db->query('SELECT DISTINCT Scale FROM product WHERE Scale IS NOT NULL');
+    $scale_list = $stm->fetchAll(PDO::FETCH_COLUMN);
+    $scale_options = array_combine($scale_list, $scale_list);
+
+    //Quick Add stuff
     if (is_post()){
         $product_id = req('Product_ID');
         $quantity = req('Quantity');
@@ -32,12 +51,57 @@
             redirect();
         }
     }
-    $stm = $_db->prepare('SELECT p.*, pi.Image_URL FROM product p JOIN product_image pi ON p.Product_ID = pi.Product_ID GROUP BY p.Product_ID');
-    $stm->execute();
+
+    $filter = 'SELECT p.*, pi.Image_URL FROM product p JOIN product_image pi ON p.Product_ID = pi.Product_ID WHERE p.Name LIKE ?';
+    $params = ["%$name%"];
+
+    if (!empty($brands)){
+        $placeholder = implode(',', array_fill(0, count($brands), '?'));
+        $filter .= " AND p.Brand IN ($placeholder)";
+        $params = array_merge($params, $brands);
+    }
+    if (!empty($series)){
+        $placeholder = implode(',', array_fill(0, count($series), '?'));
+        $filter .= " AND p.Series IN ($placeholder)";
+        $params = array_merge($params, $series);
+    }
+    if (!empty($scale)){
+        $placeholder = implode(',', array_fill(0, count($scale), '?'));
+        $filter .= " AND p.Scale IN ($placeholder)";
+        $params = array_merge($params, $scale);
+    }
+
+    $filter .= ' GROUP BY p.Product_ID';
+    $stm = $_db->prepare($filter);
+    $stm->execute($params);
     $products = $stm->fetchAll();
+
 ?>
 
 <style>
+    .search-bar{
+        text-align: center;
+        margin: 20px;
+    }
+    .search-bar input{
+        width: 50%;
+        padding: 10px;
+        border-radius: 20px;
+        border: 2px solid #FF5E7E;
+    }
+    .search-container{
+        display: flex;
+        gap: 20px;
+        padding: 20px;
+    }
+    .sidebar{
+        width: 250px;
+        flex-shrink:0; /*this is to prevent shrinking for the sidebar*/
+        border-right: 3px solid #FF5E7E;
+    }
+    .content{
+        flex-grow: 1; /* this is to let the content div to take up the remaining spaces in the page. */
+    }
     .products-side {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -62,30 +126,54 @@
         font-weight: bold; 
         font-size: 1.3; 
     }
-    .msg { background: #d4edda; 
-        color: #155724; 
-        padding: 15px; 
-        margin: 20px; 
-        border-radius: 5px; 
-        text-align: center; 
-    }
 </style>
-
-    <h1>All Figures</h1>
-
-    <div class="products-side">
-        <?php foreach ($products as $p): ?>
-            <div class="products-card">
-                <a href="productDetails.php?Product_ID=<?= $p->Product_ID ?>">
-                    <img src="../images/<?= basename($p->Image_URL) ?>" alt="<?= encode($p->Name) ?>">
-                    <h3><?= encode($p->Name) ?></h3>
-                    <p class="price">RM <?= number_format($p->Price,2) ?></p>
-                </a>
-
-                <button data-post="?Product_ID=<?= $p->Product_ID ?>">Quick Add</button>
-            </div>
-        <?php endforeach; ?>
+    <div class="search-bar">
+        <form action="" method="get">
+            <?= html_search('name', 'placeholder="Search figues..."') ?>
+        </form>
     </div>
+
+    <div class="search-container">
+        <aside class="sidebar">
+            <form id="filter" action="" method ="get">
+                <?php html_hidden('name', $name); ?>
+                <h3>Filter by Brand</h3>
+                <div class="filter-group">
+                    <?php html_checkboxes('Brand', $brands_options, true) ?>
+                </div>
+
+                <h3>Filter by Series</h3>
+                <div class="filter-group">
+                    <?php html_checkboxes('Series', $series_options, true) ?>
+                </div>
+
+                <h3>Filter by Scale</h3>
+                <div class="filter-group">
+                    <?php html_checkboxes('Scale', $scale_options, true) ?>
+                </div>
+
+                <button type="submit">Apply Filters</button>
+                <a href="<?= base('product/list.php') ?>">Clear All</a>
+            </form>
+        </aside>
+
+        <div class="content">
+            <h1>All Figures</h1>
+            <div class="products-side">
+                <?php foreach ($products as $p): ?>
+                    <div class="products-card">
+                        <a href="productDetails.php?Product_ID=<?= $p->Product_ID ?>">
+                            <img src="../images/<?= basename($p->Image_URL) ?>" alt="<?= encode($p->Name) ?>">
+                            <h3><?= encode($p->Name) ?></h3>
+                            <p class="price">RM <?= number_format($p->Price,2) ?></p>
+                        </a>
+                        <button data-post="?Product_ID=<?= $p->Product_ID ?>&Quantity=1">Quick Add</button>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </div>
+
 <?php
 include '../_foot.php';
 ?>

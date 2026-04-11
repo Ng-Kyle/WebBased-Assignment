@@ -28,7 +28,7 @@
                     $stm->execute([$quantity,$product_id,$cart_id]);
                 }else{
                     //insert new product
-                    $stm = $_db->prepare('INSERT INTO cart_product (Product_ID, Cart_ID,Quantity) VALUES (?,?,?)');
+                    $stm = $_db->prepare('INSERT INTO cart_product (Product_ID, Cart_ID, Quantity) VALUES (?,?,?)');
                     $stm->execute([$product_id,$cart_id,$quantity]);
                 }
 
@@ -37,21 +37,17 @@
         }
     }
 
-                
     $id = req('Product_ID');
     $stm = $_db->prepare('SELECT p.*, pi.* FROM product p LEFT JOIN product_image pi ON p.Product_ID = pi.Product_ID WHERE p.Product_ID = ?');
     $stm->execute([$id]);
     $productIDimg = $stm->fetchAll();
-        
     //Debug
     //var_dump($id);
      //print_r($productIDimg);
-
     if (!$productIDimg){
         echo "Product not found";
         exit;
     }
-
     $products= [
             
         'Product_ID'     => $productIDimg[0]->Product_ID,
@@ -66,54 +62,50 @@
         'Images'         => []
 
     ];
-
     foreach ($productIDimg as $p){
         if ($p->Image_URL ?? false){ //?? end means if there's no or image_URL, it will turn it to false
             $products['Images'][] = '../images/' . basename($p->Image_URL); //the extra [] is for append.
         }
     }
-
     $_title = $products['Name'];
     include '../_head.php';
-
-    
 ?>
 
-    <style>
-        .products-images{
-            display: flex;
-            margin-top: -60px;
-            justify-content: center;
-            align-items: center;
-            height: 300px;
-            width: 40%;
-            border-style: solid ;
-            border-color: rgb(255, 161, 175);
-            border-radius: 5px;
-        }
+<style>
+    .products-images{
+        display: flex;
+        margin-top: -60px;
+        justify-content: center;
+        align-items: center;
+        height: 300px;
+        width: 40%;
+        border-style: solid ;
+        border-color: rgb(255, 161, 175);
+        border-radius: 5px;
+    }
 
-        .products-img{
-            width: 250px;
-            height: 300px;
-            object-fit: contain;
-        }
+    .products-img{
+        width: 250px;
+        height: 300px;
+        object-fit: contain;
+    }
 
-        main h1{
-            position:relative;
-            max-width: 52%;
-            left:45%;
-            overflow-wrap:break-word;
-        }
+    main h1{
+        position:relative;
+        max-width: 52%;
+        left:45%;
+        overflow-wrap:break-word;
+    }
 
-        .products-details{
-            position:relative;
-            left:46.5% ;
-            max-width: 52%;
-            margin-top: -250px;
-        }
+    .products-details{
+        position:relative;
+        left:46.5% ;
+        max-width: 52%;
+        margin-top: -250px;
+    }
 
 
-    </style>
+</style>
 
 <!-- Display product images -->
 
@@ -138,10 +130,10 @@
     <p>Stock Quantity: <?=($products['Stock_Quantity']) ?></p> <p>Status: <?=($products['Status']) ?></p>
 
     <form method="post">
-        <input type="hidden" name="Product_ID" value="<?= $products['Product_ID'] ?>">
+        <?php html_hidden('Product_ID', $products['Product_ID']) ?>
 
         <label>Quantity:</label>
-        <input type="number" name="Quantity" value="1" min="1" max="<?= $products['Stock_Quantity'] ?>">
+        <?php html_number('Quantity', 1, 1, $products['Stock_Quantity']) ?>
 
         <button type="submit">Add To Cart</button>
     </form>

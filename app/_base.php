@@ -333,7 +333,7 @@ function auth(...$roles) {
         }
     }
     
-    redirect('/login.php');
+    redirect('/login/login.php');
 }
 
 // ============================================================================
@@ -360,7 +360,7 @@ function get_mail() {
     $m->Username = 'nikusunakahara@gmail.com';
     $m->Password = 'ploc vjnt yyjo wisk';
     $m->CharSet = 'utf-8';
-    $m->setFrom($m->Username, '😺 Admin');
+    $m->setFrom($m->Username, 'AnonFigures Team');
 
     return $m;
 }
@@ -368,10 +368,25 @@ function get_mail() {
 // ============================================================================
 // Shopping Cart
 // ============================================================================
-
+function get_wishlist(){
+    global $_db, $_user;
+    if(!$_user){
+        return null;
+    }
+    $stm = $_db->prepare('SELECT wishlist_id FROM wishlist WHERE member_id = ?');
+    $stm->execute([$_user->Member_ID]);
+    return $stm->fetchColumn();
+}
 // Get shopping cart
 function get_cart() {
-    return $_SESSION['cart'] ?? [];
+    global $_db, $_user;
+    if(!$_user){
+        return null;
+    }
+    $stm = $_db->prepare('SELECT cart_id FROM cart WHERE member_id = ?');
+    $stm->execute([$_user->Member_ID]);
+    return $stm->fetchColumn();
+
 }
 
 // Set shopping cart
