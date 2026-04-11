@@ -43,7 +43,7 @@ if (is_post()) {
         $stm = $_db->prepare('
             UPDATE member
             SET password = SHA1(?)
-            WHERE id = (SELECT Member_ID FROM token WHERE id = ? );
+            WHERE Member_ID = (SELECT Member_ID FROM token WHERE id = ? );
 
             DELETE FROM token WHERE id = ?;
         ');
@@ -57,6 +57,7 @@ if (is_post()) {
 // ----------------------------------------------------------------------------
 
 $_title = 'User | Reset Password';
+
 ?>
 
 <form method="post" class="form">
