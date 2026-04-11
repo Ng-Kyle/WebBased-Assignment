@@ -117,11 +117,14 @@ include '_head.php';
 <style>
 
     .description{
-        width: 45%;
+        max-width: 40%;
         position: relative;
-        left: 800px;
-        top: -300px;
-        font-size: 20px;
+        left: 50rem;
+        top: -20rem;
+        font-size: 1.2rem;
+        flex-wrap: wrap;
+        
+        
         
     }
 
@@ -133,6 +136,8 @@ include '_head.php';
         background: #1a1a1a;
         border-radius: 20px;
         overflow: hidden;
+        display: flex;
+        border: none;
     }
 
     /* Images */
