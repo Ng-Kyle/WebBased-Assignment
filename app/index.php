@@ -66,7 +66,7 @@ include '_head.php';
 
             <div class="product-card">
                 <span class="sale-badge">HOT</span>
-                <img src="/images/shrek.jpg" alt="Gundam">
+                <img class="product-image" src="/images/shrek.jpg" alt="Gundam">
                 <div class="info">
                 <h3>RG Hi-Nu Gundam</h3>
                 <p class="price">RM48.99</p>
@@ -162,6 +162,7 @@ include '_head.php';
         top: 180px;
         font-size: 30px;
         background-color: #535353;
+        opacity: 50%;
         border: none;
         color: white;
         padding: 10px 15px;
@@ -218,6 +219,7 @@ include '_head.php';
 
     .product-card {
         min-width: 220px;
+        height: 50%;
         background: #fff;
         border-radius: 12px;
         padding: 15px;
@@ -247,6 +249,7 @@ include '_head.php';
 
     .product-card img {
         width: 100%;
+        height: 250px;
         border-radius: 8px;
         
     }
@@ -279,6 +282,12 @@ function prevSlide() {
     }
     showSlide(currentIndex);
 }
+
+
+
+
+
+
 </script>
 
 

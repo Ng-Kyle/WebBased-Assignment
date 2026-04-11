@@ -18,9 +18,9 @@
         <h1 class="store"><a href="/index.php">AnonFigures</a></h1>
 
          <div class="search-container">
-            <form action="/action_page.php">
+            <form >
             <input type="text" placeholder="Search.." name="search">
-            <button type="submit"><i class="fa fa-search"></i></button>
+            <button data-post="product/list.php?search=" type="submit"><i class="fa fa-search"></i></button>
             </form>
          </div>
          
