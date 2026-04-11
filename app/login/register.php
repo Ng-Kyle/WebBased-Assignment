@@ -5,11 +5,11 @@ include '../_head.php';
 // ----------------------------------------------------------------------------
 
 if (is_post()) {
+    $name     = req('name');
+    $phone    = req('phone');
     $email    = req('email');
     $password = req('password');
     $confirm  = req('confirm');
-    $name     = req('name');
-    $phone    = req('phone');
     $f = get_file('photo');
 
     // Validate: email
@@ -53,6 +53,14 @@ if (is_post()) {
         $_err['name'] = 'Maximum 100 characters';
     }
 
+    // Validate: phone
+    if (!$phone) {
+        $_err['phone'] = 'Required';
+    }
+    else if (strlen($phone) > 11) {
+        $_err['phone'] = 'Maximum 11 characters';
+    }
+
     // Validate: photo (file)
     if (!$f) {
         $_err['photo'] = 'Required';
@@ -90,6 +98,14 @@ $_title = 'Register';
 ?>
 
 <form method="post" class="form" enctype="multipart/form-data">
+    <label for="name">Name</label>
+    <?= html_text('name', '', 'maxlength="100"') ?>
+    <?= err('name') ?>
+
+    <label for="phone">Phone</label>
+    <?= html_text('phone', '', 'maxlength="11"') ?>
+    <?= err('phone') ?>
+
     <label for="email">Email</label>
     <?= html_text('email',"", 'maxlength="254"') ?>
     <?= err('email') ?>
@@ -101,14 +117,6 @@ $_title = 'Register';
     <label for="confirm">Confirm</label>
     <?= html_password('confirm', '') ?>
     <?= err('confirm') ?>
-
-    <label for="name">Name</label>
-    <?= html_text('name', '', 'maxlength="100"') ?>
-    <?= err('name') ?>
-
-    <label for="phone">Phone</label>
-    <?= html_text('phone', '', 'maxlength="11"') ?>
-    <?= err('phone') ?>
 
     <label for="photo">Photo</label>
     <label class="upload" tabindex="0">
@@ -123,5 +131,9 @@ $_title = 'Register';
     </section>
 </form>
 
-<?php
-include '../_foot.php';
+
+
+
+
+<?php 
+?>

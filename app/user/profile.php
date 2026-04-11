@@ -77,15 +77,16 @@ if (is_post()) {
         // (2) Update user (email, name, photo)
         $stm = $_db->prepare('
             UPDATE member
-            SET Email = ?, Name = ?, Image_URL = ?
+            SET Email = ?, Name = ?, Image_URL = , Password = ?
             WHERE Member_ID = ?
         ');
-        $stm->execute([$email, $name, $photo, $_user->Member_ID]);
+        $stm->execute([$email, $name, $photo, $password, $_user->Member_ID]);
 
         // (3) Update global user object
         $_user->Email = $email;
         $_user->Name  = $name;
         $_user->Image_URL = $photo;
+        $_user->Password = $password;
 
         temp('info', 'Record updated');
         redirect('/');
