@@ -41,31 +41,6 @@ if (is_post()) {
 }
 ?>
 
-<form method="post" class="element">
-    <label for="email">Email</label>
-    <?= html_text('email',"", 'maxlength="100"') ?>
-    <?= err('email') ?>
-
-    <label for="password">Password</label>
-    <?= html_password('password', '',) ?>
-    <?= err('password') ?>
-
-    <section method="post" class="button">
-        <button>Login</button>
-
-    </section>
-
-    <section style="text-align: center;">
-        Don't have an account? 
-        <a href="register.php" style="display: inline; margin-left: 5px;">Register here</a>
-    </section>
-
-    <section>
-        <a href="reset.php">Forgot your password?</a>
-    </section>
-
-
-</form>
 
 <style>
     /* 1. Page Background */
@@ -126,6 +101,36 @@ if (is_post()) {
 
     .err { color: red; font-size: 12px; display: block; margin-top: -10px; margin-bottom: 10px; }
 </style>
+
+
+
+<form method="post" class="element">
+    <label for="email" >Email</label>
+    <?= html_text('email',"", 'maxlength="100"') ?>
+    <?= err('email') ?>
+
+    <label for="password">Password</label>
+    <?= html_password('password', '',) ?>
+    <?= err('password') ?>
+
+    <section method="post" class="button">
+        <button>Login</button>
+
+    </section>
+
+    <section style="text-align: center;">
+        Don't have an account? 
+        <a href="register.php" style="display: inline; margin-left: 5px;">Register here</a>
+    </section>
+
+    <section>
+        <a href="reset.php">Forgot your password?</a>
+    </section>
+
+
+</form>
+
+
 
 <?php 
 ?>
