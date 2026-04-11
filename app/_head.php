@@ -18,12 +18,12 @@
         <h1 class="store"><a href="/index.php">AnonFigures</a></h1>
 
          <div class="search-container">
-            <form method="get">
+            <form action="product/list.php" method="get">
                 <?php 
                     $GLOBALS['name'] = req('name');
                     html_search('name', 'placeholder="Search figures..." class="headerSearch"');
                 ?>
-                <button data-post="product/list.php?search=" type="submit"><i class="fa fa-search"></i></button>
+                <button type="submit"><i class="fa fa-search"></i></button>
             </form>
          </div>
          
