@@ -7,7 +7,7 @@
     
     $wishlist_id = get_wishlist();
 
-    $stm = $_db->prepare('SELECT p.*, wp.* FROM wishlist_product wp JOIN product p ON wp.Product_ID = p.Product_ID WHERE wp.wishlist_id = ?');    
+    $stm = $_db->prepare('SELECT p.*, wp.* FROM wishlist_product wp JOIN product p ON wp.product_id = p.product_id WHERE wp.wishlist_id = ?');    
     $stm->execute([$wishlist_id]);
     $products = $stm->fetchAll();
     $product_image = [];
@@ -19,20 +19,20 @@
         } 
 
     if (is_post()){
-        $product_id = req('Product_ID');
+        $product_id = req('product_id');
         $cart_id = get_cart();   
             //this is for checking if the product exists in the member's cart
-        $stm = $_db->prepare('SELECT * FROM cart_product WHERE Product_ID = ? AND Cart_ID = ? ');
+        $stm = $_db->prepare('SELECT * FROM cart_product WHERE product_id = ? AND cart_id = ? ');
         $stm->execute([$product_id,$cart_id]);
         $exists = $stm->fetch();
 
         if($exists){
             //update existing product
-            $stm = $_db->prepare('UPDATE cart_product SET Quantity = Quantity + 1 WHERE Product_ID = ? AND Cart_ID = ?');
+            $stm = $_db->prepare('UPDATE cart_product SET Quantity = Quantity + 1 WHERE product_id = ? AND cart_id = ?');
             $stm->execute([$product_id,$cart_id]);
             }else{
                  //insert new product
-                $stm = $_db->prepare('INSERT INTO cart_product (Product_ID, Cart_ID,Quantity) VALUES (?,?,1)');
+                $stm = $_db->prepare('INSERT INTO cart_product (product_id, cart_id,quantity) VALUES (?,?,1)');
                 $stm->execute([$product_id,$cart_id]);
             }
             temp('info', 'Product successfully added to cart!');
@@ -170,7 +170,7 @@
             <tr class = productRowBottom>
                 <td></td>
                 <td></td>
-                <td class = "cartBtn"><button data-post="?Product_ID=<?= $p->product_id ?>"><img src = "/images/cart.png" alt = "cart">Add Cart</button></td>
+                <td class = "cartBtn"><button data-post="?product_id=<?= $p->product_id ?>"><img src = "/images/cart.png" alt = "cart">Add Cart</button></td>
             </tr>
             <?php endforeach ?>
         </table>

@@ -6,24 +6,24 @@
     auth();
     if (is_post()){
         $cart_id = get_cart();
-        $stm = $_db->prepare('SELECT p.*, cp.* FROM cart_product cp JOIN product p ON cp.Product_ID = p.Product_ID WHERE cp.Cart_ID = ?');
+        $stm = $_db->prepare('SELECT p.*, cp.* FROM cart_product cp JOIN product p ON cp.product_id = p.product_id WHERE cp.cart_id = ?');
         $stm->execute([$cart_id]);
         $products = $stm->fetchAll();
         
         //Get Member email
-        $stm = $_db->prepare('SELECT m.email FROM member m JOIN cart c ON m.Member_ID = c.Member_ID WHERE c.Cart_ID = ?');
+        $stm = $_db->prepare('SELECT m.email FROM member m JOIN cart c ON m.member_id = c.member_id WHERE c.cart_id = ?');
         $stm->execute([$cart_id]);
         $email = $stm->fetchColumn();
     
         $line_items = [];
         foreach($products as $p){
             $line_items[] = [
-                "quantity" => $p->Quantity,
+                "quantity" => $p->quantity,
                 "price_data" => [
                     "currency" => "myr",
-                    "unit_amount" => $p->Price*100,
+                    "unit_amount" => $p->price*100,
                     "product_data" => [
-                        "name" => $p->Name
+                        "name" => $p->name
                     ]
                 ]
             ];

@@ -5,7 +5,7 @@ include '../_head.php';
 // ----------------------------------------------------------------------------
 
 if (is_post()) {
-    $name     = req('name');
+    $name     = req('username');
     $phone    = req('phone');
     $email    = req('email');
     $password = req('password');
@@ -76,11 +76,11 @@ if (is_post()) {
     try{
     if (!$_err) {
         // (1) Save photo
-        $photo = save_photo($f, '../images/');
+        $photo = save_photo($f, '../images/user');
         
         // (2) Insert user (member)
         $stm = $_db->prepare('
-            INSERT INTO member (Name, Email, Password, Phone_Number, Image_URL)
+            INSERT INTO member (name, email, password, phone_number, image_url)
             VALUES (?, ?, SHA1(?), ?, ?)
         ');
         $stm->execute([$name, $email, $password, $phone, $photo]);
@@ -98,8 +98,8 @@ $_title = 'Register';
 ?>
 
 <form method="post" class="form" enctype="multipart/form-data">
-    <label for="name">Name</label>
-    <?= html_text('name', '', 'maxlength="100"') ?>
+    <label for="username">Name</label>
+    <?= html_text('username', '', 'maxlength="100"') ?>
     <?= err('name') ?>
 
     <label for="phone">Phone</label>

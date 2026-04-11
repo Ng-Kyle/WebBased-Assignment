@@ -23,7 +23,7 @@
     }   
 
     $cart_id = $session->metadata->cart_id;
-    $stm = $_db->prepare('SELECT p.*, cp.* FROM cart_product cp JOIN product p ON cp.Product_ID = p.Product_ID WHERE cp.Cart_ID = ?');
+    $stm = $_db->prepare('SELECT p.*, cp.* FROM cart_product cp JOIN product p ON cp.product_id = p.product_id WHERE cp.cart_id = ?');
     $stm->execute([$cart_id]);
     $products = $stm->fetchAll();
     $total = 0;
@@ -32,7 +32,7 @@
     } 
 
 
-    $stm = $_db->prepare('SELECT m.member_id FROM member m JOIN cart c ON m.Member_ID = c.Member_ID WHERE c.Cart_ID = ?');
+    $stm = $_db->prepare('SELECT m.member_id FROM member m JOIN cart c ON m.member_id = c.member_id WHERE c.cart_id = ?');
     $stm->execute([$cart_id]);
     $member_id = $stm->fetchColumn();
     
@@ -93,6 +93,10 @@
     }
     h2{
         color: #FF5E7E;
+    }
+    .receipt p{
+        font-size:16pt;
+        font-weight:bold;
     }
 </style>
     <div class = "receipt">

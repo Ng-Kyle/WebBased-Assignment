@@ -30,7 +30,7 @@
         }
     }
 
-    $stm = $_db->prepare('SELECT p.*, cp.* FROM cart_product cp JOIN product p ON cp.Product_ID = p.Product_ID WHERE cp.Cart_ID = ?');    
+    $stm = $_db->prepare('SELECT p.*, cp.* FROM cart_product cp JOIN product p ON cp.product_id = p.product_id WHERE cp.cart_id = ?');    
     $stm->execute([$cart_id]);
     $products = $stm->fetchAll();
     $product_image = [];
@@ -170,10 +170,10 @@
         <table>
             <?php foreach($products as $p): ?>        
             <tr class = productRowTop>
-                <td rowspan = "3"><a><img id = productImage src = <?= $product_image[$p->product_ID][0]->image_url ?> alt = <?= $product_image[$p->product_id][0]->alt_text ?>></a></td>
+                <td rowspan = "3"><a><img id = productImage src = <?= $product_image[$p->product_id][0]->image_url ?> alt = <?= $product_image[$p->product_id][0]->alt_text ?>></a></td>
                 <td class = productDetails><b><?= $p->name ?></b><br><span id="productCategory"><?= $p->brand." ".$p->scale." ".$p->series ?></span></td>
                 <td></td>
-                <td class = removeBtn><button data-post="delete.php"><img src = "/images/trash.png" alt = "trash">Remove</button></td>
+                <td class = removeBtn><button data-post="delete.php?product_id=<?= $p->product_id ?>"><img src = "/images/trash.png" alt = "trash">Remove</button></td>
             </tr>
             
             <tr class = productRowMiddle>

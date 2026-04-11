@@ -19,25 +19,25 @@ $stm->execute([$receipt_id]);
 $receipt = $stm->fetch();
 
 $stm = $_db->prepare('SELECT * FROM invoice WHERE order_id = ?');
-$stm->execute([$receipt->Order_ID]);
+$stm->execute([$receipt->order_id]);
 $order = $stm->fetch();
 
 $stm = $_db->prepare('SELECT p.*, od.* FROM order_details od JOIN product p ON od.product_id = p.product_id WHERE od.order_id = ?');
-$stm->execute([$receipt->Order_ID]);
+$stm->execute([$receipt->order_id]);
 $products = $stm->fetchAll();
 
-$shippingAddress = $order->Street_Address . ', ' . $order->City . ', ' . $order->State . ' ' . $order->Post_Code;
-$totalAmount = number_format($order->Total_Amount,2);
+$shippingAddress = $order->street_address . ', ' . $order->city . ', ' . $order->state . ' ' . $order->post_code;
+$totalAmount = number_format($order->total_amount,2);
 
 $productsHTML = '';
 foreach ($products as $p) {
     $productsHTML .= "<tr>
-        <td id='productName'>{$p->Name}</td>
-        <td class='qty'>{$p->Quantity}</td>
-        <td class='price'>" . number_format($p->Price,2) . "</td>
+        <td id='productName'>{$p->name}</td>
+        <td class='qty'>{$p->quantity}</td>
+        <td class='price'>" . number_format($p->price,2) . "</td>
     </tr>
     <tr class='productRowMiddle'>
-        <td colspan='3' id='details'>{$p->Brand} {$p->Scale} {$p->Series}</td>
+        <td colspan='3' id='details'>{$p->brand} {$p->scale} {$p->series}</td>
     </tr>";
 }
 
@@ -104,8 +104,8 @@ $html = <<<HTML
             {$shippingAddress}
         </td>
         <td colspan="2" style="text-align:right;">
-            <b>Receipt ID: {$receipt->Receipt_ID}</b><br>
-            <b>Receipt Date: {$receipt->Payment_Date}</b>
+            <b>Receipt ID: {$receipt->receipt_id}</b><br>
+            <b>Receipt Date: {$receipt->payment_date}</b>
         </td>
     </tr>
 

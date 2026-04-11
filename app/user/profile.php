@@ -8,7 +8,7 @@ include '../_head.php';
 auth();
 
 if (is_get()) {
-    $stm = $_db->prepare('SELECT * FROM member WHERE Member_ID = ?');
+    $stm = $_db->prepare('SELECT * FROM member WHERE member_id = ?');
     $stm->execute([$_user->member_id]);
     $u = $stm->fetch();
 
@@ -17,13 +17,13 @@ if (is_get()) {
     }
 
     extract((array)$u);
-    $_SESSION['Image_URL'] = $u->image_url;
+    $_SESSION['image_url'] = $u->image_url;
 }
 
 if (is_post()) {
     $email = req('email');
     $name  = req('name');
-    $photo = $_SESSION['Image_URL'];
+    $photo = $_SESSION['image_url'];
     $f = get_file('photo');
 
     // Validate: email
@@ -39,7 +39,7 @@ if (is_post()) {
     else {
         $stm = $_db->prepare('
             SELECT COUNT(*) FROM member
-            WHERE Email = ? AND Member_ID != ?
+            WHERE email = ? AND member_id != ?
         ');
         $stm->execute([$email, $_user->member_id]);
 
@@ -71,14 +71,14 @@ if (is_post()) {
         // (1) Delete and save photo --> optional
         if ($f) {
             unlink("../images/$photo");
-            $photo = save_photo($f, '../images');
+            $photo = save_photo($f, '../images/user');
         }
         
         // (2) Update user (email, name, photo)
         $stm = $_db->prepare('
             UPDATE member
-            SET Email = ?, Name = ?, Image_URL = , Password = ?
-            WHERE Member_ID = ?
+            SET email = ?, name = ?, image_url = , password = ?
+            WHERE member_id = ?
         ');
         $stm->execute([$email, $name, $photo, $password, $_user->member_id]);
 
@@ -95,7 +95,7 @@ if (is_post()) {
 }
  try{
     $stm = $_db->prepare('SELECT * FROM invoice WHERE member_id = ?');
-    $stm->execute([$_user->Member_ID]);
+    $stm->execute([$_user->member_id]);
     $orders = $stm->fetchAll();
     }
     catch(PDOException $e){
@@ -223,7 +223,7 @@ $_title = 'User | Profile';
             <?php endforeach ?>
         </table>
     <?php else: ?>
-        <p>You have no previous orders!</p>
+        <p id = "emptyCart">You have no previous orders!</p>
     <?php endif ?>
 </div>
 <?php

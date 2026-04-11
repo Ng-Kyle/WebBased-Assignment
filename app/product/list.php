@@ -5,20 +5,20 @@
     $min = req('min');
     $max = req('max');
     $name = req('name');
-    $GLOBALS['Brand'] = req('Brand', []); 
-    $GLOBALS['Series'] = req('Series', []);
-    $GLOBALS['Scale'] = req('Scale', []);
+    $GLOBALS['brand'] = req('brand', []); 
+    $GLOBALS['series'] = req('series', []);
+    $GLOBALS['scale'] = req('scale', []);
 
     //for fetching the stuff
-    $stm = $_db->query('SELECT DISTINCT Brand FROM product WHERE Brand IS NOT NULL');
+    $stm = $_db->query('SELECT DISTINCT brand FROM product WHERE brand IS NOT NULL');
     $brands_list = $stm->fetchAll(PDO::FETCH_COLUMN);
     $brands_options = array_combine($brands_list, $brands_list);
 
-    $stm = $_db->query('SELECT DISTINCT Series FROM product WHERE Series IS NOT NULL');
+    $stm = $_db->query('SELECT DISTINCT series FROM product WHERE series IS NOT NULL');
     $series_list = $stm->fetchAll(PDO::FETCH_COLUMN);
     $series_options = array_combine($series_list, $series_list);
 
-    $stm = $_db->query('SELECT DISTINCT Scale FROM product WHERE Scale IS NOT NULL');
+    $stm = $_db->query('SELECT DISTINCT scale FROM product WHERE scale IS NOT NULL');
     $scale_list = $stm->fetchAll(PDO::FETCH_COLUMN);
     $scale_options = array_combine($scale_list, $scale_list);
 
@@ -29,7 +29,7 @@
             redirect('../login/login.php');
         }
 
-        $product_id = req('Product_ID');
+        $product_id = req('product_id');
         if (!$product_id){
             redirect();
         }
@@ -37,42 +37,42 @@
         if (req('action') == 'wishlist'){
             $wishlist_id = get_wishlist();
 
-            $stm = $_db->prepare('SELECT 1 FROM wishlist_product WHERE wishlist_ID = ? AND Product_ID = ?');
+            $stm = $_db->prepare('SELECT 1 FROM wishlist_product WHERE wishlist_id = ? AND product_id = ?');
             $stm->execute([$wishlist_id, $product_id]);
             $duplicates = $stm->fetch();
 
             if (!$duplicates){
-                $stm = $_db->prepare('INSERT INTO wishlist_product (wishlist_ID, Product_ID) VALUES (?,?)');
+                $stm = $_db->prepare('INSERT INTO wishlist_product (wishlist_id, product_id) VALUES (?,?)');
                 $stm->execute([$wishlist_id, $product_id]);
                 temp('info', 'Added to Wishlist! ❤️');
             }else {
                 temp('info', 'Already in your Wishlist! 😊');
             }
         }else{
-            $quantity = req('Quantity');
+            $quantity = req('quantity');
             $cart_id = get_cart();
             //this is for checking if the product exists in the member's cart
-            $stm = $_db->prepare('SELECT * FROM cart_product WHERE Product_ID = ? AND Cart_ID = ? ');
+            $stm = $_db->prepare('SELECT * FROM cart_product WHERE product_id = ? AND cart_id = ? ');
             $stm->execute([$product_id,$cart_id]);
             $exists = $stm->fetch();
 
             if($exists){
                 //update existing product
-                $stm = $_db->prepare('UPDATE cart_product SET Quantity = Quantity + ? WHERE Product_ID = ? AND Cart_ID = ?');
+                $stm = $_db->prepare('UPDATE cart_product SET quantity = quantity + ? WHERE product_id = ? AND cart_id = ?');
                 $stm->execute([$quantity,$product_id,$cart_id]);
             }else{
                 //insert new product
-                $stm = $_db->prepare('INSERT INTO cart_product (Product_ID, Cart_ID, Quantity) VALUES (?,?,?)');
+                $stm = $_db->prepare('INSERT INTO cart_product (product_id, cart_id, quantity) VALUES (?,?,?)');
                 $stm->execute([$product_id,$cart_id,$quantity]);
             }
             temp('info', 'Product successfully added to cart🛒!');
         }
         redirect();
     }   
-    $filter = 'SELECT p.*, pi.Image_URL FROM product p LEFT JOIN product_image pi ON p.Product_ID = pi.Product_ID WHERE p.Name LIKE ?';
+    $filter = 'SELECT p.*, pi.image_url FROM product p LEFT JOIN product_image pi ON p.product_id = pi.product_id WHERE p.name LIKE ?';
     $params = ["%$name%"];
     //changed from separate to a foreach loop using $Globals from base file
-    foreach(['Brand', 'Series', 'Scale'] as $key){
+    foreach(['brand', 'series', 'scale'] as $key){
         if (!empty($GLOBALS[$key])){
             $placeholder = implode(',', array_fill(0, count($GLOBALS[$key]), '?'));
             $filter .= " AND p.$key IN ($placeholder)";
@@ -80,14 +80,14 @@
         }
     }
     if ($min){
-        $filter .= " AND p.Price >= ?";
+        $filter .= " AND p.price >= ?";
         $params[] = $min;
     }
     if ($max){
-        $filter .= " AND p.Price <= ?";
+        $filter .= " AND p.price <= ?";
         $params[] = $max;
     }
-    $filter .= ' GROUP BY p.Product_ID';
+    $filter .= ' GROUP BY p.product_id';
     $stm = $_db->prepare($filter);
     $stm->execute($params);
     $products = $stm->fetchAll();
@@ -165,17 +165,17 @@
                 <?php html_hidden('name', $name); ?>
                 <h3>Filter by Brand</h3>
                 <div class="filter-group">
-                    <?php html_checkboxes('Brand', $brands_options, true) ?>
+                    <?php html_checkboxes('brand', $brands_options, true) ?>
                 </div>
 
                 <h3>Filter by Series</h3>
                 <div class="filter-group">
-                    <?php html_checkboxes('Series', $series_options, true) ?>
+                    <?php html_checkboxes('series', $series_options, true) ?>
                 </div>
 
                 <h3>Filter by Scale</h3>
                 <div class="filter-group">
-                    <?php html_checkboxes('Scale', $scale_options, true) ?>
+                    <?php html_checkboxes('scale', $scale_options, true) ?>
                 </div>
 
                 <h3>Filter by Price</h3>
@@ -194,14 +194,14 @@
             <div class="products-side">
                 <?php foreach ($products as $p): ?>
                     <div class="products-card">
-                        <a href="productDetails.php?Product_ID=<?= $p->Product_ID ?>">
-                            <img src="../images/<?= basename($p->Image_URL) ?>" alt="<?= encode($p->Name) ?>">
-                            <h3><?= encode($p->Name) ?></h3>
-                            <p class="price">RM <?= number_format($p->Price,2) ?></p>
+                        <a href="productDetails.php?product_id=<?= $p->product_id ?>">
+                            <img src="<?= $p->image_url ?>" alt="<?= encode($p->name) ?>">
+                            <h3><?= encode($p->name) ?></h3>
+                            <p class="price">RM <?= number_format($p->price,2) ?></p>
                         </a>
                         <div class="buttonGroup">
-                        <button data-post="?Product_ID=<?= $p->Product_ID ?>&Quantity=1">Quick Add🌟</button>
-                        <button data-post="?Product_ID=<?= $p->Product_ID ?>&action=wishlist">❤️</button>
+                        <button data-post="?product_id=<?= $p->product_id ?>&quantity=1">Quick Add🌟</button>
+                        <button data-post="?product_id=<?= $p->product_id ?>&action=wishlist">❤️</button>
                         </div>
                     </div>
                 <?php endforeach; ?>
