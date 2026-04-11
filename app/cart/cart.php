@@ -173,21 +173,22 @@
                 <td rowspan = "3"><a><img id = productImage src = <?= $product_image[$p->Product_ID][0]->Image_URL ?> alt = <?= $product_image[$p->Product_ID][0]->Alt_Text ?>></a></td>
                 <td class = productDetails><b><?= $p->Name ?></b><br><span id="productCategory"><?= $p->Brand." ".$p->Scale." ".$p->Series ?></span></td>
                 <td></td>
-                <td class = removeBtn><button data-post="delete.php?product_id=<?=$p->Product_ID?>"><img src = "/images/trash.png" alt = "trash">Remove</button></td>
+                <td class = removeBtn><button data-post="delete.php"><img src = "/images/trash.png" alt = "trash">Remove</button></td>
             </tr>
-            <form method = "post">
+            
             <tr class = productRowMiddle>
                 <td class = productPrice>RM <?= number_format($p->Price,2) ?></td>
                 <td id = "productQuantity"><label for="quantity">Quantity:</label></td>
                 
                 <td id = "quantityValue">
-                    
+                    <form method = "post">
                         <?= html_hidden('product_id',$p->Product_ID) ?>
                         <?= html_number('quantity', $p->Quantity, 1, $p->Stock_Quantity) ?>
+                    </form>
                 </td>
                 
             </tr>
-            </form>
+            
             <tr class = productRowBottom></tr>
             <?php endforeach ?>
         </table>
