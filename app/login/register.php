@@ -220,7 +220,7 @@ if (is_post()) {
     <?= html_password('confirm', '') ?>
     <?= err('confirm') ?>
 
-    <label for="photo">Profile</label>
+    <label for="photo">Profile Picture</label>
     <label class="upload" tabindex="0">
         <?= html_file('photo', 'image/*', 'hidden') ?>
         <img src="/images/photo.jpg">
