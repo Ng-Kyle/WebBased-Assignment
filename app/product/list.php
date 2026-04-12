@@ -25,8 +25,13 @@
     //Quick Add stuff
     if (is_post()){
         if (!$_user){
-            temp('info', 'Please login to add an item into your cart!');
-            redirect('../login/login.php');
+            if (req('action') == 'wishlist'){
+                temp('info', 'Please login to add an item into your wishlist!');
+                redirect('../login/login.php');
+            }else{
+                temp('info', 'Please login to add an item into your cart!');
+                redirect('../login/login.php');
+            }
         }
 
         $product_id = req('product_id');
@@ -114,7 +119,6 @@
     .search-container{
         display: flex;
         gap: 20px;
-        padding: 20px;
     }
     .sidebar{
         width: 250px;

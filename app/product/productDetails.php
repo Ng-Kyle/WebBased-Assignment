@@ -3,34 +3,37 @@
 
 
     if (is_post()){
+
+        if (!$_user){
+            temp('info', 'Please login to add an item into your cart!');
+            redirect('../login/login.php');
+        }
+
         $product_id = post('product_id');
-        $quantity = post('quantity');
+        $quantity = (int)post('quantity');
 
         $stm = $_db->prepare('SELECT stock_quantity FROM product WHERE product_id = ?');
         $stm->execute([$product_id]);
         $real_stock = $stm->fetchColumn();
 
         if ($quantity>0 && $quantity<= $real_stock){
-            $member = $_user->member_id;
-            if($member){
             $cart_id = get_cart();
-                //this is for checking if the product exists in the member's cart
-                $stm = $_db->prepare('SELECT * FROM cart_product WHERE product_id = ? AND cart_id = ? ');
-                $stm->execute([$product_id,$cart_id]);
-                $exists = $stm->fetch();
+            //this is for checking if the product exists in the member's cart
+            $stm = $_db->prepare('SELECT * FROM cart_product WHERE product_id = ? AND cart_id = ? ');
+            $stm->execute([$product_id,$cart_id]);
+            $exists = $stm->fetch();
 
-                if($exists){
-                    //update existing product
-                    $stm = $_db->prepare('UPDATE cart_product SET quantity = quantity + ? WHERE product_id = ? AND cart_id = ?');
-                    $stm->execute([$quantity,$product_id,$cart_id]);
-                }else{
-                    //insert new product
-                    $stm = $_db->prepare('INSERT INTO cart_product (product_id, cart_id, quantity) VALUES (?,?,?)');
-                    $stm->execute([$product_id,$cart_id,$quantity]);
-                }
-
-                redirect('../cart/cart.php');
+            if($exists){
+                //update existing product
+                $stm = $_db->prepare('UPDATE cart_product SET quantity = quantity + ? WHERE product_id = ? AND cart_id = ?');
+                $stm->execute([$quantity,$product_id,$cart_id]);
+            }else{
+                //insert new product
+                $stm = $_db->prepare('INSERT INTO cart_product (product_id, cart_id, quantity) VALUES (?,?,?)');
+                $stm->execute([$product_id,$cart_id,$quantity]);
             }
+            temp('info', 'Added to Cart!! 🛒');
+            redirect('../cart/cart.php');
         }else{
             temp('info', 'Invalid Quantity 😡!!');
             redirect();
@@ -112,8 +115,8 @@
 <div class="products-images">
     <?php if (!empty($products['images'])): ?>
         <?php foreach ($products['images'] as $img): ?>
-            <img class="products-img" src="<?=($img) ?>" 
-                 alt="<?= ($products['name']) ?>"
+            <img class="products-img" src="<?=encode($img) ?>" 
+                 alt="<?= encode($products['name']) ?>"
 
             >
         <?php endforeach; ?>
