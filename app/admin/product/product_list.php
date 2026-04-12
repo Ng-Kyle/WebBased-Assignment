@@ -1,7 +1,7 @@
 <?php
-    include '../_base.php';
+    include '../../_base.php';
     $_title = "Product List";
-
+    auth('admin');
     $min = req('min');
     $max = req('max');
     $name = req('name');
@@ -37,7 +37,7 @@
         }
     
 
-    $filter = 'SELECT p.*, pi.image_url FROM product p LEFT JOIN product_image pi ON p.product_id = pi.product_id WHERE p.name LIKE ?';
+    $filter = 'SELECT p.*, pi.image_url FROM product p LEFT JOIN product_image pi ON p.product_id = pi.product_id WHERE p.name LIKE ? AND p.status != "deleted"';
     $params = ["%$name%"];
     //changed from separate to a foreach loop using $Globals from base file
     foreach(['brand', 'series', 'scale'] as $key){
