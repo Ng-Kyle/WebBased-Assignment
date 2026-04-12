@@ -55,6 +55,13 @@ if (is_post()) {
     else if (strlen($name) > 100) {
         $_err['name'] = 'Maximum 100 characters';
     }
+    // Validate: phone
+    if ($phone == '') {
+        $_err['phone'] = 'Required';
+    }
+     else if (strlen($phone) > 11) {
+        $_err['phone'] = 'Maximum 11 characters';
+    }
 
     // Validate: photo (file) --> optional
     if ($f) {
@@ -74,17 +81,18 @@ if (is_post()) {
             $photo = save_photo($f, '../images/user','/images/user');
         }
         
-        // (2) Update user (email, name, photo)
+        // (2) Update user (email, name, phone, photo)
         $stm = $_db->prepare('
             UPDATE member
-            SET email = ?, name = ?, image_url = ?
+            SET email = ?, name = ?, phone_number = ?, image_url = ?
             WHERE member_id = ?
         ');
-        $stm->execute([$email, $name, $photo, $_user->member_id]);
+        $stm->execute([$email, $name, $phone, $photo, $_user->member_id]);
 
         // (3) Update global user object
         $_user->email = $email;
         $_user->name  = $name;
+        $_user->phone_number = $phone;
         $_user->image_url= $photo;
 
         temp('info', 'Record updated');
@@ -187,6 +195,10 @@ $_title = 'User | Profile';
     <label for="name">Name</label>
     <?= html_text('name', $_user->name, 'maxlength="100"') ?>
     <?= err('name') ?>
+
+    <label for="phone">Phone</label>
+    <?= html_text('phone', $_user->phone_number, 'maxlength="11"') ?>
+    <?= err('phone') ?>
 
     <label for="photo">Photo</label>
     <label class="upload" tabindex="0">
