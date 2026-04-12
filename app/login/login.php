@@ -2,7 +2,10 @@
 include '../_base.php';
 $_title = 'Login';
 include '../_head.php';
-
+if ($_user){
+    temp('info', "You're already logged in!");
+    redirect('/');
+}
 
 if (is_post()) {
     $email = req('email');

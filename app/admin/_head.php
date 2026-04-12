@@ -31,7 +31,7 @@
 
         <?php if ($_user): ?>
             <a href="/login/logout.php">Logout</a>
-            <a id = "profile" href="/user/profile.php">Profile <img src = "<?= $_user->image_url?>" alt = "profileImg" ></a>
+            <a id = "profile" href="/user/profile.php">Profile</a>
         <?php endif ?>
     </header>
 

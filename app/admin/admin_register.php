@@ -1,6 +1,7 @@
 <?php
 include '../_base.php';
 $_title = 'Admin Register';
+auth();
 include '../_head.php';
 
 // ----------------------------------------------------------------------------
