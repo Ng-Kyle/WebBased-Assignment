@@ -74,7 +74,15 @@ header img {
     
 }
 
+#profile {
+    display: inline-flex;
+    align-items:center;
+    gap:6px;
+}
 
+#cart{
+    margin-top:4px;
+}
 .store{
     margin:inherit;
     display: inline-flex;

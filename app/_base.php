@@ -72,7 +72,9 @@ function get_file($key) {
 // Crop, resize and save photo
 function save_photo($f, $folder, $width = 200, $height = 200) {
     $photo = uniqid() . '.jpg';
-    
+    if (!is_dir($folder)) {
+        mkdir($folder, 0777, true);
+    }
     require_once 'lib/SimpleImage.php';
     $img = new SimpleImage();
     $img->fromFile($f->tmp_name)

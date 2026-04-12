@@ -25,7 +25,7 @@ if (is_post()) {
     if (!$_err) {
         $stm = $_db->prepare('
             SELECT * FROM member
-            WHERE email = ? AND password = SHA1(?)
+            WHERE Email = ? AND Password = SHA1(?)
         ');
         $stm->execute([$email, $password]);
         $u = $stm->fetch();
@@ -99,7 +99,6 @@ if (is_post()) {
         background-color: #ff8da1;
     }
 
-    /* 5. Center links */
     .element section a {
         display: block;
         text-align: center;
@@ -108,7 +107,7 @@ if (is_post()) {
         text-decoration: none;
         margin-top: 8px;
     }
-
+    
     .err { color: red; font-size: 12px; display: block; text-align: center; }
 </style>
 
