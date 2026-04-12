@@ -128,7 +128,7 @@ if (is_post()) {
     .form label {
         display: block;
         color : #000000;
-        background-color: #ffb6c1;
+        background-color: transparent;
         font-weight: bold;
         margin-top: 10px;
         margin-bottom: 5px;
@@ -215,7 +215,7 @@ if (is_post()) {
     <?= html_password('confirm', '') ?>
     <?= err('confirm') ?>
 
-    <label for="photo">Photo</label>
+    <label for="photo">Profile Picture</label>
     <label class="upload" tabindex="0">
         <?= html_file('photo', 'image/*', 'hidden') ?>
         <img src="/images/photo.jpg">

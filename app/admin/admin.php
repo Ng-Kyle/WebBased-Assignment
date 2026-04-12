@@ -1,6 +1,6 @@
 <?php
     include '../_base.php';
-    $_title = 'Admin';
+    $_title = 'Admin Login';
     auth();
     include '../_head.php';
 
