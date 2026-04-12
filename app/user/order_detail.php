@@ -4,7 +4,7 @@
     if(is_post()){
         $order_id = req('order_id');
         $stm = $_db->prepare("SELECT * FROM invoice WHERE order_id = ? AND member_id = ?");
-        $stm->execute([$order_id, $_user->Member_ID]);
+        $stm->execute([$order_id, $_user->member_id]);
         $order = $stm->fetch();
 
         $stm = $_db->prepare('SELECT p.*, od.* FROM order_details od JOIN product p ON od.product_id = p.product_id WHERE order_id = ?');
@@ -13,16 +13,16 @@
 
         foreach($products as $p){
             $stm = $_db->prepare('SELECT * FROM product_image WHERE product_id = ?');
-            $stm->execute([$p->Product_ID]);
+            $stm->execute([$p->product_id]);
             $image = $stm->fetchAll();
-            $product_image[$p->Product_ID] = $image;
+            $product_image[$p->product_id] = $image;
         } 
     }
     if(!$products){
         temp('info', 'No order was found!');
         redirect('profile.php');
     }
-    $_title = "Order #".$order_id." ".$order->Order_Date;
+    $_title = "Order #".$order_id." ".$order->order_date;
     include '../_head.php';
     
 ?>
@@ -149,25 +149,25 @@
     <tr class = orderDetails>
         <td id = "shippingAddressText"><h2>Shipping Address:</h2></td>
         <td id = "status"><h2>Status:</h2></td>
-        <td><h2><?= $order->Status ?></h2></td>
+        <td><h2><?= $order->status ?></h2></td>
     </tr>
     <tr>
-        <td id = "shippingAddress"><?= $order->Street_Address . ', ' . $order->City . ', ' . $order->State . ' ' . $order->Post_Code?></td>
+        <td id = "shippingAddress"><?= $order->street_address . ', ' . $order->city . ', ' . $order->state . ' ' . $order->post_code?></td>
     </tr>
 </table>
 <?php if($products): ?>
         <table>
             <?php foreach($products as $p): ?>        
             <tr class = productRowTop>
-                <td rowspan = "3"><a><img id = productImage src = <?= $product_image[$p->Product_ID][0]->Image_URL ?> alt = <?= $product_image[$p->Product_ID][0]->Alt_Text ?>></a></td>
-                <td class = productDetails><b><?= $p->Name ?></b><br><span id="productCategory"><?= $p->Brand." ".$p->Scale." ".$p->Series ?></span></td>
+                <td rowspan = "3"><a><img id = productImage src = <?= $product_image[$p->product_id][0]->image_url ?> alt = <?= $product_image[$p->product_id][0]->alt_text ?>></a></td>
+                <td class = productDetails><b><?= $p->name ?></b><br><span id="productCategory"><?= $p->brand." ".$p->scale." ".$p->series ?></span></td>
                 <td></td>
                 <td class = removeBtn></td>
             </tr>
             <tr class = productRowMiddle>
-                <td class = productPrice>RM <?= number_format($p->Price,2) ?></td>
+                <td class = productPrice>RM <?= number_format($p->price,2) ?></td>
                 <td id = "productQuantity">Quantity:</td>
-                <td id = "quantityValue"><?= $p->Quantity ?></td>
+                <td id = "quantityValue"><?= $p->quantity ?></td>
                 
             </tr>
             <tr class = productRowBottom>
@@ -179,6 +179,6 @@
         </table>
     <?php endif?>
     <div class = totalPriceArea>
-        <p id = subTotal>Total: RM<?= number_format($order->Total_Amount,2) ?></p>
+        <p id = subTotal>Total: RM<?= number_format($order->total_amount,2) ?></p>
     </div>
 <?php include '../_foot.php' ?>

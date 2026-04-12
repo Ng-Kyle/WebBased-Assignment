@@ -33,22 +33,22 @@ if (is_post()) {
         // Step A: Delete
         $stm = $_db->prepare('DELETE FROM token WHERE Member_ID = ?');
         // Check your column name! If it's Member_ID in the DB, use $u->Member_ID
-        $stm->execute([$u->Member_ID]); 
+        $stm->execute([$u->member_id]); 
 
         // Step B: Insert
         $stm = $_db->prepare('
             INSERT INTO token (id, expire, Member_ID)
             VALUES (?, ADDTIME(NOW(), "00:05"), ?)
         ');
-        $stm->execute([$id, $u->Member_ID]);
+        $stm->execute([$id, $u->member_id]);
 
         // TODO: (4) Generate token url
         $url = base("login/token.php?id=$id");
 
         // TODO: (5) Send email
         $m = get_mail(); //base.php
-        $m->addAddress($u ->Email, $u->Name);
-        $m->addEmbeddedImage("../$u->Image_URL", 'photo');
+        $m->addAddress($u ->email, $u->name);
+        $m->addEmbeddedImage("../$u->image_url", 'photo');
         $m->isHTML(true);
         $m->Subject = 'Reset Password';
         $m->Body = "

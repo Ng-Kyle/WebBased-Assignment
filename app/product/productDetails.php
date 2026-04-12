@@ -3,41 +3,42 @@
 
 
     if (is_post()){
-        $product_id = post('Product_ID');
-        $quantity = post('Quantity');
+        $product_id = post('product_id');
+        $quantity = post('quantity');
 
-        if ($quantity>0){
-        $stm = $_db->prepare('SELECT Cart_ID FROM cart WHERE Member_ID = ?');
-        $stm->execute([$member_id]);
-        $cart = $stm->fetch();
-        
+        $stm = $_db->prepare('SELECT stock_quantity FROM product WHERE product_id = ?');
+        $stm->execute([$product_id]);
+        $real_stock = $stm->fetchColumn();
 
-            if($cart){
-            $cart_id = $cart->Cart_ID;   
-            
-
+        if ($quantity>0 && $quantity<= $real_stock){
+            $member = $_user->member_id;
+            if($member){
+            $cart_id = get_cart();
                 //this is for checking if the product exists in the member's cart
-                $stm = $_db->prepare('SELECT * FROM cart_product WHERE Product_ID = ? AND Cart_ID = ? ');
+                $stm = $_db->prepare('SELECT * FROM cart_product WHERE product_id = ? AND cart_id = ? ');
                 $stm->execute([$product_id,$cart_id]);
                 $exists = $stm->fetch();
 
                 if($exists){
                     //update existing product
-                    $stm = $_db->prepare('UPDATE cart_product SET Quantity = Quantity + ? WHERE Product_ID = ? AND Cart_ID = ?');
+                    $stm = $_db->prepare('UPDATE cart_product SET quantity = quantity + ? WHERE product_id = ? AND cart_id = ?');
                     $stm->execute([$quantity,$product_id,$cart_id]);
                 }else{
                     //insert new product
-                    $stm = $_db->prepare('INSERT INTO cart_product (Product_ID, Cart_ID, Quantity) VALUES (?,?,?)');
+                    $stm = $_db->prepare('INSERT INTO cart_product (product_id, cart_id, quantity) VALUES (?,?,?)');
                     $stm->execute([$product_id,$cart_id,$quantity]);
                 }
 
                 redirect('../cart/cart.php');
             }
+        }else{
+            temp('info', 'Invalid Quantity 😡!!');
+            redirect();
         }
     }
 
-    $id = req('Product_ID');
-    $stm = $_db->prepare('SELECT p.*, pi.* FROM product p LEFT JOIN product_image pi ON p.Product_ID = pi.Product_ID WHERE p.Product_ID = ?');
+    $id = req('product_id');
+    $stm = $_db->prepare('SELECT p.*, pi.* FROM product p LEFT JOIN product_image pi ON p.product_id = pi.product_id WHERE p.product_id = ?');
     $stm->execute([$id]);
     $productIDimg = $stm->fetchAll();
     //Debug
@@ -49,24 +50,24 @@
     }
     $products= [
             
-        'Product_ID'     => $productIDimg[0]->Product_ID,
-        'Name'           => $productIDimg[0]->Name,
-        'Description'    => $productIDimg[0]->Description,
-        'Price'          => $productIDimg[0]->Price,
-        'Stock_Quantity' => $productIDimg[0]->Stock_Quantity,
-        'Status'         => $productIDimg[0]->Status,
-        'Scale'          => $productIDimg[0]->Scale,
-        'Series'         => $productIDimg[0]->Series,
-        'Brand'          => $productIDimg[0]->Brand,
-        'Images'         => []
+        'product_id'     => $productIDimg[0]->product_id,
+        'name'           => $productIDimg[0]->name,
+        'description'    => $productIDimg[0]->description,
+        'price'          => $productIDimg[0]->price,
+        'stock_quantity' => $productIDimg[0]->stock_quantity,
+        'status'         => $productIDimg[0]->status,
+        'scale'          => $productIDimg[0]->scale,
+        'series'         => $productIDimg[0]->series,
+        'brand'          => $productIDimg[0]->brand,
+        'images'         => []
 
     ];
     foreach ($productIDimg as $p){
-        if ($p->Image_URL ?? false){ //?? end means if there's no or image_URL, it will turn it to false
-            $products['Images'][] = '../images/' . basename($p->Image_URL); //the extra [] is for append.
+        if ($p->image_url ?? false){ //?? end means if there's no or image_URL, it will turn it to false
+            $products['images'][] = $p->image_url; //the extra [] is for append.
         }
     }
-    $_title = $products['Name'];
+    $_title = $products['name'];
     include '../_head.php';
 ?>
 
@@ -109,10 +110,10 @@
 <!-- Display product images -->
 
 <div class="products-images">
-    <?php if (!empty($products['Images'])): ?>
-        <?php foreach ($products['Images'] as $img): ?>
+    <?php if (!empty($products['images'])): ?>
+        <?php foreach ($products['images'] as $img): ?>
             <img class="products-img" src="<?=($img) ?>" 
-                 alt="<?= ($products['Name']) ?>"
+                 alt="<?= ($products['name']) ?>"
 
             >
         <?php endforeach; ?>
@@ -123,16 +124,16 @@
 
 <!-- Display product info -->
  <div class="products-details">
-    <p>Price: RM<?= number_format($products['Price'],2) ?></p>
-    <p>Scale: <?= ($products['Scale']) ?></p>
-    <p>Description: <br><?= ($products['Description']) ?> </p>
-    <p>Stock Quantity: <?=($products['Stock_Quantity']) ?></p> <p>Status: <?=($products['Status']) ?></p>
+    <p>Price: RM<?= number_format($products['price'],2) ?></p>
+    <p>Scale: <?= encode($products['scale']) ?></p>
+    <p>Description: <br><?= encode($products['description']) ?> </p>
+    <p>Stock Quantity: <?=encode($products['stock_quantity']) ?></p> <p>Status: <?=encode($products['status']) ?></p>
 
     <form method="post">
-        <?php html_hidden('Product_ID', $products['Product_ID']) ?>
+        <?php html_hidden('product_id', $products['product_id']) ?>
 
         <label>Quantity:</label>
-        <?php html_number('Quantity', 1, 1, $products['Stock_Quantity']) ?>
+        <?php html_number('quantity', 1, 1, $products['stock_quantity']) ?>
 
         <button type="submit">Add To Cart</button>
     </form>

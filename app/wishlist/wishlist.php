@@ -7,32 +7,32 @@
     
     $wishlist_id = get_wishlist();
 
-    $stm = $_db->prepare('SELECT p.*, wp.* FROM wishlist_product wp JOIN product p ON wp.Product_ID = p.Product_ID WHERE wp.wishlist_id = ?');    
+    $stm = $_db->prepare('SELECT p.*, wp.* FROM wishlist_product wp JOIN product p ON wp.product_id = p.product_id WHERE wp.wishlist_id = ?');    
     $stm->execute([$wishlist_id]);
     $products = $stm->fetchAll();
     $product_image = [];
     foreach($products as $p){
             $stm = $_db->prepare('SELECT * FROM product_image WHERE product_id = ?');
-            $stm->execute([$p->Product_ID]);
+            $stm->execute([$p->product_id]);
             $image = $stm->fetchAll();
-            $product_image[$p->Product_ID] = $image;
+            $product_image[$p->product_id] = $image;
         } 
 
     if (is_post()){
-        $product_id = req('Product_ID');
+        $product_id = req('product_id');
         $cart_id = get_cart();   
             //this is for checking if the product exists in the member's cart
-        $stm = $_db->prepare('SELECT * FROM cart_product WHERE Product_ID = ? AND Cart_ID = ? ');
+        $stm = $_db->prepare('SELECT * FROM cart_product WHERE product_id = ? AND cart_id = ? ');
         $stm->execute([$product_id,$cart_id]);
         $exists = $stm->fetch();
 
         if($exists){
             //update existing product
-            $stm = $_db->prepare('UPDATE cart_product SET Quantity = Quantity + 1 WHERE Product_ID = ? AND Cart_ID = ?');
+            $stm = $_db->prepare('UPDATE cart_product SET Quantity = Quantity + 1 WHERE product_id = ? AND cart_id = ?');
             $stm->execute([$product_id,$cart_id]);
             }else{
                  //insert new product
-                $stm = $_db->prepare('INSERT INTO cart_product (Product_ID, Cart_ID,Quantity) VALUES (?,?,1)');
+                $stm = $_db->prepare('INSERT INTO cart_product (product_id, cart_id,quantity) VALUES (?,?,1)');
                 $stm->execute([$product_id,$cart_id]);
             }
             temp('info', 'Product successfully added to cart!');
@@ -156,21 +156,21 @@
         <table>
             <?php foreach($products as $p): ?>        
             <tr class = productRowTop>
-                <td rowspan = "3"><a><img id = productImage src = <?= $product_image[$p->Product_ID][0]->Image_URL ?> alt = <?= $product_image[$p->Product_ID][0]->Alt_Text ?>></a></td>
-                <td class = productDetails><b><?= $p->Name ?></b><br><span id="productCategory"><?= $p->Brand." ".$p->Scale." ".$p->Series ?></span></td>
+                <td rowspan = "3"><a><img id = productImage src = <?= $product_image[$p->product_id][0]->image_url ?> alt = <?= $product_image[$p->product_id][0]->alt_text ?>></a></td>
+                <td class = productDetails><b><?= $p->name ?></b><br><span id="productCategory"><?= $p->brand." ".$p->scale." ".$p->series ?></span></td>
                 <td></td>
-                <td class = removeBtn><button data-post="delete.php?product_id=<?=$p->Product_ID?>"><img src = "/images/trash.png" alt = "trash">Remove</button></td>
+                <td class = removeBtn><button data-post="delete.php?product_id=<?=$p->product_id?>"><img src = "/images/trash.png" alt = "trash">Remove</button></td>
             </tr>
             <tr class = productRowMiddle>
-                <td class = productPrice>RM <?= number_format($p->Price,2) ?></td>
+                <td class = productPrice>RM <?= number_format($p->price,2) ?></td>
                 <td id = "productQuantity">Status:</td>
-                <td id = "quantityValue"><?= $p->Status ?></td>
+                <td id = "quantityValue"><?= $p->status ?></td>
                 
             </tr>
             <tr class = productRowBottom>
                 <td></td>
                 <td></td>
-                <td class = "cartBtn"><button data-post="?Product_ID=<?= $p->Product_ID ?>"><img src = "/images/cart.png" alt = "cart">Add Cart</button></td>
+                <td class = "cartBtn"><button data-post="?product_id=<?= $p->product_id ?>"><img src = "/images/cart.png" alt = "cart">Add Cart</button></td>
             </tr>
             <?php endforeach ?>
         </table>
