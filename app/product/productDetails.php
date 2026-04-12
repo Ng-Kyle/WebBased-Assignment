@@ -21,11 +21,13 @@
             $stm = $_db->prepare('SELECT * FROM cart_product WHERE product_id = ? AND cart_id = ? ');
             $stm->execute([$product_id,$cart_id]);
             $exists = $stm->fetch();
-
+            var_dump($exists);
             if($exists){
-                //update existing product
-                $stm = $_db->prepare('UPDATE cart_product SET quantity = quantity + ? WHERE product_id = ? AND cart_id = ?');
-                $stm->execute([$quantity,$product_id,$cart_id]);
+                if($exists->quantity <= $real_stock){
+                    //update existing product
+                    $stm = $_db->prepare('UPDATE cart_product SET quantity = quantity + ? WHERE product_id = ? AND cart_id = ?');
+                    $stm->execute([$quantity,$product_id,$cart_id]);
+                }
             }else{
                 //insert new product
                 $stm = $_db->prepare('INSERT INTO cart_product (product_id, cart_id, quantity) VALUES (?,?,?)');

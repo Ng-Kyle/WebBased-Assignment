@@ -156,6 +156,36 @@
         font-weight: bold; 
         font-size: 1.3; 
     }
+    .quickAdd{
+        background-color:pink;
+        color:black;
+        border: 2px;
+        border-radius: 5px;
+        font-size:1.1em;
+        font-weight:bold;
+        cursor: pointer;
+        transition: 0.2;
+        width: fit-content;       
+    }
+    .quickAdd:hover{
+        background-color:#ff93a5;
+        border-color: #ff93a5      
+    }
+    .wishlist{
+        background-color:pink;
+        color:black;
+        border-radius: 5px;
+        border: 2px;
+        font-size:1.1em;
+        font-weight:bold;
+        cursor: pointer;
+        transition: 0.2;
+        width: fit-content;        
+    }
+    .wishlist:hover{
+        background-color:#ff93a5;
+        border-color: #ff93a5        
+    }
 </style>
     <div class="search-bar">
         <form action="" method="get">
@@ -200,12 +230,13 @@
                     <div class="products-card">
                         <a href="productDetails.php?product_id=<?= $p->product_id ?>">
                             <img src="<?= $p->image_url ?>" alt="<?= encode($p->name) ?>">
-                            <h3><?= encode($p->name) ?></h3>
-                            <p class="price">RM <?= number_format($p->price,2) ?></p>
                         </a>
+                        <h3><?= encode($p->name) ?></h3>
+                        <p class="price">RM <?= number_format($p->price,2) ?></p>
+                        
                         <div class="buttonGroup">
-                        <button data-post="?product_id=<?= $p->product_id ?>&quantity=1">Quick Add🌟</button>
-                        <button data-post="?product_id=<?= $p->product_id ?>&action=wishlist">❤️</button>
+                        <button data-post="?product_id=<?= $p->product_id ?>&quantity=1" class="quickAdd">Quick Add🌟</button>
+                        <button data-post="?product_id=<?= $p->product_id ?>&action=wishlist" class="wishlist">❤️</button>
                         </div>
                     </div>
                 <?php endforeach; ?>
