@@ -43,54 +43,64 @@ if (is_post()) {
 
 
 <style>
-    /* 1. Page Background */
-
-
-    /* 2. Header Fix - Moves it to the top */
-
-
-    /* 3. The Login Card */
     .element {
         background: white;
         padding: 40px;
         border-radius: 8px;
         box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         width: 350px;
-        margin-top: 60px; /* Pushes it down slightly so it doesn't touch the header */
+
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 80px; 
+        margin-bottom: 80px;
+
+        display: block;
+        text-align: center;
     }
 
-    label {
+    .element input {
+        text-align: center;
+        width: 100%;
+        box-sizing: border-box;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        display: block;
+    }
+
+    .element label {
         display: block;
         font-weight: bold;
         margin-bottom: 5px;
+        text-align: center;
     }
 
-
-
-    /* 4. Login Button Styling */
     .button {
-        display: flex;
+        display: block;
+        width: 100%;
         margin-bottom: 15px;
     }
 
-    button {
-        flex: 1;
+    .element button {
+        width: 100%;
         padding: 12px;
         border: none;
         border-radius: 6px;
         cursor: pointer;
         font-weight: bold;
-        background-color: #ffb6c1; /* Pink to match header */
-        color: white;              /* White text for contrast */
+        background-color: #ffb6c1;
+        color: white;
         font-size: 16px;
     }
 
-    button:hover {
-        background-color: #ff8da1; /* Slightly darker pink on hover */
+    .element button:hover {
+        background-color: #ff8da1;
     }
 
-    /* 5. Links */
-    section a {
+    /* 5. Center links */
+    .element section a {
         display: block;
         text-align: center;
         font-size: 14px;
@@ -98,10 +108,9 @@ if (is_post()) {
         text-decoration: none;
         margin-top: 8px;
     }
-
-    .err { color: red; font-size: 12px; display: block; margin-top: -10px; margin-bottom: 10px; }
+    
+    .err { color: red; font-size: 12px; display: block; text-align: center; }
 </style>
-
 
 
 <form method="post" class="element">
