@@ -70,12 +70,11 @@ if (is_post()) {
 $_title = 'User | Password';
 ?>
 <style>
-    /* 1. Prevent scroll and set up the layout */
+
     html, body {
         height: 100vh;
         margin: 0;
-        overflow: hidden; /* Stops scrolling */
-    }
+        overflow: hidden;
 
     /* 2. Style the form card */
     .form {
@@ -85,20 +84,17 @@ $_title = 'User | Password';
         box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         width: 380px;
 
-        /* Force center horizontally and vertically */
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
 
-        /* Stack items vertically */
         display: flex;
         flex-direction: column;
         align-items: center;
         text-align: center;
     }
 
-    /* 3. Fix Labels (Removes the grey blocks) */
     .form label {
         display: block;
         width: 100%;
@@ -109,14 +105,13 @@ $_title = 'User | Password';
         color: #333 !important;
     }
 
-    /* 4. Fix Inputs */
     .form input {
         text-align: center;
         width: 100%;
         padding: 10px;
         border: 1px solid #ccc;
         border-radius: 4px;
-        box-sizing: border-box; /* Stops them from shrinking/stretching weirdly */
+        box-sizing: border-box;
     }
 
     .form input:focus {
@@ -125,7 +120,6 @@ $_title = 'User | Password';
         box-shadow: 0 0 8px rgba(255, 182, 193, 0.5);
     }
 
-    /* 5. Fix Buttons */
     .form section {
         display: flex;
         width: 100%;
@@ -150,7 +144,6 @@ $_title = 'User | Password';
         color: #333;
     }
 
-    /* 6. Fix Errors */
     .err {
         color: red;
         font-size: 12px;

@@ -42,7 +42,7 @@ if (is_post()) {
         // TODO: (5) Send email
         $m = get_mail(); //base.php
         $m->addAddress($u ->email, $u->name);
-        $m->addEmbeddedImage("../$u->image_url", 'photo');
+        $m->addEmbeddedImage("$u->image_url", 'photo');
         $m->isHTML(true);
         $m->Subject = 'Reset Password';
         $m->Body = "
@@ -69,14 +69,12 @@ $_title = 'User | Reset Password';
 ?>
     
 <style>
-    /* 1. Prevent scroll and lock layout */
     html, body {
         height: 100vh;
         margin: 0;
         overflow: hidden; 
     }
 
-    /* 2. The Reset Card */
     .form {
         background: white;
         padding: 40px;
@@ -84,7 +82,6 @@ $_title = 'User | Reset Password';
         box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         width: 380px;
 
-        /* Perfect Center */
         position: absolute;
         top: 50%;
         left: 50%;
@@ -96,7 +93,6 @@ $_title = 'User | Reset Password';
         text-align: center;
     }
 
-    /* 3. Clean Labels */
     .form label {
         display: block;
         width: 100%;
@@ -107,7 +103,6 @@ $_title = 'User | Reset Password';
         color: #333 !important;
     }
 
-    /* 4. Input Styling */
     .form input {
         text-align: center;
         width: 100%;
@@ -123,7 +118,6 @@ $_title = 'User | Reset Password';
         box-shadow: 0 0 8px rgba(255, 182, 193, 0.5);
     }
 
-    /* 5. Buttons */
     .form section {
         display: flex;
         width: 100%;
