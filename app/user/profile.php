@@ -77,16 +77,15 @@ if (is_post()) {
         // (2) Update user (email, name, photo)
         $stm = $_db->prepare('
             UPDATE member
-            SET email = ?, name = ?, image_url = , password = ?
+            SET email = ?, name = ?, image_url = ?
             WHERE member_id = ?
         ');
-        $stm->execute([$email, $name, $photo, $password, $_user->member_id]);
+        $stm->execute([$email, $name, $photo, $_user->member_id]);
 
         // (3) Update global user object
         $_user->email = $email;
         $_user->name  = $name;
         $_user->image_url= $photo;
-        $_user->password = $password;
 
         temp('info', 'Record updated');
         redirect('/');
@@ -197,9 +196,15 @@ $_title = 'User | Profile';
     <?= err('photo') ?>
 
     <section>
+            <a href="password.php">Update your password?</a>
+    </section>
+
+
+    <section>
         <button>Submit</button>
         <button type="reset">Reset</button>
     </section>
+
 </form>
 <div class = "orderhistory">
 <h2>Order History</h2>

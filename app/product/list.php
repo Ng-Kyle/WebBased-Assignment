@@ -54,25 +54,35 @@
                 temp('info', 'Already in your Wishlist! 😊');
             }
         }else{
-            $quantity = req('quantity');
+            $quantity = 1;
+            $stm = $_db->prepare('SELECT stock_quantity FROM product WHERE product_id = ?');
+            $stm->execute([$product_id]);
+            $real_stock = $stm->fetchColumn();
+            
             $cart_id = get_cart();
             //this is for checking if the product exists in the member's cart
             $stm = $_db->prepare('SELECT * FROM cart_product WHERE product_id = ? AND cart_id = ? ');
             $stm->execute([$product_id,$cart_id]);
             $exists = $stm->fetch();
 
+            if($exists->quantity + $quantity > $real_stock){
+                temp('info', 'Your cart is full 😡!!');
+                redirect();
+            }
             if($exists){
                 //update existing product
                 $stm = $_db->prepare('UPDATE cart_product SET quantity = quantity + ? WHERE product_id = ? AND cart_id = ?');
                 $stm->execute([$quantity,$product_id,$cart_id]);
+                temp('info', 'Added to Cart!! 🛒');
+                redirect();    
             }else{
                 //insert new product
                 $stm = $_db->prepare('INSERT INTO cart_product (product_id, cart_id, quantity) VALUES (?,?,?)');
                 $stm->execute([$product_id,$cart_id,$quantity]);
+                temp('info', 'Added to Cart!! 🛒');
+                redirect();
             }
-            temp('info', 'Product successfully added to cart🛒!');
         }
-        redirect();
     }   
     $filter = 'SELECT p.*, pi.image_url FROM product p LEFT JOIN product_image pi ON p.product_id = pi.product_id WHERE p.name LIKE ?';
     $params = ["%$name%"];
@@ -235,7 +245,7 @@
                         <p class="price">RM <?= number_format($p->price,2) ?></p>
                         
                         <div class="buttonGroup">
-                        <button data-post="?product_id=<?= $p->product_id ?>&quantity=1" class="quickAdd">Quick Add🌟</button>
+                        <button data-post="?product_id=<?= $p->product_id ?>" class="quickAdd">Quick Add🌟</button>
                         <button data-post="?product_id=<?= $p->product_id ?>&action=wishlist" class="wishlist">❤️</button>
                         </div>
                     </div>
