@@ -1,5 +1,5 @@
 <?php
-    include '../../_base.php';
+    include '../_base.php';
     $_title = "Product List";
 
     $min = req('min');
@@ -22,7 +22,7 @@
     $scale_list = $stm->fetchAll(PDO::FETCH_COLUMN);
     $scale_options = array_combine($scale_list, $scale_list);
 
-    //Quick Add stuff
+    
     if (is_post()){
         if (!$_user){
             temp('info', 'Please login to add an item into your cart!');
@@ -60,7 +60,7 @@
     $stm->execute($params);
     $products = $stm->fetchAll();
 
-    include '/_head.php';
+    include '../_head.php';
 ?>
 
 <style>
@@ -177,5 +177,5 @@
     </div>
 
 <?php
-include '../../_foot.php';
+include '../_foot.php';
 ?>

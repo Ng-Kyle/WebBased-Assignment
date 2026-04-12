@@ -31,7 +31,7 @@ if (is_post()) {
 
         if ($u) {
             temp('info', 'Login successfully');
-            login($u,'member/member_list.php');
+            login($u,'member_list.php');
         }
         else {
             $_err['password'] = 'Not matched';

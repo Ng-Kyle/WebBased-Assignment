@@ -1,5 +1,5 @@
 <?php
-require '../../_base.php';
+require '../_base.php';
 //-----------------------------------------------------------------------------
 
 // TODO
@@ -16,7 +16,7 @@ require '../../_base.php';
 var_dump($member->image_url);
 // ----------------------------------------------------------------------------
 $_title = 'Member Details';
-include '../../_head.php';
+include '../_head.php';
 ?>
 
 <table class="table detail">
@@ -57,4 +57,4 @@ th.column{
 
 
 <?php
-include '../../_foot.php';
+include '../_foot.php';
