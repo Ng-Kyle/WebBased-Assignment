@@ -71,7 +71,7 @@ if (is_post()) {
         // (1) Delete and save photo --> optional
         if ($f) {
             unlink("../images/$photo");
-            $photo = save_photo($f, '../images/user');
+            $photo = save_photo($f, '../images/user','/images/user');
         }
         
         // (2) Update user (email, name, photo)

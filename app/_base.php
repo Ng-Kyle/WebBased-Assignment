@@ -70,7 +70,7 @@ function get_file($key) {
 }
 
 // Crop, resize and save photo
-function save_photo($f, $folder, $width = 200, $height = 200) {
+function save_photo($f, $folder, $filepath, $width = 200, $height = 200) {
     $photo = uniqid() . '.jpg';
     
     require_once 'lib/SimpleImage.php';
@@ -79,7 +79,7 @@ function save_photo($f, $folder, $width = 200, $height = 200) {
         ->thumbnail($width, $height)
         ->toFile("$folder/$photo", 'image/jpeg');
 
-    return "$folder/$photo";
+    return "$filepath/$photo";
 }
 
 // Is money?
