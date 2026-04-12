@@ -30,7 +30,7 @@ include '_head.php';
         <td><?= $p->name ?></td>
         <td>
             <button data-get="member_details.php?id=<?= $p->member_id ?>">Details</button>
-            <img src="/photos/<?= $p->image_url ?>" class="popup">
+            <img src="<?= $p->image_url ?>" class="popup">
         </td>
     </tr>
     <?php endforeach ?>
