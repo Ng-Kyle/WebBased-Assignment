@@ -67,6 +67,93 @@ if (is_post()) {
 
 $_title = 'User | Reset Password';
 ?>
+    
+<style>
+    /* 1. Prevent scroll and lock layout */
+    html, body {
+        height: 100vh;
+        margin: 0;
+        overflow: hidden; 
+    }
+
+    /* 2. The Reset Card */
+    .form {
+        background: white;
+        padding: 40px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        width: 380px;
+
+        /* Perfect Center */
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    /* 3. Clean Labels */
+    .form label {
+        display: block;
+        width: 100%;
+        font-weight: bold;
+        margin-top: 10px;
+        margin-bottom: 5px;
+        background: none !important;
+        color: #333 !important;
+    }
+
+    /* 4. Input Styling */
+    .form input {
+        text-align: center;
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    .form input:focus {
+        border: 2px solid #ffb6c1 !important;
+        outline: none !important;
+        box-shadow: 0 0 8px rgba(255, 182, 193, 0.5);
+    }
+
+    /* 5. Buttons */
+    .form section {
+        display: flex;
+        width: 100%;
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    button {
+        flex: 1;
+        padding: 12px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: bold;
+        background-color: #ffb6c1;
+        color: white;
+        font-size: 16px;
+    }
+
+    button[type="reset"] {
+        background-color: #ddd;
+        color: #333;
+    }
+
+    button:hover {
+        background-color: #ff8da1;
+    }
+
+    .err { color: red; font-size: 12px; margin-top: 5px; }
+</style>
 
 <form method="post" class="form">
     <label for="email">Email</label>
@@ -75,7 +162,6 @@ $_title = 'User | Reset Password';
 
     <section>
         <button>Submit</button>
-        <button type="reset">Reset</button>
     </section>
 </form>
 
