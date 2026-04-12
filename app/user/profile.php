@@ -23,6 +23,7 @@ if (is_get()) {
 if (is_post()) {
     $email = req('email');
     $name  = req('name');
+    $phone = req('phone');
     $photo = $_SESSION['image_url'];
     $f = get_file('photo');
 
