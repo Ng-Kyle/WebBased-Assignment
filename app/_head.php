@@ -36,8 +36,8 @@
         <?php if ($_user): ?>
             <a href="/wishlist/wishlist.php">Wishlist</a>
             <a href="/login/logout.php">Logout</a>
-            <a href="/user/profile.php">Profile</a>
-            <a href="/cart/cart.php"><img src="/images/cart.png" alt="Shopping Cart"></a>
+            <a id = "profile" href="/user/profile.php">Profile <img src = "<?= $_user->image_url?>" alt = "profileImg" ></a>
+            <a id = "cart" href="/cart/cart.php"><img src="/images/cart.png" alt="Shopping Cart"></a>
         <?php endif ?>
     </header>
 
