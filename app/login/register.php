@@ -86,7 +86,7 @@ if (is_post()) {
         ');
         $stm->execute([$name, $email, $password, $phone, $photo]);
 
-        temp('info', 'Record inserted');
+        temp('info', 'Registered! Please login.');
         redirect('/login/login.php');
     }
     }catch(PDOException $e){

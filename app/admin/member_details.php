@@ -1,9 +1,10 @@
 <?php
 require '../_base.php';
 //-----------------------------------------------------------------------------
-
+auth('admin');
 // TODO
  $member_id = req('id');
+ 
 
     $stm = $_db->prepare('SELECT *  FROM member WHERE member_id = ?');
     $stm->execute([$member_id]);
@@ -12,10 +13,9 @@ require '../_base.php';
         redirect('/');
 
     }
-
 // ----------------------------------------------------------------------------
 $_title = 'Member Details';
-include '../_head.php';
+include '_head.php';
 ?>
 
 <table class="table detail">
