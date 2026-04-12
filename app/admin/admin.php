@@ -2,7 +2,7 @@
     include '../_base.php';
     $_title = 'Admin Login';
     auth();
-    include '../_head.php';
+    include '_head.php';
 
 if (is_post()) {
     $email = req('email');

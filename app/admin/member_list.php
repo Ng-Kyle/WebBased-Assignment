@@ -4,7 +4,7 @@ $_title = 'Member List';
 
 // retrieve all student records from db4
 $arr = $_db->query('SELECT * FROM member')->fetchAll();
-include '../_head.php';
+include '_head.php';
 ?>
 
 <style>
