@@ -77,7 +77,7 @@ if (is_post()) {
     try{
     if (!$_err) {
         // (1) Save photo
-        $photo = save_photo($f, '../images/user');
+        $photo = save_photo($f, '/images/user');
         
         // (2) Insert user (member)
         $stm = $_db->prepare('
