@@ -13,10 +13,9 @@
 <body>
     <!-- Flash message -->  
     <div id="info"><?= temp('info') ?></div>
-
     <header>
         <h1 class="store"><a href="/index.php">AnonFigures</a></h1>
-
+        <?php if ($_user): ?>
          <div class="search-container">
             <form action="/product/list.php" method="get">
                 <?php 
@@ -27,9 +26,9 @@
             </form>
          </div>
          
-        <a class = "store" href="/product/list.php">Product</a>   
+        <a class = "store" href="/admin/product/product_list.php">Product</a>   
 
-        <?php if ($_user): ?>
+        
             <a href="/login/logout.php">Logout</a>
             <a id = "profile" href="/user/profile.php">Profile</a>
         <?php endif ?>

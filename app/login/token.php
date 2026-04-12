@@ -43,7 +43,7 @@ if (is_post()) {
         $stm = $_db->prepare('
             UPDATE member
             SET password = SHA1(?)
-            WHERE member_ID = (SELECT member_id FROM token WHERE id = ? );
+            WHERE member_ID = (SELECT member_id FROM token WHERE id = ?);
 
             DELETE FROM token WHERE id = ?;
         ');

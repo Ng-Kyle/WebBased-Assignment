@@ -4,7 +4,7 @@
     $stripe_secret_key = "sk_test_51TJ4OXCIH3Zb8MZN4bU0fQ3AzdKQ3NxcUelsIVfh1BcH5Z0pJQJ9varZAdpmqPQkCuSslybL8inySwPKisrWDLTj004Jf0upaO";
     \Stripe\Stripe::setApiKey($stripe_secret_key);
     $_title = 'Receipt';
-    auth();
+    auth('member');
     include '../_head.php';
     
 

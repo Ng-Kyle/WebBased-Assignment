@@ -77,7 +77,7 @@ if (is_post()) {
     try{
     if (!$_err) {
         // (1) Save photo
-        $photo = save_photo($f, '/images/user');
+        $photo = save_photo($f, '../images/user');
         
         // (2) Insert user (member)
         $stm = $_db->prepare('
@@ -86,7 +86,7 @@ if (is_post()) {
         ');
         $stm->execute([$name, $email, $password, $phone, $photo]);
 
-        temp('info', 'Record inserted');
+        temp('info', 'Registered! Please login.');
         redirect('/login/login.php');
     }
     }catch(PDOException $e){

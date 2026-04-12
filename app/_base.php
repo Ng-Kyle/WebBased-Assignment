@@ -72,9 +72,7 @@ function get_file($key) {
 // Crop, resize and save photo
 function save_photo($f, $folder, $width = 200, $height = 200) {
     $photo = uniqid() . '.jpg';
-    if (!is_dir($folder)) {
-        mkdir($folder, 0777, true);
-    }
+    
     require_once 'lib/SimpleImage.php';
     $img = new SimpleImage();
     $img->fromFile($f->tmp_name)
@@ -322,19 +320,11 @@ function logout($url = '/') {
 }
 
 // Authorization
-function auth(...$roles) {
+function auth($role) {
     global $_user;
-    if ($_user) {
-        if ($roles) {
-            if (in_array($_user->role, $roles)) {
-                return; // OK
-            }
-        }
-        else {
-            return; // OK
-        }
+    if ($_user && $_user->role == $role) {
+        return;
     }
-    
     redirect('/login/login.php');
 }
 
