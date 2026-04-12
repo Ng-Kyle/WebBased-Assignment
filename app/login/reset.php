@@ -21,21 +21,15 @@ if (is_post()) {
     // Send reset token (if valid)
     if (!$_err) {
         // TODO: (1) Select user
-// TODO: (1) Select user
         $stm = $_db->prepare('SELECT * FROM member WHERE email = ?');
-        $stm->execute([$email]); // Passed the variable here
+        $stm->execute([$email]); 
         $u = $stm->fetch();
 
-        // TODO: (2) Generate token id
         $id = SHA1(uniqid() . rand());
 
-        // TODO: (3) Delete old and insert new token
-        // Step A: Delete
         $stm = $_db->prepare('DELETE FROM token WHERE member_id = ?');
-        // Check your column name! If it's Member_ID in the DB, use $u->Member_ID
         $stm->execute([$u->member_id]); 
 
-        // Step B: Insert
         $stm = $_db->prepare('
             INSERT INTO token (id, expire, member_id)
             VALUES (?, ADDTIME(NOW(), "00:05"), ?)
