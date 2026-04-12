@@ -22,7 +22,7 @@ if (is_post()) {
     if (!$_err) {
         // TODO: (1) Select user
 // TODO: (1) Select user
-        $stm = $_db->prepare('SELECT * FROM member WHERE Email = ?');
+        $stm = $_db->prepare('SELECT * FROM member WHERE email = ?');
         $stm->execute([$email]); // Passed the variable here
         $u = $stm->fetch();
 
@@ -31,13 +31,13 @@ if (is_post()) {
 
         // TODO: (3) Delete old and insert new token
         // Step A: Delete
-        $stm = $_db->prepare('DELETE FROM token WHERE Member_ID = ?');
+        $stm = $_db->prepare('DELETE FROM token WHERE member_id = ?');
         // Check your column name! If it's Member_ID in the DB, use $u->Member_ID
         $stm->execute([$u->member_id]); 
 
         // Step B: Insert
         $stm = $_db->prepare('
-            INSERT INTO token (id, expire, Member_ID)
+            INSERT INTO token (id, expire, member_id)
             VALUES (?, ADDTIME(NOW(), "00:05"), ?)
         ');
         $stm->execute([$id, $u->member_id]);

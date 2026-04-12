@@ -25,7 +25,7 @@ if (is_post()) {
     if (!$_err) {
         $stm = $_db->prepare('
             SELECT * FROM member
-            WHERE Email = ? AND Password = SHA1(?)
+            WHERE email = ? AND password = SHA1(?)
         ');
         $stm->execute([$email, $password]);
         $u = $stm->fetch();
@@ -108,7 +108,7 @@ if (is_post()) {
         text-decoration: none;
         margin-top: 8px;
     }
-    
+
     .err { color: red; font-size: 12px; display: block; text-align: center; }
 </style>
 

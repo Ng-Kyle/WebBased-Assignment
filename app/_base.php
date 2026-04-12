@@ -79,7 +79,7 @@ function save_photo($f, $folder, $width = 200, $height = 200) {
         ->thumbnail($width, $height)
         ->toFile("$folder/$photo", 'image/jpeg');
 
-    return "/images/$photo";
+    return "$folder/$photo";
 }
 
 // Is money?
