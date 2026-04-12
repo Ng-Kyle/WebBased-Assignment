@@ -1,10 +1,10 @@
 <?php
 include '../_base.php';
 $_title = 'Member List';
-
+auth('admin');
 // retrieve all student records from db4
 $arr = $_db->query('SELECT * FROM member')->fetchAll();
-include '../_head.php';
+include '_head.php';
 ?>
 
 <style>

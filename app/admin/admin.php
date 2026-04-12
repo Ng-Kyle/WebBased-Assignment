@@ -1,7 +1,7 @@
 <?php
     include '../_base.php';
     $_title = 'Admin Login';
-    include '../_head.php';
+    include '_head.php';
 
 if (is_post()) {
     $email = req('email');
@@ -30,6 +30,7 @@ if (is_post()) {
         $u = $stm->fetch();
 
         if ($u) {
+            $u->role = 'admin';
             temp('info', 'Login successfully');
             login($u,'member_list.php');
         }
@@ -128,13 +129,10 @@ if (is_post()) {
     </section>
 
     <section style="text-align: center;">
-        Don't have an account? 
+        New admin account? 
         <a href="admin_register.php" style="display: inline; margin-left: 5px;">Register here</a>
     </section>
 
-    <section>
-        <a href="reset.php">Forgot your password?</a>
-    </section>
 
 
 </form>
