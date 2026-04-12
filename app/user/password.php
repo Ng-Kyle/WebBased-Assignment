@@ -5,7 +5,7 @@ include '../_head.php';
 // ----------------------------------------------------------------------------
 
 // Authenticated users
-auth();
+auth('member');
 
 if (is_post()) {
     $password     = req('password');

@@ -1,7 +1,7 @@
 <?php
     include '../_base.php';
     $_title = 'Shopping Cart';
-    auth();
+    auth('member');
     include '../_head.php';
 
     

@@ -5,7 +5,7 @@ include '../_head.php';
 // ----------------------------------------------------------------------------
 
 // Authenticated users
-auth();
+auth('member');
 
 if (is_get()) {
     $stm = $_db->prepare('SELECT * FROM member WHERE member_id = ?');

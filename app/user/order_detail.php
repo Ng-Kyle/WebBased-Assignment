@@ -1,6 +1,6 @@
 <?php
     include '../_base.php';
-
+    auth('member');
     if(is_post()){
         $order_id = req('order_id');
         $stm = $_db->prepare("SELECT * FROM invoice WHERE order_id = ? AND member_id = ?");

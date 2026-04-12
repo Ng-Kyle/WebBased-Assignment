@@ -34,6 +34,7 @@ if (is_post()) {
         $u = $stm->fetch();
 
         if ($u) {
+            $u->role = 'member';
             temp('info', 'Login successfully');
             login($u);
         }
