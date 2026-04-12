@@ -175,13 +175,8 @@ if (is_post()) {
         cursor: pointer;
         font-weight: bold;
         background-color: #ffb6c1;
-        color: white;
+        color: black;
         font-size: 16px;
-    }
-
-    .form button[type="reset"] {
-        background-color: #ffb6c1       ;
-        color: #ffffff;
     }
 
     .form button:hover {
