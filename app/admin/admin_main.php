@@ -7,10 +7,9 @@ include '../_head.php';
 
 
 ?>
-<form>
-    <a>
-        <button href="member_list.php">Member</button>
-    </a>
-</form>
+
+ <a href="member_list.php"><button>Member</button></a>
+ <a href="product_list.php"><button>Product</button></a>
+
 <?php
 ?>
