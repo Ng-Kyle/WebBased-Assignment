@@ -84,7 +84,7 @@ include '_head.php';
 
             <div class="product-card">
                 <span class="sale-badge">HOT</span>
-                <img class="product-image" src="/images/anonfigure.jpg" alt="Meme Figure">
+                <img class="product-image" src="/images/anime3.jpg" alt="Meme Figure">
                 <div class="info">
                 <h3>Doge Figurine</h3>
                 <p class="price">RM19.99</p>
@@ -93,7 +93,7 @@ include '_head.php';
 
             <div class="product-card">
                 <span class="sale-badge">HOT</span>
-                <img class="product-image" src="/images/image.png" alt="Meme Figure">
+                <img class="product-image" src="/images/anime2.jpg" alt="Meme Figure">
                 <div class="info">
                 <h3>Doge Figurine</h3>
                 <p class="price">RM19.99</p>
