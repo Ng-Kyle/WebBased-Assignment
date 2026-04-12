@@ -1,7 +1,6 @@
 <?php
     include '../_base.php';
     $_title = 'Admin Login';
-    auth();
     include '../_head.php';
 
 if (is_post()) {
@@ -32,11 +31,13 @@ if (is_post()) {
 
         if ($u) {
             temp('info', 'Login successfully');
-            login($u);
+            login($u,'member/member_list.php');
         }
         else {
             $_err['password'] = 'Not matched';
         }
+
+       
     }
 }
 ?>

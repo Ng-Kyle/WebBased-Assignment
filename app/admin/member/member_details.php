@@ -1,9 +1,10 @@
 <?php
-require '../_base.php';
+require '../../_base.php';
 //-----------------------------------------------------------------------------
 
 // TODO
  $member_id = req('id');
+ 
 
     $stm = $_db->prepare('SELECT *  FROM member WHERE member_id = ?');
     $stm->execute([$member_id]);
@@ -12,10 +13,10 @@ require '../_base.php';
         redirect('/');
 
     }
-
+var_dump($member->image_url);
 // ----------------------------------------------------------------------------
 $_title = 'Member Details';
-include '../_head.php';
+include '../../_head.php';
 ?>
 
 <table class="table detail">
@@ -56,4 +57,4 @@ th.column{
 
 
 <?php
-include '../_foot.php';
+include '../../_foot.php';
