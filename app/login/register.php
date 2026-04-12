@@ -102,7 +102,7 @@ if (is_post()) {
         background: white;
         padding: 40px;
         border-radius: 8px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        box-shadow: 0 4px 12px #ff8da1  ;
         width: 380px;
 
         margin-left: auto;
@@ -120,17 +120,25 @@ if (is_post()) {
         box-sizing: border-box;
         padding: 10px;
         margin-bottom: 10px;
-        border: 1px solid #ccc;
+        border: 1px solid #ff8da1;
         border-radius: 4px;
         display: block;
     }
 
     .form label {
         display: block;
+        color : #000000;
+        background-color: #ffb6c1;
         font-weight: bold;
         margin-top: 10px;
         margin-bottom: 5px;
         text-align: center;
+    }
+
+    .form input:focus {
+    border: 2px solid #ffb6c1 !important;
+    outline: none !important;
+    box-shadow: 0 0 8px rgba(255, 182, 193, 0.5);
     }
 
     .form input[type="file"] {
@@ -172,8 +180,8 @@ if (is_post()) {
     }
 
     .form button[type="reset"] {
-        background-color: #ddd;
-        color: #333;
+        background-color: #ffb6c1       ;
+        color: #ffffff;
     }
 
     .form button:hover {
@@ -188,6 +196,7 @@ if (is_post()) {
         width: 100%;
         margin-bottom: 5px;
     }
+
 </style>
 
 <form method="post" class="form" enctype="multipart/form-data">
