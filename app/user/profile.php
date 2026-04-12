@@ -112,6 +112,104 @@ if (is_post()) {
 
 $_title = 'User | Profile';
 ?>
+<style>
+    /* 1. Page Layout - Allow scrolling on this page since Order History can be long */
+    html, body {
+        height: auto;
+        min-height: 100%;
+        margin: 0;
+        background-color: #fff;
+    }
+
+    /* 2. Profile Card Styling (Matches Login/Register) */
+    form.form {
+        background: white;
+        padding: 40px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        width: 380px;
+        
+        /* Centering the card */
+        margin: 60px auto !important;
+        
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    /* 3. Clean Labels & Inputs */
+    form.form label {
+        display: block;
+        width: 100%;
+        font-weight: bold;
+        margin-top: 15px;
+        margin-bottom: 5px;
+        background: none !important; /* Removes those grey blocks */
+        color: #333 !important;
+        text-align: center;
+    }
+
+    form.form input {
+        text-align: center;
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    form.form input:focus {
+        border: 2px solid #ffb6c1 !important;
+        outline: none !important;
+        box-shadow: 0 0 8px rgba(255, 182, 193, 0.5);
+    }
+
+    /* 4. Square Photo Fix */
+    form.form .upload img {
+        width: 120px;
+        height: 120px;
+        border-radius: 4px !important; /* Square with slight roundness */
+        object-fit: cover;
+        border: 2px solid #ffb6c1;
+        display: block;
+        margin: 10px auto;
+    }
+
+    form.form input[type="file"] {
+        display: none !important; /* Hides "Choose File" */
+    }
+
+    /* 5. Buttons Row */
+    form.form section {
+        display: flex;
+        width: 100%;
+        gap: 10px;
+        margin-top: 20px;
+        justify-content: center;
+    }
+
+    form.form button {
+        flex: 1;
+        padding: 12px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: bold;
+        background-color: #ffb6c1;
+        color: white;
+        font-size: 16px;
+    }
+
+    /* 6. Update Password Link */
+    form.form a {
+        color: #FF5E7E;
+        text-decoration: underline;
+        font-size: 14px;
+        margin-bottom: 10px;
+    }
+</style>
+
     <style>
         .productRowTop{
             border-top: 3px solid pink;
@@ -189,24 +287,23 @@ $_title = 'User | Profile';
 </style>
 
 <form method="post" class="form" enctype="multipart/form-data">
-    <label for="email">Email</label>
-    <?= html_text('email', $_user->email, 'maxlength="100"') ?>
-    <?= err('email') ?>
-
-    <label for="name">Name</label>
-    <?= html_text('name', $_user->name, 'maxlength="100"') ?>
-    <?= err('name') ?>
-
-    <label for="phone">Phone</label>
-    <?= html_text('phone', $_user->phone_number, 'maxlength="11"') ?>
-    <?= err('phone') ?>
-
-    <label for="photo">Photo</label>
     <label class="upload" tabindex="0">
         <?= html_file('photo', 'image/*', 'hidden') ?>
         <img src="../<?= $_user->image_url ?> ">
     </label>
     <?= err('photo') ?>
+
+    <label for="name">Name</label>
+    <?= html_text('name', $_user->name, 'maxlength="100"') ?>
+    <?= err('name') ?>
+
+    <label for="email">Email</label>
+    <?= html_text('email', $_user->email, 'maxlength="100"') ?>
+    <?= err('email') ?>
+
+    <label for="phone">Phone</label>
+    <?= html_text('phone', $_user->phone_number, 'maxlength="11"') ?>
+    <?= err('phone') ?>
 
     <section>
             <a href="password.php">Update your password?</a>
