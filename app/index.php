@@ -2,12 +2,15 @@
 include '_base.php';
 
 // ----------------------------------------------------------------------------
-
 $_title = 'Home';
 
- 
+$stm = $_db->prepare('SELECT p.*, i.image_url FROM product p JOIN product_image i on p.product_id = i.product_id ORDER BY product_id LIMIT 6' );
+$stm->execute();
+$product = $stm->fetchAll();
 
 include '_head.php';
+
+
 ?>
 
 
@@ -48,73 +51,35 @@ include '_head.php';
         </div>
 
     </div>
+<div class="product-section">
 
-    <main class="main-container">
+    <h2>🔥 Most Ordered Products</h2>
 
-        <div class="product-section">
+    <div class="slider-wrapper">
 
-            <h2 class="sales-products">On Sales 🔥</h2>
+        <button class="slide-btn left" onclick="slideLeft()">‹</button>
 
-            <div class="slider-wrapper">
+        <div class="product-slider" id="productSlider">
 
-                <button class="slide-btn left" onclick="slideLeft()">‹</button>
-
-                <div class="product-slider" id="productSlider">
-                    
-                    <div class="product-card">
-                        <span class="sale-badge">HOT</span>
-                        <img class="product-image" src="/images/shrek.jpg">
-                        <div class="info">
-                            <h3>RG Hi-Nu Gundam</h3>
-                            <p class="price">RM48.99</p>
-                        </div>
-                    </div>
-
-                    <div class="product-card">
-                        <span class="sale-badge">HOT</span>
-                        <img class="product-image" src="/images/image2.png">
-                        <div class="info">
-                            <h3>Doge Figurine</h3>
-                            <p class="price">RM19.99</p>
-                        </div>
-                    </div>
-
-                     <div class="product-card">
-                        <span class="sale-badge">HOT</span>
-                        <img class="product-image" src="/images/image2.png">
-                        <div class="info">
-                            <h3>Doge Figurine</h3>
-                            <p class="price">RM19.99</p>
-                        </div>
-                    </div>
-
-                     <div class="product-card">
-                        <span class="sale-badge">HOT</span>
-                        <img class="product-image" src="/images/image2.png">
-                        <div class="info">
-                            <h3>Doge Figurine</h3>
-                            <p class="price">RM19.99</p>
-                        </div>
-                    </div>
-
-                     <div class="product-card">
-                        <span class="sale-badge">HOT</span>
-                        <img class="product-image" src="/images/image2.png">
-                        <div class="info">
-                            <h3>Doge Figurine</h3>
-                            <p class="price">RM19.99</p>
-                        </div>
-                    </div>
-
+            <?php foreach ($product as $p): ?>
+                
+                <div class="product-card">
+                    <a href="product/productDetails.php?product_id=<?= $p->product_id ?>">
+                         <img class="product-image" src="<?= $p->image_url ?>" alt="<?= encode($p->name) ?>">
+                    </a>
+                    <h3><?= encode($p->name) ?></h3>
+                    <p class="price">RM <?= number_format($p->price,2) ?></p>
                 </div>
-
-                <button class="slide-btn right" onclick="slideRight()">›</button>
-
-            </div>
+            <?php endforeach; ?>
 
         </div>
 
-    </main>
+        <button class="slide-btn right" onclick="slideRight()">›</button>
+
+    </div>
+
+
+</div>
 
     
 </main>
@@ -213,6 +178,11 @@ include '_head.php';
  </style>
 
 <style>
+
+.product-section{
+    margin-top: 70px;
+}
+
  /* WRAPPER (hides extra items) */
 .slider-wrapper {
     position: relative;
@@ -229,16 +199,21 @@ include '_head.php';
 /* PRODUCT CARD */
 .product-card {
     flex: 0 0 calc(25% - 15px); /* 4 items max */
-    background: #fff;
+    background: #ffdbdb;
+    border: 6px solid pink;
     border-radius: 10px;
     overflow: hidden;
+    text-align: center;
+    justify-content: center;
+   
 }
 
 /* IMAGE */
 .product-image {
     width: 100%;
+    margin-top: 5px;
     height: 150px;
-    object-fit: cover;
+    object-fit: contain;
 }
 
 /* BUTTONS */
