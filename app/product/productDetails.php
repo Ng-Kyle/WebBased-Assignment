@@ -233,6 +233,8 @@
 
         <p class="price">Price: RM<?= number_format($products['price'],2) ?></p>
         <div class="sizeStatus">
+            <p>Brand:</p><?= encode($products['brand']) ?>
+            <p>Series:</p><?= encode($products['series']) ?>
             <p><strong>Scale:</strong> <?= encode($products['scale']) ?></p>
             <p><strong>Status:</strong> <?= encode($products['stock_quantity']) ?> units left (<?= encode($products['status']) ?>)</p>
         </div>
