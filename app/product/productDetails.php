@@ -209,23 +209,20 @@
         outline: none;
         text-align: center;
     }
-
-  
-    .btn {
-        background-color: #FF5E7E;
-        color: white;
-        border: none;
-        padding: 14px 28px;
-        font-size: 1.1em;
-        font-weight: bold;
-        border-radius: 10px;
+    .btn{
+        background-color:rgb(255, 255, 255);
+        color:black;
+        border-radius: 5px;
+        border: 3px solid #FF5E7E;
+        font-size:1.1em;
+        font-weight:bold;
         cursor: pointer;
-        transition: background-color 0.2s, transform 0.1s;
-        width: fit-content;
+        transition: 0.2;
+        width: fit-content;   
     }
-
-    .btn:hover {
-        background-color: #e04a68;
+    .btn:hover{
+        background-color:#ff93a5;
+        border-color: #ff93a5  
     }
 
     main > h1:first-child {
@@ -279,6 +276,12 @@
                     <button type="submit" class="btn">Add To Cart</button>
                 </form>
         </div>
+            <div class="quantityInput">
+                <label>Quantity:</label>
+                <?php html_number('quantity', 1, 1, $products['stock_quantity']) ?>
+            </div>
+            <button type="submit" class="btn">Add To Cart🛒</button>
+        </form>
     </div>
  </div>
 
