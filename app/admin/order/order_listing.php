@@ -1,8 +1,9 @@
 <?php
     include '../../_base.php';
-    $stm = $_db->query('SELECT i.*, m.Name as member_name FROM invoice i JOIN member m ON i.member_id = m.member.id ORDER BY i.order_date DESC');
-    $orders=$stm->fetchAll();
-    include '../../_head.php';
+    $stm = $_db->prepare('SELECT * FROM invoice');
+    $stm->execute([$_user->member_id]);
+    $orders = $stm->fetchAll();
+    include '../_head.php';
 ?>
 <style>
     .productRowTop{
@@ -91,7 +92,7 @@
             <tr class = productRowTop>
                 <td class = productDetails><b>Order #<?= $o->order_id." ". $o->order_date ?></b></td>
                 <td></td>
-                <td id = "viewDetailBtn"><button data-post="order_detail.php?order_id=<?= $o->order_id ?>">View Details</button></td>
+                <td id = "viewDetailBtn"><button data-post="../../user/order_detail.php?order_id=<?= $o->order_id ?>">View Details</button></td>
             </tr>
             
             <tr class = productRowMiddle>

@@ -58,6 +58,15 @@
             $stm = $_db->prepare('SELECT stock_quantity FROM product WHERE product_id = ?');
             $stm->execute([$product_id]);
             $real_stock = $stm->fetchColumn();
+
+            $stm = $_db->prepare('SELECT status FROM product WHERE product_id = ?');
+            $stm->execute([$product_id]);
+            $status = $stm->fetchColumn();
+
+            if($status != 'Available'){
+                temp('info', 'This item is no longer on sale!');
+                redirect();
+           }
             
             $cart_id = get_cart();
             //this is for checking if the product exists in the member's cart
