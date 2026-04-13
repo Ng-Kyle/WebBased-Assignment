@@ -281,11 +281,15 @@
         color: #888;
         text-decoration: none;
         font-size: 0.9rem;
-    }
-    #filter a{
         color: #FF5E7E;
         text-decoration: underline;
     }
+    .products-card a{
+        text-decoration: none;
+        color: black;
+    }
+
+    
 </style>
     <div class="search-bar">
         <form action="" method="get">
@@ -332,9 +336,10 @@
                     <div class="products-card">
                         <a href="productDetails.php?product_id=<?= $p->product_id ?>">
                             <img src="<?= $p->image_url ?>" alt="<?= encode($p->name) ?>">
+                            <h3><?= encode($p->name) ?></h3>
+                            <p class="price">RM <?= number_format($p->price,2) ?></p>
                         </a>
-                        <h3><?= encode($p->name) ?></h3>
-                        <p class="price">RM <?= number_format($p->price,2) ?></p>
+                        
                         
                         <div class="buttonGroup">
                         <button data-post="?product_id=<?= $p->product_id ?>" class="quickAdd">Quick Add🌟</button>
