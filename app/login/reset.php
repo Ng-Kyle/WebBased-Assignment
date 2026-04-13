@@ -42,14 +42,11 @@ if (is_post()) {
 
         // TODO: (5) Send email
         $m = get_mail(); //base.php
+        $m->Subject = 'Reset Password';
         $m->addAddress($u ->email, $u->name);
         //$m->addEmbeddedImage("$u->image_url", 'photo');
         $m->isHTML(true);
-        $m->Subject = 'Reset Password';
         $m->Body = "
-            <img src='cid:photo'
-                 style='width: 200px; height: 200px;
-                        border: 1px solid #333'>
             <p>Dear $u->name,<p>
             <h1 style='color: red'>Reset Password</h1>
             <p>

@@ -195,6 +195,12 @@ if (is_post()) {
 </style>
 
 <form method="post" class="form" enctype="multipart/form-data">
+    <label class="upload" tabindex="0">
+        <?= html_file('photo', 'image/*', 'hidden') ?>
+        <img src="/images/photo.jpg">
+    </label>
+    <?= err('photo') ?>
+
     <label for="username">Name</label>
     <?= html_text('username', '', 'maxlength="100"') ?>
     <?= err('name') ?>
@@ -214,13 +220,6 @@ if (is_post()) {
     <label for="confirm">Confirm</label>
     <?= html_password('confirm', '') ?>
     <?= err('confirm') ?>
-
-    <label for="photo">Profile Picture</label>
-    <label class="upload" tabindex="0">
-        <?= html_file('photo', 'image/*', 'hidden') ?>
-        <img src="/images/photo.jpg">
-    </label>
-    <?= err('photo') ?>
 
     <section>
         <button>Register</button>

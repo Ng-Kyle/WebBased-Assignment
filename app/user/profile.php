@@ -199,7 +199,7 @@ if (is_post()) {
         background-color: #ff8da1;
     }
 
-    form.form a {
+    form a {
         color: #FF5E7E;
         text-decoration: underline;
         font-size: 14px;
