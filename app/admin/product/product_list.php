@@ -84,10 +84,74 @@
         gap: 20px;
     }
     .sidebar{
-        width: 250px;
-        flex-shrink:0; /*this is to prevent shrinking for the sidebar*/
-        border-right: 3px solid #FF5E7E;
+        width: 350px;
+        background-color: #fff;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        border: 1px solid #ffecec;
     }
+    .sidebar h3 {
+        font-size: 1.1rem;
+        color: #333;
+        margin-bottom: 15px;
+        margin-top: 25px;
+        padding-bottom: 8px;
+        border-bottom: 5px solid #ffc0c0; /* Matching your table header pink */
+        font-weight: 600;
+    }
+    .sidebar h3:first-of-type {
+        margin-top: 0;
+    }
+    .filter-group {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        max-height: 200px; /* Limits height for long lists */
+        overflow-y: auto;  /* Adds scroll if list is too long */
+        padding-right: 5px;
+    }
+    /* Customizing the Checkbox Labels (Assuming PHP outputs <label><input>...</label>) */
+    .filter-group label {
+        
+        font-size: 0.95rem;
+        color: #555;
+        cursor: pointer;
+        transition: color 0.2s;
+    }
+    .filter-group label:hover {
+        color: rgb(255, 110, 110);
+    }
+    .filter-group input[type="checkbox"] {
+        margin-right: 10px;
+        accent-color: rgb(255, 110, 110); /* Pink checkboxes */
+        width: 16px;
+        height: 16px;
+    }
+    .filter-group:has(input[type="number"]) {
+        flex-direction: row;
+        gap: 10px;
+    }
+    .filter-group input[type="number"] {
+        width: 80%;
+        padding: 8px 12px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 0.9rem;
+        outline: none;
+        transition: border-color 0.2s;
+    }
+
+    .bot-buttons{
+        color: #ff8b8b;
+        border: none;
+        padding: 12px;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        margin-top: 30px;
+        transition: background 0.3s ease;
+    }
+   
     .content{
         flex-grow: 1; /* this is to let the content div to take up the remaining spaces in the page. */
     }
@@ -165,11 +229,12 @@
                     <?php html_number('min', $min, 0, 9999, 1, 'placeholder="Min"'); ?>
                     <?php html_number('max', $max, 0, 9999, 1, 'placeholder="Max"'); ?>
                 </div>
-
-                <button type="submit">Apply Filters</button>
-                <a href="<?= base('product/list.php') ?>">Clear All</a>
+                <div class="bot-buttons">
+                    <button type="submit">Apply Filters</button>
+                </div>
+                <a class="bot-buttons" href="<?= base('product/list.php') ?>">Clear All</a>
             </form>
-                <a href="insert_product.php">Add Product</a>
+                <a class="bot-buttons" href="insert_product.php">Add Product</a>
         </aside>
 
         <div class="content">
@@ -192,5 +257,5 @@
     </div>
 
 <?php
-include '../_foot.php';
+include '../../_foot.php';
 ?>
