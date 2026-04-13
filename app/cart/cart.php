@@ -34,11 +34,18 @@
     $stm->execute([$cart_id]);
     $products = $stm->fetchAll();
     $product_image = [];
+    $quantity = [];
     $total = 0;
     $totalItems = 0;
     foreach($products as $p){
-            $total+=$p->price * $p->quantity;
-            $totalItems += $p->quantity;
+            $quantity[$p->product_id] = $p->quantity;
+            if($p->stock_quantity < $p->quantity){
+                $quantity[$p->product_id] = $p->stock_quantity;
+                $stm = $_db->prepare('UPDATE cart_product SET quantity = ? WHERE product_id = ? AND cart_id = ? ');
+                $stm->execute([$p->stock_quantity,$p->product_id,$cart_id]);
+            }
+            $total+=$p->price * $quantity[$p->product_id];
+            $totalItems += $quantity[$p->product_id];
             $stm = $_db->prepare('SELECT * FROM product_image WHERE product_id = ?');
             $stm->execute([$p->product_id]);
             $image = $stm->fetchAll();
@@ -183,7 +190,7 @@
                 <td id = "quantityValue">
                     <form method = "post">
                         <?= html_hidden('product_id',$p->product_id) ?>
-                        <?= html_number('quantity', $p->quantity, 1, $p->stock_quantity) ?>
+                        <?= html_number('quantity', $quantity[$p->product_id], 1, $p->stock_quantity) ?>
                     </form>
                 </td>
                 

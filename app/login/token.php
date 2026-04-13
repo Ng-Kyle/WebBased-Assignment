@@ -1,6 +1,6 @@
 <?php
+$title = 'Reset Password';
 include '../_base.php';
-
 include '../_head.php';
 // ----------------------------------------------------------------------------
 
@@ -125,13 +125,8 @@ if (is_post()) {
         cursor: pointer;
         font-weight: bold;
         background-color: #ffb6c1;
-        color: white;
+        color: b;
         font-size: 16px;
-    }
-
-    button[type="reset"] {
-        background-color: #ddd;
-        color: #333;
     }
 
     button:hover {

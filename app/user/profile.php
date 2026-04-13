@@ -197,7 +197,7 @@ if (is_post()) {
         cursor: pointer;
         font-weight: bold;
         background-color: #ffb6c1;
-        color: white;
+        color: black;
         font-size: 16px;
     }
 
@@ -282,7 +282,6 @@ if (is_post()) {
             color:#FF5E7E;
             font-size: 15pt;
             font-weight: bold;
-            text-decoration: underline 2pt;
         }
 </style>
 
@@ -311,7 +310,7 @@ if (is_post()) {
 
 
     <section>
-        <button>Submit</button>
+        <button>Update Profile</button>
         <button type="reset">Reset</button>
     </section>
 
@@ -339,5 +338,20 @@ if (is_post()) {
         <p id = "emptyCart">You have no previous orders!</p>
     <?php endif ?>
 </div>
+
+<script>
+document.addEventListener('click', function (e) {
+    // Check if the clicked element is the Logout link
+    if (e.target.closest('a[href*="logout.php"]')) {
+        const confirmed = confirm("Are you sure you want to log out?");
+        
+        if (!confirmed) {
+            e.preventDefault(); // Stops the logout if they click 'Cancel'
+        }
+    }
+});
+</script>
+
+
 <?php
 include '../_foot.php';

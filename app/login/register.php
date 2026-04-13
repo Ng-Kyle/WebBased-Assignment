@@ -102,7 +102,7 @@ if (is_post()) {
         background: white;
         padding: 40px;
         border-radius: 8px;
-        box-shadow: 0 4px 12px #ff8da1  ;
+        box-shadow: 0 4px 12px #d8d8d8;
         width: 380px;
 
         margin-left: auto;
@@ -120,7 +120,7 @@ if (is_post()) {
         box-sizing: border-box;
         padding: 10px;
         margin-bottom: 10px;
-        border: 1px solid #ff8da1;
+        border: 1px solid #ccc;
         border-radius: 4px;
         display: block;
     }
@@ -223,7 +223,7 @@ if (is_post()) {
     <?= err('photo') ?>
 
     <section>
-        <button>Submit</button>
+        <button>Register</button>
         <button type="reset">Reset</button>
     </section>
 </form>

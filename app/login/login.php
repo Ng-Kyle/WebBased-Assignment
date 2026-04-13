@@ -35,7 +35,7 @@ if (is_post()) {
 
         if ($u) {
             $u->role = 'member';
-            temp('info', 'Login successfully');
+            temp('info', "Login successfully, Welcome, {$u->Name}!");
             login($u);
         }
         else {
@@ -51,7 +51,7 @@ if (is_post()) {
         background: white;
         padding: 40px;
         border-radius: 8px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        box-shadow: 0 4px 12px #d8d8d8;
         width: 350px;
 
         margin-left: auto;
@@ -74,8 +74,15 @@ if (is_post()) {
         display: block;
     }
 
+    .element input:focus {
+        border: 2px solid #ffb6c1 !important;
+        outline: none !important;
+        box-shadow: 0 0 8px rgba(255, 182, 193, 0.5);
+}
+
     .element label {
         display: block;
+        color : #000000;
         font-weight: bold;
         margin-bottom: 5px;
         text-align: center;
@@ -95,7 +102,7 @@ if (is_post()) {
         cursor: pointer;
         font-weight: bold;
         background-color: #ffb6c1;
-        color: white;
+        color: black;
         font-size: 16px;
     }
 
@@ -137,7 +144,7 @@ if (is_post()) {
 
     <section>
         <a href="reset.php">Forgot your password?</a>
-    </section>
+    </section> 
 
 
 </form>

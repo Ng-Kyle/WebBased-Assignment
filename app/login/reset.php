@@ -43,7 +43,7 @@ if (is_post()) {
         // TODO: (5) Send email
         $m = get_mail(); //base.php
         $m->addAddress($u ->email, $u->name);
-        $m->addEmbeddedImage("$u->image_url", 'photo');
+        //$m->addEmbeddedImage("$u->image_url", 'photo');
         $m->isHTML(true);
         $m->Subject = 'Reset Password';
         $m->Body = "
@@ -56,7 +56,7 @@ if (is_post()) {
                 Please click <a href='$url'>here</a>
                 to reset your password.
             </p>
-            <p>From, 😺 Admin</p>
+            <p>From, AnonFigures</p>
         ";
         $m->send();
         temp('info', 'Email sent');
@@ -64,9 +64,6 @@ if (is_post()) {
     }
 }
 
-// ----------------------------------------------------------------------------
-
-$_title = 'User | Reset Password';
 ?>
     
 <style>
