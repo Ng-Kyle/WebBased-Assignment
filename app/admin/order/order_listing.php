@@ -45,6 +45,11 @@ $stm->execute();
 $orders = $stm->fetchAll();
 ?>
 
+<style>
+    .pageTitle{
+        display:none;
+    }
+</style>
 <div class = "orderListPage">
     <h2>Order Listing</h2>
     <?php if($orders): ?>

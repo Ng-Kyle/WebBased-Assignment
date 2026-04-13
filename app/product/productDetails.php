@@ -89,143 +89,23 @@
 ?>
 
 <style>
-    .productContent {
-        display: flex;
-        gap: 40px;
-        padding: 40px;
-        align-items: flex-start;
-        max-width: 1200px;
-        margin: 0 auto;
-        font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    }
-    .productImgContainer {
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-        width: 45%;
-    }
-    .thumbnailBar {
-        width: 100%;
-        overflow-x: auto;
-        padding-bottom: 10px;
-        white-space: nowrap;
-    }
-    .thumbnailInner {
-        display: flex;
-        flex-direction: row;
-        gap: 10px;
-        width: max-content;
-    }
-    .thumbIMG {
-        width: 100px;
-        height: 70px;
-        flex-shrink: 0;
-        object-fit: cover;
-        border: 2px solid #FFA1AF;
-        border-radius: 6px;
-        cursor: pointer;
-        transition: border-color 0.2s, transform 0.2s;
-    }
-
-    .thumbIMG:hover {
-        border-color: #FF5E7E;
-    }
-    .imgView {
-        flex: 1;
-        height: 450px;
-        border: 1px solid #FFA1AF;
-        border-radius: 12px;
-        background-color: #fff;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        overflow: hidden;
-    }
-
-    #displayIMG {
-        max-width: 100%;
-        height: 100%;
-        object-fit: contain;
-    }
-    .products-details {
-        flex: 1;
-        background-color: #ffa9ba26;
-        border: 1px solid #ffa9ba5c;
-        border-radius: 20px;
-        padding: 30px;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-    }
-    .products-details h2 {
-        color: #FF5E7E;
-        margin-top: 0;
-        font-size: 2.2em;
-        line-height: 1.2;
-        letter-spacing: -0.5px;
-    }
-    .price {
-        font-size: 2em;
-        font-weight: bold;
-        color: #FF5E7E;
-        margin: 15px 0;
-        display: block;
-    }
-    .sizeStatus, .descriptionBox {
-        font-weight: normal;
-        color: #444;
-        margin-bottom: 10px;
-    }
-    .addCartButton {
-        margin-top: 25px;
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-    }
-    .quantityInput {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        font-size: 0.9em;
-    }
-    .quantityInput input {
-        width: 60px;
-        padding: 8px;
-        border: 1px solid #FFA1AF;
-        border-radius: 6px;
-        outline: none;
-        text-align: center;
-    }
-    .btn{
-        background-color:rgb(255, 255, 255);
-        color:black;
-        border-radius: 5px;
-        border: 3px solid #FF5E7E;
-        font-size:1.1em;
-        font-weight:bold;
-        cursor: pointer;
-        transition: 0.3s;
-        width: fit-content;   
-    }
-    .btn:hover{
-        background-color:#ff93a5;
-        border-color: #ff93a5  
-    }
-    main > h1:first-child {
+    .pageTitle {
         display: none;
     }
 </style>
 
-<div class="productContent">
+<div class="productDetailsProductContent">
     <!-- Display product images -->
-    <div class="productImgContainer">
-        <div class="imgView">
-                <img id="displayIMG" src="<?= encode($products['images'][0]) ?>" alt="<?= encode($products['name']) ?> main view">
+    <div class="productDetailsProductImgContainer">
+        <div class="productDetailsImgView">
+                <img id="productDetailsDisplayIMG" src="<?= encode($products['images'][0]) ?>" alt="<?= encode($products['name']) ?> main view">
         </div>
 
         <?php if(count($products['images']) > 1): ?>
-        <div class="thumbnailBar">
-            <div class="thumbnailInner">
+        <div class="productDetailsThumbnailBar">
+            <div class="productDetailsThumbnailInner">
                 <?php foreach ($products['images'] as $img): ?>
-                    <img class="thumbIMG" src="<?= encode($img) ?>" onclick="swapImage('<?= encode($img) ?>', this)" alt="Thumbnail">
+                    <img class="productDetailsThumbIMG" src="<?= encode($img) ?>" onclick="swapImage('<?= encode($img) ?>', this)" alt="Thumbnail">
                 <?php endforeach; ?>
             </div>
         </div>
@@ -233,31 +113,31 @@
     </div>
 
     <!-- Display product info -->
-    <div class="products-details">
+    <div class="productDetailsProductDetails">
         <div class="inner-box">
             <h2><?= encode($products['name']) ?></h2>
 
-            <p class="price">Price: RM<?= number_format($products['price'],2) ?></p>
+            <p class="productDetailsPrice">Price: RM<?= number_format($products['price'],2) ?></p>
             
-            <div class="sizeStatus">
+            <div class="productDetailsSizeStatus">
                 <p><strong>Brand:<?= encode($products['brand']) ?><strong></p>
                 <p><strong>Series:<?= encode($products['series']) ?><strong></p>
                 <p><strong>Scale:</strong> <?= encode($products['scale']) ?></p>
                 <p><strong>Status:</strong> <?= encode($products['stock_quantity']) ?> units left (<?= encode($products['status']) ?>)</p>
             </div>
-            <div class="descriptionBox">
+            <div class="productDetailsDescriptionBox">
                 <p><strong>Description:</strong></p>
                 <p><?= encode($products['description']) ?></p>
             </div>
         
-            <form method="post" class="addCartButton">
+            <form method="post" class="productDetailsAddCartButton">
                 <?php html_hidden('product_id', $products['product_id']) ?>
                 
-                <div class="quantityInput">
+                <div class="productDetailsQuantityInput">
                     <label>Quantity:</label>
                     <?php html_number('quantity', 1, 1, $products['stock_quantity']) ?>
                 </div>
-                <button type="submit" class="btn">Add To Cart🛒</button>
+                <button type="submit" class="productDetailsBtn">Add To Cart🛒</button>
             </form>
         
         </div>
@@ -267,9 +147,9 @@
  <script>
     function swapImage(imgSrc, thumbElement){
       //change the focused image
-      document.getElementById('displayIMG').src = imgSrc;
+      document.getElementById('productDetailsDisplayIMG').src = imgSrc;
       //reset the thumbnails to it's default border
-      document.querySelectorAll('.thumbIMG').forEach(t => {
+      document.querySelectorAll('.productDetailsThumbIMG').forEach(t => {
         t.classList.remove('active');
       });
       //highlight the clicked thumbnail

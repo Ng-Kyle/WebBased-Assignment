@@ -29,12 +29,14 @@
             $stm->execute([$email, $password]);
             $u = $stm->fetch();
 
-            if (!$u) {
+            if ($u) {
+                $u->role = 'admin';
+                temp('info', 'Login successfully');
+                login($u,'member_list.php');
+            }
+            else {
                 $_err['password'] = 'Not matched';
             }
-            $u->role = 'admin';
-            temp('info', 'Login successfully');
-            login($u,'member_list.php');
         }
     }
 ?>

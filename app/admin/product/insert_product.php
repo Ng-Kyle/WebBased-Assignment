@@ -4,6 +4,7 @@
 
     $_title = 'New Product';
     $status = ['Available' => 'Available', 'Offsale' => 'Offsale'];
+    
     if (is_post()){
         $product_name = req('product_name');
         $price = req('price');
@@ -77,194 +78,32 @@
     include '../_head.php';
 ?>
 
-<style>
-    .productContent{
-        display: flex;
-        gap: 40px;
-        padding: 40px;
-        align-items: flex-start;
-        max-width: 1200px;
-        margin: 0 auto;
-    }
 
-   .products-details{
-    flex: 1;
-    min-width: 350px;
-    max-height: 600px;          /* controls height of the panel */
-    overflow-y: auto;           /* enables vertical scroll */
-    background: #fff;
-    padding: 25px;
-    border-radius: 12px;
-    border: 1px solid #ffe0e6;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    scrollbar-width: thin;
-    position: sticky;
-    top: 20px;
-}
-.products-details::-webkit-scrollbar{
-    width: 6px;
-}
-
-.products-details::-webkit-scrollbar-track{
-    background: #f3f3f3;
-    border-radius: 10px;
-}
-
-.products-details::-webkit-scrollbar-thumb{
-    background: #bbb;
-    border-radius: 10px;
-}
-
-.products-details::-webkit-scrollbar-thumb:hover{
-    background: #888;
-}
-
-/* ===== FORM LAYOUT ===== */
-.products-details form{
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-}
-
-/* EACH FIELD */
-.products-details label{
-    font-weight: bold;
-    color: #444;
-    display: block;
-    margin-bottom: 5px;
-}
-
-/* INPUTS */
-.products-details input,
-.products-details select,
-.products-details textarea{
-    width: 90%;
-    padding: 10px;
-    border-radius: 8px;
-    border: 1px solid #ddd;
-    font-size: 14px;
-    transition: 0.2s;
-}
-
-.products-details input:focus,
-.products-details select:focus,
-.products-details textarea:focus{
-    border-color: #ff4f78;
-    outline: none;
-    box-shadow: 0 0 0 2px rgba(255,79,120,0.15);
-}
-
-/* TEXTAREA */
-.products-details textarea{
-    min-height: 100px;
-    resize: vertical;
-}
-
-/* PRICE ROW */
-.price{
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-weight: bold;
-    color: #ff4f78;
-}
-
-/* GROUP BOXES */
-.sizeStatus{
-    background: #ffcfdb;
-    padding: 15px;
-    border-radius: 10px;
-    border: 1px solid #ffafbf;
-    display: grid;
-    gap: 12px;
-}
-
-.descriptionBox{
-    
-    gap: 8px;
-}
-
-/* ===== IMAGE UPLOAD ===== */
-.upload{
-    display: inline-block;
-    border: 2px dashed #ffc1cc;
-    padding: 15px;
-    border-radius: 10px;
-    cursor: pointer;
-    text-align: center;
-    transition: 0.2s;
-}
-
-.upload:hover{
-    border-color: #ff4f78;
-    background: #fff5f7;
-}
-
-.upload img{
-    max-width: 100%;
-    max-height: 160px;
-    display: block;
-    margin: 0 auto;
-}
-
-/* ===== BUTTON ===== */
-.btn{
-    background: linear-gradient(135deg, #ff7aa2, #ff3b61);
-    color: white;
-    border: none;
-    padding: 12px;
-    font-weight: bold;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: 0.25s;
-    margin-top: 10px;
-}
-
-.btn:hover{
-    transform: translateY(-2px);
-    box-shadow: 0 5px 12px rgba(255,59,97,0.3);
-}
-
-/* ===== ERROR TEXT ===== */
-small, .error{
-    color: red;
-    font-size: 12px;
-}
-
-</style>
-
-<div class="productContent">
+<div class="insertProductContent">
     <!-- Display product info -->
-    <div class="products-details">
+    <div class="insertProductDetails">
         <form method = "post" enctype = "multipart/form-data">
             <h2><label for = 'product_name'>Name:</label><?php html_text('product_name','','placeholder = "Enter product name."') ?> <?= err('product_name') ?></h2>
-
-            <p class="price"><label for = "price">Price: RM</label><?php html_number('price',sprintf('%.2f',''),0,999999.99,0.01) ?> <?= err('price') ?></p>
-            <div class="sizeStatus">
+            <p class="insertPrice"><label for = "price">Price: RM</label><?php html_number('price',sprintf('%.2f',''),0,999999.99,0.01) ?> <?= err('price') ?></p>
+            <div class="insertSizeStatus">
                 <p><strong><label for = "scale">Scale:</label></strong><?php html_text('scale', '') ?> <?= err('scale') ?></p>
                 <p><strong><label for = "scale">Series:</label></strong><?php html_text('series', '') ?> <?= err('series') ?></p>
                 <p><strong><label for = "scale">Brand:</label></strong><?php html_text('brand', '') ?> <?= err('brand') ?></p>
                 <p><strong><label for = "stock">Stock:</label></strong><?php html_number('stock','',0,99999) ?> units left <?= err('stock') ?></p>
                 <p><strong><label for = "status">Status:</label></strong> <?php html_select('status',$status)?> <?= err('status') ?></p>
             </div>
-            <div class="descriptionBox">
+            <div class="insertDescriptionBox">
                 <p><strong><label for = "description">Description:</label></strong></p>
                 <p><?php html_textarea('description', '') ?> <?= err('description') ?></p>
             </div>
             <p><strong><label for = "alt_text">Image Alt Text:</label></strong><?php html_text('alt_text', '') ?><?= err('alt_text') ?></p>
             <label for="photo">Photo</label>
-            <label class="upload" tabindex="0">
-                <?= html_file('photo', 'image/*', 'hidden') ?>
-                <img src="<?= $image ?>">
-            </label>
+            <label class="upload" tabindex="0"><?= html_file('photo', 'image/*', 'hidden') ?><img src="<?= $image ?>"></label>
             <?= err('photo') ?>
-            <button type="submit" class="btn">Add Product</button>
+            <button type="submit" class="insertBtn">Add Product</button>
         </form>
     </div>
  </div>
-
-    
-
 
 <?php 
     include '../../_foot.php';

@@ -50,10 +50,13 @@
                 $stm = $_db->prepare('INSERT INTO wishlist_product (wishlist_id, product_id) VALUES (?,?)');
                 $stm->execute([$wishlist_id, $product_id]);
                 temp('info', 'Added to Wishlist! ❤️');
-            }else {
+            }
+            else {
                 temp('info', 'Already in your Wishlist! 😊');
             }
-        }else{
+            
+        }
+        else{
             $stm = $_db->prepare('SELECT stock_quantity FROM product WHERE product_id = ?');
             $stm->execute([$product_id]);
             $real_stock = $stm->fetchColumn();
@@ -65,7 +68,7 @@
             if($status != 'Available'){
                 temp('info', 'This item is no longer on sale!');
                 redirect();
-           }
+            }
             
             $cart_id = get_cart();
             //this is for checking if the product exists in the member's cart
@@ -83,7 +86,8 @@
                 $stm->execute([$product_id,$cart_id]);
                 temp('info', 'Added to Cart!! 🛒');
                 redirect();    
-            }else{
+            }
+            else{
                 //insert new product
                 $stm = $_db->prepare('INSERT INTO cart_product (product_id, cart_id, quantity) VALUES (?,?,1)');
                 $stm->execute([$product_id,$cart_id]);
@@ -119,235 +123,71 @@
 ?>
 
 <style>
-    .search-bar{
-        text-align: center;
-        margin: 20px;
-    }
-    .search-bar input{
-        width: 50%;
-        padding: 10px;
-        border-radius: 20px;
-        border: 3px solid #FF5E7E;
-    }
-    .search-bar input:focus{
-        border-color:#ff1f4b;
-        outline: none;
-        box-shadow: 0 0 8px rgba(255, 94, 126, 0.3);
-    }
-    .search-container{
+    .search-container{ /*leave this to prevent search header breaking*/
         display: flex;
         gap: 20px;
     }
-    .sidebar{
-        width: 250px;
-        flex-shrink:0; /*this is to prevent shrinking for the sidebar*/
-        border-right: 3px solid #FF5E7E;
-    }
-    .content{
-        flex-grow: 1; /* this is to let the content div to take up the remaining spaces in the page. */
-    }
-    .products-side {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-        gap: 30px;
-        padding: 40px;
-    }
-    .products-card {
-        border: 3px solid #FF5E7E;
-        background: #ffdbdb;
-        border-radius: 10px;
-        padding: 20px;
-        text-align: center;
-        transition: transform 0.2s;
-    }
-    .products-card img {
-        width: 100%;
-        height: 200px;
-        object-fit: contain;
-    }
-    .products-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    }
-    .price-tag { 
-        color: #ff6b81; 
-        font-weight: bold; 
-        font-size: 1.3; 
-    }
-    .quickAdd{
-        background-color:rgb(255, 255, 255);
-        color:black;
-        border: 3px solid #FF5E7E;
-        border-radius: 5px;
-        font-size:1.1em;
-        font-weight:bold;
-        cursor: pointer;
-        transition: 0.2;
-        width: fit-content;       
-    }
-    .quickAdd:hover{
-        background-color:#ff93a5;
-        border-color: #ff93a5      
-    }
-    .wishlist{
-        background-color:rgb(255, 255, 255);
-        color:black;
-        border-radius: 5px;
-        border: 3px solid #FF5E7E;
-        font-size:1.1em;
-        font-weight:bold;
-        cursor: pointer;
-        transition: 0.2;
-        width: fit-content;        
-    }
-    .wishlist:hover{
-        background-color:#ff93a5;
-        border-color: #ff93a5        
-    }
-    .filterContainer{
-        background-color: #fff;
-        border-radius: 15px;
-        padding: 10px;
-    }
-    .filterContainer h3{
-        color:#FF5E7E;
-        font-size: 1.1em;
-        margin: 25px 0 12px 0;
-        padding-bottom: 5px;
-        border-bottom: 2px solid #ffdbdb;
-        display: flex;
-        align-items: center;
-    }
-    .filterContainer h3::before{
-        content: '✨';
-        margin-right: 8px;
-        font-size:0.9rem;
-    }
-    .filter-group{
-        display: flex;
-        flex-direction: column;
-        gap:8px;
-        max-height: 200px; /*wow thiz is for limiting the height, so can add scroll*/
-        overflow-y: auto;
-        padding-right: 5px;
-        margin-bottom: 15px;
-    }
-    .filter-group::-webkit-scrollbar{
-        width: 5px;
-    }
-    .filter-group::-webkit-scrollbar-thumb{
-        background: #ffdbdb;
-        border-radius: 10px;
-    }
-    .filter-group input[type="number"]:focus{
-        border-color: #FF5E7E;
-        outline:none;
-    }
-    .filter-group label{
-        display: flex;
-        align-items: center;
-        cursor: pointer;
-        color:#555;
-        transition: color 0.2s;
-    }
-    .filter-group:hover{
-        color: #FF5E7E;
-    }
-    .filter-group input[type="checkbox"]{
-        accent-color: #FF5E7E;
-        width: 16px;
-        height: 16px;
-    }
-    #filter button[type="submit"]{
-        width:97%;
-        background-color:rgb(255, 255, 255);
-        color:black;
-        border-radius: 5px;
-        border: 3px solid #FF5E7E;
-        font-size:1.1em;
-        font-weight:bold;
-        cursor: pointer;
-        transition: 0.3s;
-    }
-    #filter button[type="submit"]:hover{
-        background-color:#ff93a5;
-        border-color: #ff93a5  
-    }
-    #filter a{
-        display: block;
-        text-align: center;
-        margin-top: 15px;
-        color: #888;
-        text-decoration: none;
-        font-size: 0.9rem;
-        color: #FF5E7E;
-        text-decoration: underline;
-    }
-    .products-card a{
-        text-decoration: none;
-        color: black;
-    }
 </style>
-    <div class="search-bar">
-        <form action="" method="get">
-            <?= html_search('name', 'placeholder="Search figures..."') ?>
-        </form>
-    </div>
 
-    <div class="search-container">
-        <aside class="sidebar">
-            <form id="filter" action="" method ="get">
-                <?php html_hidden('name', $name); ?>
-                <div class="filterContainer">
-                    <h3>Filter by Brand</h3>
-                    <div class="filter-group">
-                        <?php html_checkboxes('brand', $brands_options, true) ?>
-                    </div>
+<div class="productListSearchBar">
+    <form action="" method="get">
+        <?= html_search('name', 'placeholder="Search figures..."') ?>
+    </form>
+</div>
 
-                    <h3>Filter by Series</h3>
-                    <div class="filter-group">
-                        <?php html_checkboxes('series', $series_options, true) ?>
-                    </div>
-
-                    <h3>Filter by Scale</h3>
-                    <div class="filter-group">
-                        <?php html_checkboxes('scale', $scale_options, true) ?>
-                    </div>  
-
-                    <h3>Filter by Price</h3>
-                    <div class="filter-group">
-                        <?php html_number('min', $min, 0, 9999, 1, 'placeholder="Min"'); ?>
-                        <?php html_number('max', $max, 0, 9999, 1, 'placeholder="Max"'); ?>
-                    </div>
+<div class="search-container">
+    <aside class="productListSidebar">
+        <form class="productListFilter" action="" method ="get">
+            <?php html_hidden('name', $name); ?>
+            <div class="productListFilterContainer">
+                <h3>Filter by Brand</h3>
+                <div class="productListFilterGroup">
+                    <?php html_checkboxes('brand', $brands_options, true) ?>
                 </div>
 
-                <button type="submit">Apply Filters</button>
-                <a href="<?= base('product/list.php') ?>">Clear All</a>
-            </form>
-        </aside>
+                <h3>Filter by Series</h3>
+                <div class="productListFilterGroup">
+                    <?php html_checkboxes('series', $series_options, true) ?>
+                </div>
 
-        <div class="content">
-            <h1>All Figures</h1>
-            <div class="products-side">
-                <?php foreach ($products as $p): ?>
-                    <div class="products-card">
-                        <a href="productDetails.php?product_id=<?= $p->product_id ?>">
-                            <img src="<?= $p->image_url ?>" alt="<?= encode($p->name) ?>">
-                            <h3><?= encode($p->name) ?></h3>
-                            <p class="price">RM <?= number_format($p->price,2) ?></p>
-                        </a>
-                        
-                        
-                        <div class="buttonGroup">
-                        <button data-post="?product_id=<?= $p->product_id ?>" class="quickAdd">Quick Add🌟</button>
-                        <button data-post="?product_id=<?= $p->product_id ?>&action=wishlist" class="wishlist">❤️</button>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
+                <h3>Filter by Scale</h3>
+                <div class="productListFilterGroup">
+                    <?php html_checkboxes('scale', $scale_options, true) ?>
+                </div>  
+
+                <h3>Filter by Price</h3>
+                <div class="productListFilterGroup">
+                    <?php html_number('min', $min, 0, 9999, 1, 'placeholder="Min"'); ?>
+                    <?php html_number('max', $max, 0, 9999, 1, 'placeholder="Max"'); ?>
+                </div>
             </div>
+
+            <button type="submit">Apply Filters</button>
+            <a href="<?= base('product/list.php') ?>">Clear All</a>
+        </form>
+    </aside>
+
+    <div class="productListContent">
+        <h1>All Figures</h1>
+        <div class="productListProductsSide">
+            <?php foreach ($products as $p): ?>
+                <div class="productListProductsCard">
+                    <a href="productDetails.php?product_id=<?= $p->product_id ?>">
+                        <img src="<?= $p->image_url ?>" alt="<?= encode($p->name) ?>">
+                        <h3><?= encode($p->name) ?></h3>
+                        <p class="price">RM <?= number_format($p->price,2) ?></p>
+                    </a>
+                    
+                    <div class="buttonGroup">
+                        <button data-post="?product_id=<?= $p->product_id ?>" class="productListQuickAdd">Quick Add🌟</button>
+                        <button data-post="?product_id=<?= $p->product_id ?>&action=wishlist" class="productListWishlist">❤️</button>
+                    </div>
+                </div>
+            <?php endforeach; ?>
         </div>
     </div>
+</div>
 
 <?php
-include '../_foot.php';
+    include '../_foot.php';
 ?>

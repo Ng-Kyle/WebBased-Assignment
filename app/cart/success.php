@@ -84,26 +84,18 @@
     ";
     $m->send();
 ?>
+
 <style>
-    main >:first-child{
+    .pageTitle{
         display:none;
     }
-    .receipt h1{
-        color: #FF5E7E;
-    }
-    h2{
-        color: #FF5E7E;
-    }
-    .receipt p{
-        font-size:16pt;
-        font-weight:bold;
-    }
 </style>
-    <div class = "receipt">
-        <h1>Payment was successful!</h1>
-        <p>Below is your receipt, a copy has already been sent to your email.</p>
-    </div>  
-    <iframe src="http://localhost:8000/cart/receipt.php?receipt_id=<?= $receipt ?>" style="border:none; height:100vh; width:100%;"></iframe> 
+
+<div class = "receipt">
+    <h1>Payment was successful!</h1>
+    <p>Below is your receipt, a copy has already been sent to your email.</p>
+</div>  
+<iframe src="http://localhost:8000/cart/receipt.php?receipt_id=<?= $receipt ?>" style="border:none; height:100vh; width:100%;"></iframe> 
     
 <?php 
     include '../_foot.php';

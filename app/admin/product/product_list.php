@@ -2,6 +2,7 @@
     include '../../_base.php';
     $_title = "Product List";
     auth('admin');
+
     $min = req('min');
     $max = req('max');
     $name = req('name');
@@ -33,10 +34,8 @@
         if (!$product_id){
             redirect();
         }
-
-        }
+    }
     
-
     $filter = 'SELECT p.*, pi.image_url FROM product p LEFT JOIN product_image pi ON p.product_id = pi.product_id WHERE p.name LIKE ? AND p.status != "deleted"';
     $params = ["%$name%"];
     //changed from separate to a foreach loop using $Globals from base file
@@ -64,197 +63,73 @@
 ?>
 
 <style>
-    .search-bar{
-        text-align: center;
-        margin: 20px;
-    }
-    .search-bar input{
-        width: 50%;
-        padding: 10px;
-        border-radius: 20px;
-        border: 2px solid #FF5E7E;
-    }
-    .search-bar input:focus{
-        border-color:#ff1f4b;
-        outline: none;
-        box-shadow: 0 0 8px rgba(255, 94, 126, 0.3);
-    }
-    .search-container{
-        display: flex;
-        gap: 20px;
-    }
-    .sidebar{
-        width: 350px;
-        background-color: #fff;
-        border-radius: 12px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-        border: 1px solid #ffecec;
-    }
-    .sidebar h3 {
-        font-size: 1.1rem;
-        color: #333;
-        margin-bottom: 15px;
-        margin-top: 25px;
-        padding-bottom: 8px;
-        border-bottom: 5px solid #ffc0c0; /* Matching your table header pink */
-        font-weight: 600;
-    }
-    .sidebar h3:first-of-type {
-        margin-top: 0;
-    }
-    .filter-group {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        max-height: 200px; /* Limits height for long lists */
-        overflow-y: auto;  /* Adds scroll if list is too long */
-        padding-right: 5px;
-    }
-    /* Customizing the Checkbox Labels (Assuming PHP outputs <label><input>...</label>) */
-    .filter-group label {
-        
-        font-size: 0.95rem;
-        color: #555;
-        cursor: pointer;
-        transition: color 0.2s;
-    }
-    .filter-group label:hover {
-        color: rgb(255, 110, 110);
-    }
-    .filter-group input[type="checkbox"] {
-        margin-right: 10px;
-        accent-color: rgb(255, 110, 110); /* Pink checkboxes */
-        width: 16px;
-        height: 16px;
-    }
-    .filter-group:has(input[type="number"]) {
-        flex-direction: row;
-        gap: 10px;
-    }
-    .filter-group input[type="number"] {
-        width: 80%;
-        padding: 8px 12px;
-        border: 1px solid #ddd;
-        border-radius: 6px;
-        font-size: 0.9rem;
-        outline: none;
-        transition: border-color 0.2s;
-    }
-
-    .bot-buttons{
-        color: #ff8b8b;
-        border: none;
-        padding: 12px;
-        border-radius: 8px;
-        font-weight: 600;
-        cursor: pointer;
-        margin-top: 30px;
-        transition: background 0.3s ease;
-    }
-   
-    .content{
-        flex-grow: 1; /* this is to let the content div to take up the remaining spaces in the page. */
-    }
-    .products-side {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-        gap: 30px;
-        padding: 40px;
-    }
-    .products-card {
-        border: 3px solid #FF5E7E;;
-        background:#ffdbdb;
-        border-radius: 10px;
-        padding: 20px;
-        text-align: center;
-        transition: transform 0.2s;
-    }
-    .products-card img {
-        width: 100%;
-        height: 200px;
-        object-fit: contain;
-    }
-    .products-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    }
-    .price-tag { 
+    .price-tag { /*fix this with the a tag*/
         color: #ff6b81; 
         font-weight: bold; 
         font-size: 1.3; 
     }
-    .quickAdd{
-        background-color:rgb(255, 255, 255);
-        color:black;
-        border: 3px solid #FF5E7E;
-        border-radius: 5px;
-        font-size:1.1em;
-        font-weight:bold;
-        cursor: pointer;
-        transition: 0.2;
-        width: fit-content;       
-    }
-    .quickAdd:hover{
-        background-color:#ff93a5;
-        border-color: #ff93a5      
+    .search-container{ /*Leaving here to not break the header elsewhere*/
+        display: flex;
+        gap: 20px;
     }
 </style>
-    <div class="search-bar">
-        <form action="" method="get">
-            <?= html_search('name', 'placeholder="Search figures..."') ?>
-        </form>
-    </div>
 
-    <div class="search-container">
-        <aside class="sidebar">
-            <form id="filter" action="" method ="get">
-                <?php html_hidden('name', $name); ?>
-                <h3>Filter by Brand</h3>
-                <div class="filter-group">
-                    <?php html_checkboxes('brand', $brands_options, true) ?>
-                </div>
+<div class="adminProductListSearchBar">
+    <form action="" method="get">
+        <?= html_search('name', 'placeholder="Search figures..."') ?>
+    </form>
+</div>
 
-                <h3>Filter by Series</h3>
-                <div class="filter-group">
-                    <?php html_checkboxes('series', $series_options, true) ?>
-                </div>
-
-                <h3>Filter by Scale</h3>
-                <div class="filter-group">
-                    <?php html_checkboxes('scale', $scale_options, true) ?>
-                </div>
-
-                <h3>Filter by Price</h3>
-                <div class="filter-group">
-                    <?php html_number('min', $min, 0, 9999, 1, 'placeholder="Min"'); ?>
-                    <?php html_number('max', $max, 0, 9999, 1, 'placeholder="Max"'); ?>
-                </div>
-                <div class="bot-buttons">
-                    <button type="submit">Apply Filters</button>
-                </div>
-                <a class="bot-buttons" href="<?= base('product/list.php') ?>">Clear All</a>
-            </form>
-                <a class="bot-buttons" href="insert_product.php">Add Product</a>
-        </aside>
-
-        <div class="content">
-            <h1>All Figures</h1>
-            <div class="products-side">
-                <?php foreach ($products as $p): ?>
-                    <div class="products-card">
-                        <a href="product_details.php?product_id=<?= $p->product_id ?>">
-                            <img src="<?= $p->image_url ?>" alt="<?= encode($p->name) ?>">
-                        </a>
-                        <h3><?= encode($p->name) ?></h3>
-                        <p class="price">RM <?= number_format($p->price,2) ?></p>
-                        <div class="buttonGroup">
-                        <button class = "quickAdd" data-post="delete.php?product_id=<?= $p->product_id ?>">Delete</button>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
+<div class="search-container">
+    <aside class="adminProductListSidebar">
+        <form id="filter" action="" method ="get">
+            <?php html_hidden('name', $name); ?>
+            <h3>Filter by Brand</h3>
+            <div class="adminProductListFilterGroup">
+                <?php html_checkboxes('brand', $brands_options, true) ?>
             </div>
+
+            <h3>Filter by Series</h3>
+            <div class="adminProductListFilterGroup">
+                <?php html_checkboxes('series', $series_options, true) ?>
+            </div>
+
+            <h3>Filter by Scale</h3>
+            <div class="adminProductListFilterGroup">
+                <?php html_checkboxes('scale', $scale_options, true) ?>
+            </div>
+
+            <h3>Filter by Price</h3>
+            <div class="adminProductListFilterGroup">
+                <?php html_number('min', $min, 0, 9999, 1, 'placeholder="Min"'); ?>
+                <?php html_number('max', $max, 0, 9999, 1, 'placeholder="Max"'); ?>
+            </div>
+            <div class="adminProductListBotButtons">
+                <button type="submit">Apply Filters</button>
+            </div>
+            <a class="adminProductListBotButtons" href="<?= base('product/list.php') ?>">Clear All</a>
+        </form>
+            <a class="adminProductListBotButtons" href="insert_product.php">Add Product</a>
+    </aside>
+
+    <div class="adminProductListContent">
+        <h1>All Figures</h1>
+        <div class="adminProductListProductsSide">
+            <?php foreach ($products as $p): ?>
+                <div class="adminProductListProductsCard">
+                    <a href="product_details.php?product_id=<?= $p->product_id ?>">
+                        <img src="<?= $p->image_url ?>" alt="<?= encode($p->name) ?>">
+                    </a>
+                    <h3><?= encode($p->name) ?></h3>
+                    <p class="price">RM <?= number_format($p->price,2) ?></p>
+                    <div class="buttonGroup">
+                        <button class = "adminProductListDelete" data-post="delete.php?product_id=<?= $p->product_id ?>">Delete</button>
+                    </div>
+                </div>
+            <?php endforeach; ?>
         </div>
     </div>
+</div>
 
 <?php
 include '../../_foot.php';

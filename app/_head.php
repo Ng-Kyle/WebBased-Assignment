@@ -12,16 +12,16 @@
 </head>
 <body>
     <?php 
-    if($_user && $_user->role == 'admin'){
-        temp('info', "You're logged in as an admin!");
-        redirect('/admin/member_list.php');
-    } ?>
+        if($_user && $_user->role == 'admin'){
+            temp('info', "You're logged in as an admin!");
+            redirect('/admin/member_list.php');
+        } 
+    ?>
     <!-- Flash message -->  
     <div id="info"><?= temp('info') ?></div>
 
     <header>
         <h1 class="store"><a href="/index.php">AnonFigures</a></h1>
-
          <div class="search-container">
             <form action="/product/list.php" method="get">
                 <?php 
@@ -35,34 +35,34 @@
         <a class = "store" href="/product/list.php">Product</a>
        
         <?php if(!$_user): ?>
-        <a href="/login/login.php">Login</a>
+            <a href="/login/login.php">Login</a>
         <?php endif ?>   
 
         <?php if ($_user): ?>
             <a href="/wishlist/wishlist.php">Wishlist</a>
             <a href="/login/logout.php">Logout</a>
-            <a id = "profile" href="/user/profile.php">Profile <img src = "<?= $_user->image_url?>" alt = "profileImg" ></a>
-            <a id = "cart" href="/cart/cart.php"><img src="/images/cart.png" alt="Shopping Cart"></a>
+            <a class = "profile" href="/user/profile.php">Profile <img src = "<?= $_user->image_url?>" alt = "profileImg" ></a>
+            <a class = "cart" href="/cart/cart.php"><img src="/images/cart.png" alt="Shopping Cart"></a>
         <?php endif ?>
     </header>
 
-<script>
+    <script>
 
-    document.addEventListener('click', function (e) {
-        const logoutLink = e.target.closest('a[href*="logout.php"]');
+        document.addEventListener('click', function (e) {
+            const logoutLink = e.target.closest('a[href*="logout.php"]');
         
-        if (logoutLink) {
-            e.stopImmediatePropagation();
-            
-            const confirmed = confirm("Are you sure you want to log out?");
-            
-            if (!confirmed) {
-                e.preventDefault();
+            if (logoutLink) {
+                e.stopImmediatePropagation();
+                
+                const confirmed = confirm("Are you sure you want to log out?");
+                
+                if (!confirmed) {
+                    e.preventDefault();
+                }
             }
-        }
-    }, true);
+        }, true);
 
-</script>
+    </script>
         
     <main>
-        <h1><?= $_title ?? 'Untitled' ?></h1>
+        <h1 class = "pageTitle"><?= $_title ?? 'Untitled' ?></h1>
