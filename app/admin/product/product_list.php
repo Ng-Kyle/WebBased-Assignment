@@ -169,6 +169,7 @@
                 <button type="submit">Apply Filters</button>
                 <a href="<?= base('product/list.php') ?>">Clear All</a>
             </form>
+                <a href="insert_product.php">Add Product</a>
         </aside>
 
         <div class="content">
