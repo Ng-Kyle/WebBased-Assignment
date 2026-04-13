@@ -192,17 +192,19 @@
         border-radius: 4px;
     }
     .btn{
-        background-color:pink;
+        background-color:rgb(255, 255, 255);
         color:black;
-        border: 2px;
+        border-radius: 5px;
+        border: 3px solid #FF5E7E;
         font-size:1.1em;
         font-weight:bold;
         cursor: pointer;
         transition: 0.2;
-        width: fit-content;
+        width: fit-content;   
     }
     .btn:hover{
-        background-color: #ff3b61;
+        background-color:#ff93a5;
+        border-color: #ff93a5  
     }
     main > h1:first-child{
         display: none;
@@ -250,7 +252,7 @@
                 <label>Quantity:</label>
                 <?php html_number('quantity', 1, 1, $products['stock_quantity']) ?>
             </div>
-            <button type="submit" class="btn">Add To Cart</button>
+            <button type="submit" class="btn">Add To Cart🛒</button>
         </form>
     </div>
  </div>

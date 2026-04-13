@@ -205,6 +205,10 @@
         background-color:#ff93a5;
         border-color: #ff93a5        
     }
+    .filterContainer{
+        background-color: rgb(255, 255, 255);
+        margin-right: 10px;
+    }
 </style>
     <div class="search-bar">
         <form action="" method="get">
@@ -216,25 +220,27 @@
         <aside class="sidebar">
             <form id="filter" action="" method ="get">
                 <?php html_hidden('name', $name); ?>
-                <h3>Filter by Brand</h3>
-                <div class="filter-group">
-                    <?php html_checkboxes('brand', $brands_options, true) ?>
-                </div>
+                <div class="filterContainer">
+                    <h3>Filter by Brand</h3>
+                    <div class="filter-group">
+                        <?php html_checkboxes('brand', $brands_options, true) ?>
+                    </div>
 
-                <h3>Filter by Series</h3>
-                <div class="filter-group">
-                    <?php html_checkboxes('series', $series_options, true) ?>
-                </div>
+                    <h3>Filter by Series</h3>
+                    <div class="filter-group">
+                        <?php html_checkboxes('series', $series_options, true) ?>
+                    </div>
 
-                <h3>Filter by Scale</h3>
-                <div class="filter-group">
-                    <?php html_checkboxes('scale', $scale_options, true) ?>
-                </div>
+                    <h3>Filter by Scale</h3>
+                    <div class="filter-group">
+                        <?php html_checkboxes('scale', $scale_options, true) ?>
+                    </div>  
 
-                <h3>Filter by Price</h3>
-                <div class="filter-group">
-                    <?php html_number('min', $min, 0, 9999, 1, 'placeholder="Min"'); ?>
-                    <?php html_number('max', $max, 0, 9999, 1, 'placeholder="Max"'); ?>
+                    <h3>Filter by Price</h3>
+                    <div class="filter-group">
+                        <?php html_number('min', $min, 0, 9999, 1, 'placeholder="Min"'); ?>
+                        <?php html_number('max', $max, 0, 9999, 1, 'placeholder="Max"'); ?>
+                    </div>
                 </div>
 
                 <button type="submit">Apply Filters</button>

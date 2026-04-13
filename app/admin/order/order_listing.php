@@ -1,9 +1,9 @@
 <?php
     include '../../_base.php';
-    $stm = $_db->prepare('SELECT * FROM invoice');
-    $stm->execute([$_user->member_id]);
-    $orders = $stm->fetchAll();
     include '../_head.php';
+    $stm = $_db->prepare('SELECT i.*, m.name, m.member_id FROM invoice i JOIN member m ON i.member_id = m.member_id');
+    $stm->execute();
+    $orders = $stm->fetchAll();
 ?>
 <style>
     .productRowTop{
@@ -90,9 +90,9 @@
         <table>
             <?php foreach($orders as $o): ?>
             <tr class = productRowTop>
-                <td class = productDetails><b>Order #<?= $o->order_id." ". $o->order_date ?></b></td>
+                <td class = productDetails><strong>Order #<?= $o->order_id." ". $o->order_date ?></strong><br>Member Name:<?= $o->name ?></td>
                 <td></td>
-                <td id = "viewDetailBtn"><button data-post="../../user/order_detail.php?order_id=<?= $o->order_id ?>">View Details</button></td>
+                <td id = "viewDetailBtn"><button data-post="order_detail.php?order_id=<?= $o->order_id ?>">View Details</button></td>
             </tr>
             
             <tr class = productRowMiddle>
