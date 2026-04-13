@@ -23,6 +23,7 @@ if (is_get()) {
 if (is_post()) {
     $email = req('email');
     $name  = req('name');
+    $phone = req('phone');
     $photo = $_SESSION['image_url'];
     $f = get_file('photo');
 
@@ -55,6 +56,13 @@ if (is_post()) {
     else if (strlen($name) > 100) {
         $_err['name'] = 'Maximum 100 characters';
     }
+    // Validate: phone
+    if ($phone == '') {
+        $_err['phone'] = 'Required';
+    }
+     else if (strlen($phone) > 11) {
+        $_err['phone'] = 'Maximum 11 characters';
+    }
 
     // Validate: photo (file) --> optional
     if ($f) {
@@ -71,20 +79,21 @@ if (is_post()) {
         // (1) Delete and save photo --> optional
         if ($f) {
             unlink("../images/$photo");
-            $photo = save_photo($f, '../images/user');
+            $photo = save_photo($f, '../images/user','/images/user');
         }
         
-        // (2) Update user (email, name, photo)
+        // (2) Update user (email, name, phone, photo)
         $stm = $_db->prepare('
             UPDATE member
-            SET email = ?, name = ?, image_url = ?
+            SET email = ?, name = ?, phone_number = ?, image_url = ?
             WHERE member_id = ?
         ');
-        $stm->execute([$email, $name, $photo, $_user->member_id]);
+        $stm->execute([$email, $name, $phone, $photo, $_user->member_id]);
 
         // (3) Update global user object
         $_user->email = $email;
         $_user->name  = $name;
+        $_user->phone_number = $phone;
         $_user->image_url= $photo;
 
         temp('info', 'Record updated');
@@ -104,96 +113,197 @@ if (is_post()) {
 $_title = 'User | Profile';
 ?>
 <style>
-    .productRowTop{
-        border-top: 3px solid pink;
+    /* 1. Page Layout - Allow scrolling on this page since Order History can be long */
+    html, body {
+        height: auto;
+        min-height: 100%;
+        margin: 0;
+        background-color: #fff;
     }
-    .productRowMiddle{
-        vertical-align: top;
-        font-size:20pt;
-        font-weight: bold;
-        color: #FF5E7E;
-        white-space:nowrap;
-        padding-right:25px;
-    }
-    .productRowBottom{
-        border-bottom: 3px solid pink;
-    }
-    .productDetails{
-        width: 80%;
-        vertical-align: bottom;
-    }
-    table{
-        border-collapse: collapse; 
-    }
-    h2{
-        text-align:center;
-        font-size: 35px;
-        color:#FF5E7E;
-        padding-top:40px;
-    }
-    button:hover{
-        cursor:pointer
-    }
-    #emptyCart{
-        text-align:center;
-        padding-top: 30px;
-        padding-bottom:180px;
-        font-size:25pt;
-        font-weight:bold;
-    }
-    .productPrice{
-        font-size:20pt;
-        white-space: nowrap;
-        font-weight: bold;
-        color: #FF5E7E;
-    }
-    #productCategory{
-        color:gray;
-        font-size:10pt;
-    }
-    #productQuantity{
-        font-size:20pt;
-        font-weight: bold;
-        color: #FF5E7E;
-        white-space:nowrap;
-        padding-right:25px;
-    }
-    .productDetails{
-        font-size:20pt;
+
+    /* 2. Profile Card Styling (Matches Login/Register) */
+    form.form {
+        background: white;
+        padding: 40px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        width: 380px;
         
-    }
-    #orderAddress{
-        font-size:20pt;
-    }
-    #viewDetailBtn{
-        text-align:right;
+        /* Centering the card */
+        margin: 60px auto !important;
         
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
     }
-    button{
+
+    /* 3. Clean Labels & Inputs */
+    form.form label {
+        display: block;
+        width: 100%;
+        font-weight: bold;
+        margin-top: 15px;
+        margin-bottom: 5px;
+        background: none !important; /* Removes those grey blocks */
+        color: #333 !important;
+        text-align: center;
+    }
+
+    form.form input {
+        text-align: center;
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    form.form input:focus {
+        border: 2px solid #ffb6c1 !important;
+        outline: none !important;
+        box-shadow: 0 0 8px rgba(255, 182, 193, 0.5);
+    }
+
+    /* 4. Square Photo Fix */
+    form.form .upload img {
+        width: 120px;
+        height: 120px;
+        border-radius: 4px !important; /* Square with slight roundness */
+        object-fit: cover;
+        border: 2px solid #ffb6c1;
+        display: block;
+        margin: 10px auto;
+    }
+
+    form.form input[type="file"] {
+        display: none !important; /* Hides "Choose File" */
+    }
+
+    /* 5. Buttons Row */
+    form.form section {
+        display: flex;
+        width: 100%;
+        gap: 10px;
+        margin-top: 20px;
+        justify-content: center;
+    }
+
+    form.form button {
+        flex: 1;
+        padding: 12px;
         border: none;
-        background-color: white;
-        color:#FF5E7E;
-        font-size: 15pt;
+        border-radius: 6px;
+        cursor: pointer;
         font-weight: bold;
-        text-decoration: underline 2pt;
+        background-color: #ffb6c1;
+        color: white;
+        font-size: 16px;
+    }
+
+    /* 6. Update Password Link */
+    form.form a {
+        color: #FF5E7E;
+        text-decoration: underline;
+        font-size: 14px;
+        margin-bottom: 10px;
     }
 </style>
 
+    <style>
+        .productRowTop{
+            border-top: 3px solid pink;
+        }
+        .productRowMiddle{
+            vertical-align: top;
+            font-size:20pt;
+            font-weight: bold;
+            color: #FF5E7E;
+            white-space:nowrap;
+            padding-right:25px;
+        }
+        .productRowBottom{
+            border-bottom: 3px solid pink;
+        }
+        .productDetails{
+            width: 80%;
+            vertical-align: bottom;
+        }
+        table{
+            border-collapse: collapse; 
+        }
+        h2{
+            text-align:center;
+            font-size: 35px;
+            color:#FF5E7E;
+            padding-top:40px;
+        }
+        button:hover{
+            cursor:pointer
+        }
+        #emptyCart{
+            text-align:center;
+            padding-top: 30px;
+            padding-bottom:180px;
+            font-size:25pt;
+            font-weight:bold;
+        }
+        .productPrice{
+            font-size:20pt;
+            white-space: nowrap;
+            font-weight: bold;
+            color: #FF5E7E;
+        }
+        #productCategory{
+            color:gray;
+            font-size:10pt;
+        }
+        #productQuantity{
+            font-size:20pt;
+            font-weight: bold;
+            color: #FF5E7E;
+            white-space:nowrap;
+            padding-right:25px;
+        }
+        .productDetails{
+            font-size:20pt;
+            
+        }
+        #orderAddress{
+            font-size:20pt;
+        }
+        #viewDetailBtn{
+            text-align:right;
+            
+        }
+        button{
+            border: none;
+            background-color: white;
+            color:#FF5E7E;
+            font-size: 15pt;
+            font-weight: bold;
+            text-decoration: underline 2pt;
+        }
+</style>
+
 <form method="post" class="form" enctype="multipart/form-data">
-    <label for="email">Email</label>
-    <?= html_text('email', $_user->email, 'maxlength="100"') ?>
-    <?= err('email') ?>
-
-    <label for="name">Name</label>
-    <?= html_text('name', $_user->name, 'maxlength="100"') ?>
-    <?= err('name') ?>
-
-    <label for="photo">Photo</label>
     <label class="upload" tabindex="0">
         <?= html_file('photo', 'image/*', 'hidden') ?>
         <img src="../<?= $_user->image_url ?> ">
     </label>
     <?= err('photo') ?>
+
+    <label for="name">Name</label>
+    <?= html_text('name', $_user->name, 'maxlength="100"') ?>
+    <?= err('name') ?>
+
+    <label for="email">Email</label>
+    <?= html_text('email', $_user->email, 'maxlength="100"') ?>
+    <?= err('email') ?>
+
+    <label for="phone">Phone</label>
+    <?= html_text('phone', $_user->phone_number, 'maxlength="11"') ?>
+    <?= err('phone') ?>
 
     <section>
             <a href="password.php">Update your password?</a>

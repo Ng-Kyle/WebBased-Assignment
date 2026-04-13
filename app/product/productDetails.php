@@ -10,7 +10,7 @@
 
         $product_id = post('product_id');
         $quantity = (int)post('quantity');
-
+        
         $stm = $_db->prepare('SELECT stock_quantity FROM product WHERE product_id = ?');
         $stm->execute([$product_id]);
         $real_stock = $stm->fetchColumn();
