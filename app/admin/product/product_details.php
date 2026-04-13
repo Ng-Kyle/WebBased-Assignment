@@ -63,13 +63,12 @@
             $_err['price'] = 'Must be between 0.01 - 999999.99';                        
         }
 
-        if($product_name == ''){
-            $_err['product_name'] = 'Required';
-        }
-        elseif(strlen($product_name) > 999){
-            $_err['product_name'] = 'Maximum of 999 characters';
-        }
-
+        validate_text('product_name',$product_name,999);
+        validate_text('scale',$scale,99);
+        validate_text('series',$series,99);
+        validate_text('brand',$brand,99);
+        validate_text('description',$description,999);
+        
         if($stock_quantity == ''){
             $_err['stock'] = 'Required';
         }
@@ -80,36 +79,9 @@
             $_err['stock'] = 'Must be between 0 - 99999';
         }
 
-        if($scale == ''){
-            $_err['scale'] = 'Required';
-        }
-        elseif(strlen($scale) > 99){
-            $_err['scale'] = 'Maximum of 99 characters';
-        }
-
-        if($series == ''){
-            $_err['series'] = 'Required';
-        }
-        elseif(strlen($series) > 99){
-            $_err['series'] = 'Maximum of 99 characters';
-        }
-
-        if($brand == ''){
-            $_err['brand'] = 'Required';
-        }
-        elseif(strlen($brand) > 99){
-            $_err['brand'] = 'Maximum of 99 characters';
-        }
 
         if(!array_key_exists($product_status,$status)){
             $_err['status'] = 'Invalid status';
-        }
-
-        if($description == ''){
-            $_err['description'] = 'Required';
-        }
-        elseif(strlen($description) > 999){
-            $_err['description'] = 'Maximum of 999 characters';
         }
 
         
