@@ -119,7 +119,7 @@
         width: 50%;
         padding: 10px;
         border-radius: 20px;
-        border: 2px solid #FF5E7E;
+        border: 3px solid #FF5E7E;
     }
     .search-bar input:focus{
         border-color:#ff1f4b;
@@ -145,11 +145,11 @@
         padding: 40px;
     }
     .products-card {
-        border: 1px solid #FF5E7E;;
+        border: 3px solid #FF5E7E;
+        background: #ffdbdb;
         border-radius: 10px;
         padding: 20px;
         text-align: center;
-        background: #ffffff;
         transition: transform 0.2s;
     }
     .products-card img {
@@ -167,9 +167,9 @@
         font-size: 1.3; 
     }
     .quickAdd{
-        background-color:pink;
+        background-color:rgb(255, 255, 255);
         color:black;
-        border: 2px;
+        border: 3px solid #FF5E7E;
         border-radius: 5px;
         font-size:1.1em;
         font-weight:bold;
@@ -182,10 +182,10 @@
         border-color: #ff93a5      
     }
     .wishlist{
-        background-color:pink;
+        background-color:rgb(255, 255, 255);
         color:black;
         border-radius: 5px;
-        border: 2px;
+        border: 3px solid #FF5E7E;
         font-size:1.1em;
         font-weight:bold;
         cursor: pointer;
