@@ -167,14 +167,14 @@ $orders = $stm->fetchAll();
                     <form method="POST" class="status-form">
                         <input type="hidden" name="order_id" value="<?= $o->order_id ?>">
                         <input type="hidden" name="old_status" value="<?= $o->status ?>">
-                        
-                        <select name="new_status" class="status-select">
-                            <option value="Pending" <?= $o->status == 'Pending' ? 'selected' : '' ?>>Pending</option>
-                            <option value="Shipped" <?= $o->status == 'Shipped' ? 'selected' : '' ?>>Shipped</option>
-                            <option value="Completed" <?= $o->status == 'Completed' ? 'selected' : '' ?>>Completed</option>
-                        </select>
-                        
-                        <button type="submit" name="update_status" class="update-btn">Update</button>
+                        <form>
+                            <select name="new_status" class="status-select">
+                                <option value="Pending" <?= $o->status == 'Pending' ? 'selected' : '' ?>>Pending</option>
+                                <option value="Shipped" <?= $o->status == 'Shipped' ? 'selected' : '' ?>>Shipped</option>
+                                <option value="Completed" <?= $o->status == 'Completed' ? 'selected' : '' ?>>Completed</option>
+                            </select>
+                            
+                            <button type="submit" name="update_status" class="update-btn">Update</button>
                     </form>
                 </td>
                 <td id = "productQuantity">Status: <?= $o->status ?></td>  
