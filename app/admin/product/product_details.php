@@ -58,124 +58,183 @@
 ?>
 
 <style>
-    .productContent{
-        display: flex;
-        gap: 40px;
-        padding: 40px;
-        align-items: flex-start;
-        max-width: 1200px;
-        margin: 0 auto;
-    }
-    .productImgContainer{
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-        width: 45%;
-    }
-    .thumbnailBar{
-        width: 100%;
-        overflow-x: auto;
-        padding-bottom: 10px;
-        white-space: nowrap;
-    }
-    .thumbnailInner{
-        display: flex;
-        flex-direction: row;
-        gap:10px;
-        width:max-content;
-    }
-    .thumbIMG{
-        width: 100px;
-        height: 70px;
-        flex-shrink: 0;
-        object-fit: contain;
-        border: 2px solid #FFA1AF;
-        border-radius: 4px;
-        cursor:pointer;
-        transition: 0.2;
-    }
-    .thumbIMG:active{
-        border-color: #FF5E7E;
-    }
-    .thumbnailBar::-webkit-scrollbar{
-        height:8px;
-    }
-    .thumbnailBar::-webkit-scrollbar-track{
-        background: #f1f1f1;
-        border-radius: 10px;
-    }
-    .thumbnailBar::-webkit-scrollbar-thumb{
-        background: #555;
-        border-radius: 10px;
-    }
-    .thumbnailBar::-webkit-scrollbar-thumb:hover{
-        background: #333;
-    }
-    .imgView{
-        flex: 1;
-        height: 450px;
-        border: 1px solid #FFA1AF;
-        border-radius: 8px;
-        background-color: #fff;
-        display: flex;
-        justify-content: center;
-        overflow: hidden;
-    }
-    #displayIMG{
-        max-width: 100%;
-        height: 100%;
-        object-fit: contain;
-    }
-    .products-details{
-        flex: 1;
-    }
-    .products-details h2{
-        color: #FF5E7E;
-        margin-top: 0;
-        font-size: 2.2em;
-    }
-    .price{
-        font-size: 1.8em;
-        font-weight: bold;
-        color: #FF5E7E;
-        margin:20px 0;
-    }
-    .sizeStatus, .descriptionBox{
-        margin-bottom:25px;
-        line-height: 1.6;
-    }
-    .addCartButton{
-        margin-top: 30px;
-        display: flex;
-        flex-direction: column;
-        gap:15px;
-    }
-    .quantityInput{
-        display: flex;
-        align-items: center;
-        gap:10px;
-    }
-    .quantityInput input{
-        width: 60px;
-        border:1px solid #FFA1AF;
-        border-radius: 4px;
-    }
-    .btn{
-        background-color:pink;
-        color:black;
-        border: 2px;
-        font-size:1.1em;
-        font-weight:bold;
-        cursor: pointer;
-        transition: 0.2;
-        width: fit-content;
-    }
-    .btn:hover{
-        background-color: #ff3b61;
-    }
-    main > h1:first-child{
-        display: none;
-    }
+/* ===== GLOBAL LAYOUT ===== */
+.productContent{
+    display: flex;
+    gap: 40px;
+    padding: 50px 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    font-family: Arial, sans-serif;
+}
+
+/* ===== LEFT SIDE (IMAGES) ===== */
+.productImgContainer{
+    flex: 1;
+    min-width: 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* MAIN IMAGE */
+.imgView{
+    width: 100%;
+    height: 420px;
+    border-radius: 12px;
+    border: 1px solid #ffd1da;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+
+#displayIMG{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.imgView:hover #displayIMG{
+    transform: scale(1.05);
+}
+
+/* ===== THUMBNAILS ===== */
+.thumbnailBar{
+    width: 100%;
+    overflow-x: auto;
+    padding: 8px 0;
+}
+
+.thumbnailInner{
+    display: flex;
+    gap: 12px;
+    width: max-content;
+}
+
+.thumbIMG{
+    width: 90px;
+    height: 70px;
+    flex-shrink: 0;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: 0.25s ease;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.thumbIMG:hover{
+    transform: scale(1.05);
+    border-color: #ff5e7e;
+}
+
+.thumbIMG:active{
+    transform: scale(0.98);
+}
+
+/* scrollbar */
+.thumbnailBar::-webkit-scrollbar{
+    height: 6px;
+}
+.thumbnailBar::-webkit-scrollbar-track{
+    background: #f3f3f3;
+    border-radius: 10px;
+}
+.thumbnailBar::-webkit-scrollbar-thumb{
+    background: #bbb;
+    border-radius: 10px;
+}
+.thumbnailBar::-webkit-scrollbar-thumb:hover{
+    background: #888;
+}
+
+/* ===== RIGHT SIDE (DETAILS) ===== */
+.products-details{
+    flex: 1;
+    min-width: 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* TITLE */
+.products-details h2{
+    font-size: 2.2rem;
+    margin: 0;
+    color: #ff4f78;
+    font-weight: 700;
+}
+
+/* PRICE */
+.price{
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #ff4f78;
+    margin: 10px 0;
+}
+
+/* INFO BOX */
+.sizeStatus, .descriptionBox{
+    background: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid #ffe0e6;
+    line-height: 1.6;
+}
+
+/* DESCRIPTION TITLE */
+.descriptionBox p:first-child,
+.sizeStatus p:first-child{
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+/* ===== FORM ===== */
+.addCartButton{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.quantityInput{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* BUTTON */
+.btn{
+    background: linear-gradient(135deg, #ff7aa2, #ff3b61);
+    color: white;
+    border: none;
+    padding: 12px 18px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.25s ease;
+    width: fit-content;
+    box-shadow: 0 4px 10px rgba(255, 59, 97, 0.25);
+}
+
+.btn:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(255, 59, 97, 0.35);
+}
+
+.btn:active{
+    transform: scale(0.98);
+}
+
+
+
 </style>
 
 <div class="productContent">
@@ -198,7 +257,7 @@
 
     <!-- Display product info -->
     <div class="products-details">
-        <form>
+        <div class="right-form">
             <h2><label for = 'name'>Name:</label><?php html_text('name',encode($products['name'])) ?></h2>
 
             <p class="price"><label for = "price">Price: RM</label><?php html_number('price',$products['price'],0) ?></p>
@@ -210,7 +269,7 @@
             <div class="descriptionBox">
                 <p><strong><label for = "description">Description:</label></strong></p>
                 <p><?php html_textarea('description', $products['description']) ?></p>
-            </div>
+            </div class="upload-box">
             <label for="photo">Photo</label>
             <label class="upload" tabindex="0">
                 <?= html_file('photo', 'image/*', 'hidden') ?>
@@ -218,7 +277,7 @@
             </label>
             <?php html_hidden('product_id', $products['product_id']) ?>
             <button type="submit" class="btn">Update Product</button>
-        </form>
+                </div>
     </div>
  </div>
 
@@ -238,5 +297,5 @@
 
 
 <?php 
-    include '../_foot.php';
+    include '../../_foot.php';
 ?>
