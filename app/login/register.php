@@ -58,8 +58,8 @@ if (is_post()) {
     if (!$phone) {
         $_err['phone'] = 'Required';
     }
-    else if (strlen($phone) > 11) {
-        $_err['phone'] = 'Maximum 11 characters';
+    else if (!preg_match ('/^\d{1,11}$/', $phone)) {
+        $_err['phone'] = 'Invalid phone number';
     }
 
     // Validate: photo (file)

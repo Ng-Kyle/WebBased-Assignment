@@ -1,5 +1,6 @@
 <?php
 include '../_base.php';
+$title = 'Profile Page';
 include '../_head.php';
 
 // ----------------------------------------------------------------------------
@@ -60,8 +61,8 @@ if (is_post()) {
     if ($phone == '') {
         $_err['phone'] = 'Required';
     }
-     else if (strlen($phone) > 11) {
-        $_err['phone'] = 'Maximum 11 characters';
+     else if (!preg_match ('/^\d{1,11}$/', $phone)) {
+        $_err['phone'] = 'Invalid phone number';
     }
 
     // Validate: photo (file) --> optional
@@ -110,7 +111,6 @@ if (is_post()) {
     }
 // ----------------------------------------------------------------------------
 
-$_title = 'User | Profile';
 ?>
 <style>
     /* 1. Page Layout - Allow scrolling on this page since Order History can be long */
@@ -210,7 +210,7 @@ $_title = 'User | Profile';
     }
 </style>
 
-    <style>
+<style>
         .productRowTop{
             border-top: 3px solid pink;
         }
