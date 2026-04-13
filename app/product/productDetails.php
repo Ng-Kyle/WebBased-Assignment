@@ -89,122 +89,146 @@
 ?>
 
 <style>
-    .productContent{
+    .productContent {
         display: flex;
         gap: 40px;
         padding: 40px;
         align-items: flex-start;
         max-width: 1200px;
         margin: 0 auto;
+        font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     }
-    .productImgContainer{
+
+    .productImgContainer {
         display: flex;
         flex-direction: column;
         gap: 15px;
         width: 45%;
     }
-    .thumbnailBar{
+
+    /* Thumbnail Section */
+    .thumbnailBar {
         width: 100%;
         overflow-x: auto;
         padding-bottom: 10px;
         white-space: nowrap;
     }
-    .thumbnailInner{
+
+    .thumbnailInner {
         display: flex;
         flex-direction: row;
-        gap:10px;
-        width:max-content;
+        gap: 10px;
+        width: max-content;
     }
-    .thumbIMG{
+
+    .thumbIMG {
         width: 100px;
         height: 70px;
         flex-shrink: 0;
-        object-fit: contain;
+        object-fit: cover;
         border: 2px solid #FFA1AF;
-        border-radius: 4px;
-        cursor:pointer;
-        transition: 0.2;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: border-color 0.2s, transform 0.2s;
     }
-    .thumbIMG:active{
+
+    .thumbIMG:hover {
         border-color: #FF5E7E;
     }
-    .thumbnailBar::-webkit-scrollbar{
-        height:8px;
-    }
-    .thumbnailBar::-webkit-scrollbar-track{
-        background: #f1f1f1;
-        border-radius: 10px;
-    }
-    .thumbnailBar::-webkit-scrollbar-thumb{
-        background: #555;
-        border-radius: 10px;
-    }
-    .thumbnailBar::-webkit-scrollbar-thumb:hover{
-        background: #333;
-    }
-    .imgView{
+
+    /* Main Image View */
+    .imgView {
         flex: 1;
         height: 450px;
         border: 1px solid #FFA1AF;
-        border-radius: 8px;
+        border-radius: 12px;
         background-color: #fff;
         display: flex;
         justify-content: center;
+        align-items: center;
         overflow: hidden;
     }
-    #displayIMG{
+
+    #displayIMG {
         max-width: 100%;
         height: 100%;
         object-fit: contain;
     }
-    .products-details{
+
+    /* Refined Description UI (Right Side) */
+    .products-details {
         flex: 1;
+        background-color: #ffa9ba26; /* Softer transparency */
+        border: 1px solid #ffa9ba5c;
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
     }
-    .products-details h2{
+
+    .products-details h2 {
         color: #FF5E7E;
         margin-top: 0;
         font-size: 2.2em;
+        line-height: 1.2;
+        letter-spacing: -0.5px;
     }
-    .price{
-        font-size: 1.8em;
+
+    .price {
+        font-size: 2em;
         font-weight: bold;
         color: #FF5E7E;
-        margin:20px 0;
+        margin: 15px 0;
+        display: block;
     }
-    .sizeStatus, .descriptionBox{
-        margin-bottom:25px;
-        line-height: 1.6;
+
+    .sizeStatus, .descriptionBox {
+        font-weight: normal; /* Better readability for body text */
+        color: #444;
+        margin-bottom: 10px;
     }
-    .addCartButton{
-        margin-top: 30px;
+
+    .addCartButton {
+        margin-top: 25px;
         display: flex;
         flex-direction: column;
-        gap:15px;
+        gap: 15px;
     }
-    .quantityInput{
+
+    .quantityInput {
         display: flex;
         align-items: center;
-        gap:10px;
+        gap: 12px;
+        font-size: 0.9em;
     }
-    .quantityInput input{
+
+    .quantityInput input {
         width: 60px;
-        border:1px solid #FFA1AF;
-        border-radius: 4px;
+        padding: 8px;
+        border: 1px solid #FFA1AF;
+        border-radius: 6px;
+        outline: none;
+        text-align: center;
     }
-    .btn{
-        background-color:pink;
-        color:black;
-        border: 2px;
-        font-size:1.1em;
-        font-weight:bold;
+
+  
+    .btn {
+        background-color: #FF5E7E;
+        color: white;
+        border: none;
+        padding: 14px 28px;
+        font-size: 1.1em;
+        font-weight: bold;
+        border-radius: 10px;
         cursor: pointer;
-        transition: 0.2;
+        transition: background-color 0.2s, transform 0.1s;
         width: fit-content;
     }
-    .btn:hover{
-        background-color: #ff3b61;
+
+    .btn:hover {
+        background-color: #e04a68;
     }
-    main > h1:first-child{
+
+    main > h1:first-child {
         display: none;
     }
 </style>
@@ -229,29 +253,32 @@
 
     <!-- Display product info -->
     <div class="products-details">
-        <h2><?= encode($products['name']) ?></h2>
+        <div class="inner-box">
+            <h2><?= encode($products['name']) ?></h2>
 
-        <p class="price">Price: RM<?= number_format($products['price'],2) ?></p>
-        <div class="sizeStatus">
-            <p>Brand:</p><?= encode($products['brand']) ?>
-            <p>Series:</p><?= encode($products['series']) ?>
-            <p><strong>Scale:</strong> <?= encode($products['scale']) ?></p>
-            <p><strong>Status:</strong> <?= encode($products['stock_quantity']) ?> units left (<?= encode($products['status']) ?>)</p>
-        </div>
-        <div class="descriptionBox">
-            <p><strong>Description:</strong></p>
-            <p><?= encode($products['description']) ?></p>
-        </div>
-
-        <form method="post" class="addCartButton">
-            <?php html_hidden('product_id', $products['product_id']) ?>
+            <p class="price">Price: RM<?= number_format($products['price'],2) ?></p>
             
-            <div class="quantityInput">
-                <label>Quantity:</label>
-                <?php html_number('quantity', 1, 1, $products['stock_quantity']) ?>
-            </div>
-            <button type="submit" class="btn">Add To Cart</button>
-        </form>
+                <div class="sizeStatus">
+                    <p>Brand:</p><?= encode($products['brand']) ?>
+                    <p>Series:</p><?= encode($products['series']) ?>
+                    <p><strong>Scale:</strong> <?= encode($products['scale']) ?></p>
+                    <p><strong>Status:</strong> <?= encode($products['stock_quantity']) ?> units left (<?= encode($products['status']) ?>)</p>
+                </div>
+                <div class="descriptionBox">
+                    <p><strong>Description:</strong></p>
+                    <p><?= encode($products['description']) ?></p>
+                </div>
+            
+                <form method="post" class="addCartButton">
+                    <?php html_hidden('product_id', $products['product_id']) ?>
+                    
+                    <div class="quantityInput">
+                        <label>Quantity:</label>
+                        <?php html_number('quantity', 1, 1, $products['stock_quantity']) ?>
+                    </div>
+                    <button type="submit" class="btn">Add To Cart</button>
+                </form>
+        </div>
     </div>
  </div>
 

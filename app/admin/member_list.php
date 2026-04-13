@@ -49,6 +49,7 @@ include '_head.php';
 .details-but {
     width: 20%;
     position: relative;
+    border: none;
 }
 
 .table1 .popup {
