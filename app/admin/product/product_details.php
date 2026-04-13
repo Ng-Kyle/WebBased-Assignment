@@ -99,7 +99,7 @@
                 $stm = $_db->prepare('DELETE FROM cart_product WHERE product_id = ?');
                 $stm->execute([$product_id]);
             }
-            
+
             temp('info', 'Product updated!');
             redirect();
             
