@@ -162,7 +162,7 @@
             <div class="products-side">
                 <?php foreach ($products as $p): ?>
                     <div class="products-card">
-                        <a href="productDetails.php?product_id=<?= $p->product_id ?>">
+                        <a href="product_details.php?product_id=<?= $p->product_id ?>">
                             <img src="<?= $p->image_url ?>" alt="<?= encode($p->name) ?>">
                             <h3><?= encode($p->name) ?></h3>
                             <p class="price">RM <?= number_format($p->price,2) ?></p>
