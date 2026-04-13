@@ -34,8 +34,16 @@ include '_head.php';
     font-weight: 600;
 }
 
-.table1 td > :last-child{
-    border: hidden;
+.table1 td.details-but {
+    border: none; /* Removes the pink border from this specific cell */
+    position: relative; 
+    width: 20%;
+    text-align: left;
+    padding: 1%;
+}
+
+.table1 tr:hover td.details-but {
+    background-color: transparent; 
 }
 
 .table1 tr:hover td {
@@ -83,7 +91,7 @@ include '_head.php';
 </style>
 
 
-<p><?= count($arr) ?> record(s)</p>
+
 
 <table class="table1">
     <tr class="table-title">
@@ -97,7 +105,7 @@ include '_head.php';
     <tr class="table-row">
         <td><?= $p->member_id ?></td>
         <td><?= $p->name ?></td>
-        <td>
+        <td class="details-but">
             <button class="details" data-get="member_details.php?id=<?= $p->member_id ?>">Details</button>
             <img class="popup" src="<?= $p->image_url ?>" >
         </td>
