@@ -4,14 +4,25 @@ include '_base.php';
 // ----------------------------------------------------------------------------
 $_title = 'Home';
 
-$stm = $_db->prepare('SELECT p.*, i.image_url FROM product p JOIN product_image i on p.product_id = i.product_id ORDER BY product_id LIMIT 6' );
+$stm = $_db->prepare('SELECT p.product_id, p.name, p.price, i.image_url, 
+                        COUNT(od.product_id) AS total_bought
+                        FROM product p
+                        JOIN product_image i ON p.product_id = i.product_id
+                        LEFT JOIN order_details od ON p.product_id = od.product_id
+                        LEFT JOIN invoice inv ON od.order_id = inv.order_id
+                        GROUP BY p.product_id
+                        ORDER BY total_bought DESC
+                        LIMIT 6');
 $stm->execute();
-$product = $stm->fetchAll();
+$arr = $stm->fetchAll();
 
 include '_head.php';
 
 
 ?>
+
+
+
 
 
 
@@ -61,15 +72,14 @@ include '_head.php';
 
         <div class="product-slider" id="productSlider">
 
-            <?php foreach ($product as $p): ?>
-                
+            <?php foreach ($arr as $p): ?>
                 <div class="product-card">
                     <a href="product/productDetails.php?product_id=<?= $p->product_id ?>">
                          <img class="product-image" src="<?= $p->image_url ?>" alt="<?= encode($p->name) ?>">
                     </a>
                     <h3><?= encode($p->name) ?></h3>
                     <p class="price">RM <?= number_format($p->price,2) ?></p>
-                </div>
+                </div >
             <?php endforeach; ?>
 
         </div>
