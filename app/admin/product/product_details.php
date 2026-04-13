@@ -36,6 +36,8 @@
         $product_name = req('product_name');
         $price = req('price');
         $scale = req('scale');
+        $series = req('series');
+        $brand = req('brand');
         $stock_quantity = req('stock');
         $product_status = req('status');
         $description = req('description');
@@ -85,6 +87,20 @@
             $_err['scale'] = 'Maximum of 99 characters';
         }
 
+        if($series == ''){
+            $_err['series'] = 'Required';
+        }
+        elseif(strlen($series) > 99){
+            $_err['series'] = 'Maximum of 99 characters';
+        }
+
+        if($brand == ''){
+            $_err['brand'] = 'Required';
+        }
+        elseif(strlen($brand) > 99){
+            $_err['brand'] = 'Maximum of 99 characters';
+        }
+
         if(!array_key_exists($product_status,$status)){
             $_err['status'] = 'Invalid status';
         }
@@ -104,8 +120,8 @@
                 $stm = $_db->prepare('UPDATE product_image SET image_url = ? WHERE product_id = ? ORDER BY product_image_id ASC LIMIT 1');
                 $stm->execute([$image,$product_id]);
             }
-            $stm = $_db->prepare('UPDATE product SET name = ?, price = ?, scale = ?, stock_quantity = ?, status = ?, description = ? WHERE product_id = ?');
-            $stm->execute([$product_name,$price,$scale,$stock_quantity, $product_status,$description,$product_id]);
+            $stm = $_db->prepare('UPDATE product SET name = ?, price = ?, scale = ?, stock_quantity = ?, status = ?, description = ?, series = ?, brand = ? WHERE product_id = ?');
+            $stm->execute([$product_name,$price,$scale,$stock_quantity, $product_status,$description,$series, $brand, $product_id]);
             temp('info', 'Product updated!');
             redirect();
             
@@ -265,6 +281,8 @@
             <p class="price"><label for = "price">Price: RM</label><?php html_number('price',sprintf('%.2f',$products['price']),0,999999.99,0.01) ?> <?= err('price') ?></p>
             <div class="sizeStatus">
                 <p><strong><label for = "scale">Scale:</label></strong><?php html_text('scale', encode($products['scale'])) ?> <?= err('scale') ?></p>
+                <p><strong><label for = "scale">Series:</label></strong><?php html_text('series', encode($products['series'])) ?> <?= err('series') ?></p>
+                <p><strong><label for = "scale">Brand:</label></strong><?php html_text('brand', encode($products['brand'])) ?> <?= err('brand') ?></p>
                 <p><strong><label for = "stock">Stock:</label></strong><?php html_number('stock',encode($products['stock_quantity']),0,99999) ?> units left <?= err('stock') ?></p>
                 <p><strong><label for = "status">Status:</label></strong> <?php html_select('status',$status,encode($products['status']))?> <?= err('status') ?></p>
             </div>
