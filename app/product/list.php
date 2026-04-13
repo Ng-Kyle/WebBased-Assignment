@@ -206,8 +206,85 @@
         border-color: #ff93a5        
     }
     .filterContainer{
-        background-color: rgb(255, 255, 255);
-        margin-right: 10px;
+        background-color: #fff;
+        border-radius: 15px;
+        padding: 10px;
+    }
+    .filterContainer h3{
+        color:#FF5E7E;
+        font-size: 1.1em;
+        margin: 25px 0 12px 0;
+        padding-bottom: 5px;
+        border-bottom: 2px solid #ffdbdb;
+        display: flex;
+        align-items: center;
+    }
+    .filterContainer h3::before{
+        content: '✨';
+        margin-right: 8px;
+        font-size:0.9rem;
+    }
+    .filter-group{
+        display: flex;
+        flex-direction: column;
+        gap:8px;
+        max-height: 200px; /*wow thiz is for limiting the height, so can add scroll*/
+        overflow-y: auto;
+        padding-right: 5px;
+        margin-bottom: 15px;
+    }
+    .filter-group::-webkit-scrollbar{
+        width: 5px;
+    }
+    .filter-group::-webkit-scrollbar-thumb{
+        background: #ffdbdb;
+        border-radius: 10px;
+    }
+    .filter-group input[type="number"]:focus{
+        border-color: #FF5E7E;
+        outline:none;
+    }
+    .filter-group label{
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        color:#555;
+        transition: color 0.2s;
+    }
+    .filter-group:hover{
+        color: #FF5E7E;
+    }
+    .filter-group input[type="checkbox"]{
+        accent-color: #FF5E7E;
+        width: 16px;
+        height: 16px;
+    }
+    #filter button[type="submit"]{
+        width:97%;
+        background-color:rgb(255, 255, 255);
+        color:black;
+        border-radius: 5px;
+        border: 3px solid #FF5E7E;
+        font-size:1.1em;
+        font-weight:bold;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+    #filter button[type="submit"]:hover{
+        background-color:#ff93a5;
+        border-color: #ff93a5  
+    }
+    #filter a{
+        display: block;
+        text-align: center;
+        margin-top: 15px;
+        color: #888;
+        text-decoration: none;
+        font-size: 0.9rem;
+    }
+    #filter a{
+        color: #FF5E7E;
+        text-decoration: underline;
     }
 </style>
     <div class="search-bar">

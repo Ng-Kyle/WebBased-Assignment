@@ -98,29 +98,24 @@
         margin: 0 auto;
         font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     }
-
     .productImgContainer {
         display: flex;
         flex-direction: column;
         gap: 15px;
         width: 45%;
     }
-
-    /* Thumbnail Section */
     .thumbnailBar {
         width: 100%;
         overflow-x: auto;
         padding-bottom: 10px;
         white-space: nowrap;
     }
-
     .thumbnailInner {
         display: flex;
         flex-direction: row;
         gap: 10px;
         width: max-content;
     }
-
     .thumbIMG {
         width: 100px;
         height: 70px;
@@ -135,8 +130,6 @@
     .thumbIMG:hover {
         border-color: #FF5E7E;
     }
-
-    /* Main Image View */
     .imgView {
         flex: 1;
         height: 450px;
@@ -154,17 +147,14 @@
         height: 100%;
         object-fit: contain;
     }
-
-    /* Refined Description UI (Right Side) */
     .products-details {
         flex: 1;
-        background-color: #ffa9ba26; /* Softer transparency */
+        background-color: #ffa9ba26;
         border: 1px solid #ffa9ba5c;
         border-radius: 20px;
         padding: 30px;
         box-shadow: 0 4px 10px rgba(0,0,0,0.05);
     }
-
     .products-details h2 {
         color: #FF5E7E;
         margin-top: 0;
@@ -172,7 +162,6 @@
         line-height: 1.2;
         letter-spacing: -0.5px;
     }
-
     .price {
         font-size: 2em;
         font-weight: bold;
@@ -180,27 +169,23 @@
         margin: 15px 0;
         display: block;
     }
-
     .sizeStatus, .descriptionBox {
-        font-weight: normal; /* Better readability for body text */
+        font-weight: normal;
         color: #444;
         margin-bottom: 10px;
     }
-
     .addCartButton {
         margin-top: 25px;
         display: flex;
         flex-direction: column;
         gap: 15px;
     }
-
     .quantityInput {
         display: flex;
         align-items: center;
         gap: 12px;
         font-size: 0.9em;
     }
-
     .quantityInput input {
         width: 60px;
         padding: 8px;
@@ -217,14 +202,13 @@
         font-size:1.1em;
         font-weight:bold;
         cursor: pointer;
-        transition: 0.2;
+        transition: 0.3s;
         width: fit-content;   
     }
     .btn:hover{
         background-color:#ff93a5;
         border-color: #ff93a5  
     }
-
     main > h1:first-child {
         display: none;
     }
@@ -255,35 +239,30 @@
 
             <p class="price">Price: RM<?= number_format($products['price'],2) ?></p>
             
-                <div class="sizeStatus">
-                    <p>Brand:<?= encode($products['brand']) ?></p>
-                    <p>Series:<?= encode($products['series']) ?></p>
-                    <p><strong>Scale:</strong> <?= encode($products['scale']) ?></p>
-                    <p><strong>Status:</strong> <?= encode($products['stock_quantity']) ?> units left (<?= encode($products['status']) ?>)</p>
-                </div>
-                <div class="descriptionBox">
-                    <p><strong>Description:</strong></p>
-                    <p><?= encode($products['description']) ?></p>
-                </div>
-            
-                <form method="post" class="addCartButton">
-                    <?php html_hidden('product_id', $products['product_id']) ?>
-                    
-                    <div class="quantityInput">
-                        <label>Quantity:</label>
-                        <?php html_number('quantity', 1, 1, $products['stock_quantity']) ?>
-                    </div>
-                    <button type="submit" class="btn">Add To Cart</button>
-                </form>
-        </div>
-            <div class="quantityInput">
-                <label>Quantity:</label>
-                <?php html_number('quantity', 1, 1, $products['stock_quantity']) ?>
+            <div class="sizeStatus">
+                <p><strong>Brand:<?= encode($products['brand']) ?><strong></p>
+                <p><strong>Series:<?= encode($products['series']) ?><strong></p>
+                <p><strong>Scale:</strong> <?= encode($products['scale']) ?></p>
+                <p><strong>Status:</strong> <?= encode($products['stock_quantity']) ?> units left (<?= encode($products['status']) ?>)</p>
             </div>
-            <button type="submit" class="btn">Add To Cart🛒</button>
-        </form>
+            <div class="descriptionBox">
+                <p><strong>Description:</strong></p>
+                <p><?= encode($products['description']) ?></p>
+            </div>
+        
+            <form method="post" class="addCartButton">
+                <?php html_hidden('product_id', $products['product_id']) ?>
+                
+                <div class="quantityInput">
+                    <label>Quantity:</label>
+                    <?php html_number('quantity', 1, 1, $products['stock_quantity']) ?>
+                </div>
+                <button type="submit" class="btn">Add To Cart🛒</button>
+            </form>
+        
+        </div>
     </div>
- </div>
+</div>
 
  <script>
     function swapImage(imgSrc, thumbElement){
