@@ -1,6 +1,6 @@
 <?php
     include '../../_base.php';
-    $stm = $_db->prepare('SELECT * FROM invoice WHERE member_id = ?');
+    $stm = $_db->prepare('SELECT * FROM invoice');
     $stm->execute([$_user->member_id]);
     $orders = $stm->fetchAll();
     include '../../_head.php';
