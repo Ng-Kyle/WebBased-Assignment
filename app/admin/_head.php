@@ -46,4 +46,4 @@
     
 
     <main>
-        <h1><?= $_title ?? 'Untitled' ?></h1>
+        <h1 class = "pageTitle" ><?= $_title ?? 'Untitled' ?></h1>

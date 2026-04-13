@@ -1,118 +1,84 @@
 <?php
-include '../_base.php';
-$_title = 'Member List';
-auth('admin');
-// retrieve all student records from db4
-$arr = $_db->query('SELECT * FROM member')->fetchAll();
-include '_head.php';
+    include '../_base.php';
+    $_title = 'Member List';
+    auth('admin');
+   $name = req('member'); 
+
+    // Fetch only specific columns: member_id and name
+    $stm = $_db->prepare('
+        SELECT member_id, name, image_url 
+        FROM member 
+        WHERE name LIKE ? 
+        OR member_id LIKE ?
+    ');
+    
+    // Note: We still need image_url for your <img> tag to work!
+    $stm->execute(["%$name%", "%$name%"]);
+    $arr = $stm->fetchAll();
+    include '_head.php';
 ?>
 
 <style>
-    
-.table1 {
-    width: 70%;
-    margin: 40px auto; 
-    border-collapse: collapse;
-    overflow: visible;
-    }
-
-.table1 th{
-    border: 2px solid rgb(255, 110, 110);
-    padding: 12px; 
-    text-align: center;
-} 
-
-.table1  td {
-    border: 2px solid rgb(255, 110, 110);
-    padding: 12px; 
-    text-align: center;
-}
-
-.table1 th {
-    color: #000;
-    background: #ffd4d4;
-    font-weight: 600;
-}
-
-.table1 td.details-but {
-    border: none; /* Removes the pink border from this specific cell */
-    position: relative; 
-    width: 20%;
-    text-align: left;
-    padding: 1%;
-}
-
-.table1 tr:hover td.details-but {
-    background-color: transparent; 
-}
-
-.table1 tr:hover td {
-    background-color: #ffecec;
-}
-
-.details {
-    background-color: white;
-    padding: 5px 10px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-.details:hover {
-    background-color: rgb(255, 110, 110);
-    color: white;
-}
-
-.details-but {
-    width: 20%;
-    position: relative;
-}
-
-.table1 .popup {
-    width: 120px;
-    height: 120px;
-    object-fit: cover;
-    position: absolute;
-    top: 50%;
-    left: 100%;
-    transform: translate(10px, -50%);
-    z-index: 999;
-    border: 5px solid rgb(255, 126, 126);
-    border-radius: 8px;
-    background: white;
-    display: none;
-    
-}
-
-.details-but:hover .popup {
-    display: block;
-}
-
+    .search-bar{
+            text-align: center;
+            margin: 20px;
+        }
+        .search-bar input{
+            width: 50%;
+            padding: 10px;
+            border-radius: 20px;
+            border: 2px solid #FF5E7E;
+        }
+        .search-bar input:focus{
+            border-color:#ff1f4b;
+            outline: none;
+            box-shadow: 0 0 8px rgba(255, 94, 126, 0.3);
+        }
+        .memberListTable{
+           margin-left: 20%;
+        }
+        .reset-link td{
+            font-size: 20px;
+            border: hidden;
+        }
 </style>
 
 
+<div class="search-bar">
+    <form action="" method="get">
+        <?= html_search('member', 'placeholder="Search members by name or ID..."') ?>
+    </form>
+</div>
 
-
-<table class="table1">
-    <tr class="table-title">
-        <th>Id</th>
-        <th>Name</th>
-        
-    
-    </tr>
-
-    <?php foreach ($arr as $p): ?>
-    <tr class="table-row">
-        <td><?= $p->member_id ?></td>
-        <td><?= $p->name ?></td>
-        <td class="details-but">
-            <button class="details" data-get="member_details.php?id=<?= $p->member_id ?>">Details</button>
-            <img class="popup" src="<?= $p->image_url ?>" >
-        </td>
-    </tr>
-    <?php endforeach ?>
+<table class="memberListTable">
+    <thead>
+        <tr class="table-title">
+            <th>Id</th>
+            <th>Name</th>
+        </tr>
+    </thead>    
+    <tbody>
+        <?php if ($arr): ?>
+            <?php foreach ($arr as $p): ?>
+                <tr>
+                    <td><?= $p->member_id ?></td>
+                    <td><?= $p->name ?></td>
+                    <td class="memberListDetailsBtn">
+                        <button class="memberListDetails" data-get="member_details.php?id=<?= $p->member_id ?>">Details</button>
+                        <img class="popup" src="<?= $p->image_url ?>" >
+                    </td>
+                </tr>
+            <?php endforeach ?>
+        <?php else: ?>
+            <tr class="none">
+                <td>No member ID found matching your search.</td>
+                <td>No name found matching your search.</td>
+                <td> <a href="?" class="reset-link">View All Members</a></td>
+            </tr>
+           
+        <?php endif ?>
+    </tbody>  
 </table>
-
 
 
 
@@ -122,3 +88,4 @@ include '_head.php';
 
 <?php
 include '../_foot.php';
+?>

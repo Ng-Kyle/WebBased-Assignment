@@ -4,14 +4,25 @@ include '_base.php';
 // ----------------------------------------------------------------------------
 $_title = 'Home';
 
-$stm = $_db->prepare('SELECT p.*, i.image_url FROM product p JOIN product_image i on p.product_id = i.product_id ORDER BY product_id LIMIT 6' );
+$stm = $_db->prepare('SELECT p.product_id, p.name, p.price, i.image_url, 
+                        COUNT(od.product_id) AS total_bought
+                        FROM product p
+                        JOIN product_image i ON p.product_id = i.product_id
+                        LEFT JOIN order_details od ON p.product_id = od.product_id
+                        LEFT JOIN invoice inv ON od.order_id = inv.order_id
+                        GROUP BY p.product_id
+                        ORDER BY total_bought DESC
+                        LIMIT 6');
 $stm->execute();
-$product = $stm->fetchAll();
+$arr = $stm->fetchAll();
 
 include '_head.php';
 
 
 ?>
+
+
+
 
 
 
@@ -51,35 +62,35 @@ include '_head.php';
         </div>
 
     </div>
-<div class="product-section">
+    <div class="product-section">
 
-    <h2>🔥 Most Ordered Products</h2>
+        <h2>🔥 Most Ordered Products</h2>
 
-    <div class="slider-wrapper">
+        <div class="slider-wrapper">
 
-        <button class="slide-btn left" onclick="slideLeft()">‹</button>
+            <button class="slide-btn left" onclick="slideLeft()">‹</button>
 
-        <div class="product-slider" id="productSlider">
+            <div class="product-slider" id="productSlider">
 
-            <?php foreach ($product as $p): ?>
-                
+            <?php foreach ($arr as $p): ?>
                 <div class="product-card">
                     <a href="product/productDetails.php?product_id=<?= $p->product_id ?>">
                          <img class="product-image" src="<?= $p->image_url ?>" alt="<?= encode($p->name) ?>">
                     </a>
                     <h3><?= encode($p->name) ?></h3>
                     <p class="price">RM <?= number_format($p->price,2) ?></p>
-                </div>
+                </div >
             <?php endforeach; ?>
 
         </div>
 
-        <button class="slide-btn right" onclick="slideRight()">›</button>
 
     </div>
-
-
-</div>
+    <div>
+        <h3>Our Store Location📌</h3>
+        <iframe class="map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3971.8764056341292!2d100.3086100750317!3d5.435735894543674!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x304ac30639a8371d%3A0xd64b8208b7c331b1!2sGurney%20Paragon%20Mall!5e0!3m2!1sen!2smy!4v1776099943740!5m2!1sen!2smy"
+                     width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
 
     
 </main>
@@ -236,7 +247,13 @@ include '_head.php';
 .slide-btn.right {
     right: 0;
 }
+
+.map{
+    width: 100%;
+}
+
 </style>
+
 
  <script>
 let index = 0;
@@ -290,6 +307,9 @@ function slideLeft() {
 }
 
 </script>
+
+
+
 
 <?php
 include '_foot.php';

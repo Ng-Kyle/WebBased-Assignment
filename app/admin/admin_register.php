@@ -48,17 +48,8 @@ if (is_post()) {
     }
 
     // Validate: name
-    if (!$name) {
-        $_err['name'] = 'Required';
-    }
-    else if (strlen($name) > 100) {
-        $_err['name'] = 'Maximum 100 characters';
-    }
+    validate_text('name',$name,100);
 
-   
-    $_db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    // DB operation
-    try{
     if (!$_err) {
 
         // (1) Insert user (admin)
@@ -71,136 +62,39 @@ if (is_post()) {
         temp('info', 'Record inserted');
         redirect('/admin/admin.php');
     }
-    }catch(PDOException $e){
-        die($e->getMessage());
-    }
 }
 
 ?>
-<style>
-    .form{
-        background: white;
-        padding: 40px;
-        border-radius: 8px;
-        box-shadow: 0 4px 12px #ff8da1  ;
-        width: 380px;
 
-        margin-left: auto;
-        margin-right: auto;
-        margin-top: 60px; 
-        margin-bottom: 60px;
+<div class = adminRegisterPage>
+    <form method="post" class="adminRegisterForm" enctype="multipart/form-data">
+        <label for="username">Name</label>
+        <?= html_text('username', '', 'maxlength="100"') ?>
+        <?= err('name') ?>
 
-        display: block;
-        text-align: center;
-    }
+        <label for="email">Email</label>
+        <?= html_text('email',"", 'maxlength="254"') ?>
+        <?= err('email') ?>
 
-    .form input {
-        text-align: center;
-        width: 100%;
-        box-sizing: border-box;
-        padding: 10px;
-        margin-bottom: 10px;
-        border: 1px solid #ff8da1;
-        border-radius: 4px;
-        display: block;
-    }
+        <label for="password">Password</label>
+        <?= html_password('password', '') ?>
+        <?= err('password') ?>
 
-    .form label {
-        display: block;
-        color : #000000;
-        background-color: transparent;
-        font-weight: bold;
-        margin-top: 10px;
-        margin-bottom: 5px;
-        text-align: center;
-    }
+    
+        <label for="confirm">Confirm</label>
+        <?= html_password('confirm', '') ?>
+        <?= err('confirm') ?>
 
-    .form input:focus {
-    border: 2px solid #ffb6c1 !important;
-    outline: none !important;
-    box-shadow: 0 0 8px rgba(255, 182, 193, 0.5);
-    }
-
-    .form input[type="file"] {
-        display: none !important;
-    }
-
-    .form .upload {
-        display: inline-block;
-        margin: 10px auto;
-        cursor: pointer;
-    }
-
-    .form .upload img {
-        width: 120px;
-        height: 120px;
-        border-radius: 4px !important;
-        object-fit: cover;
-        border: 2px solid #ffb6c1;
-        display: block;
-    }
-
-    .form section {
-        display: flex;
-        width: 100%;
-        gap: 10px;
-        margin-top: 20px;
-    }
-
-    .form button {
-        flex: 1;
-        padding: 12px;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-        font-weight: bold;
-        background-color: #ffb6c1;
-        color: black;
-        font-size: 16px;
-    }
-
-    .form button:hover {
-        background-color: #ff8da1;
-    }
-
-    .err { 
-        color: red; 
-        font-size: 12px; 
-        display: block; 
-        text-align: center; 
-        width: 100%;
-        margin-bottom: 5px;
-    }
-
-</style>
-
-<form method="post" class="form" enctype="multipart/form-data">
-    <label for="username">Name</label>
-    <?= html_text('username', '', 'maxlength="100"') ?>
-    <?= err('name') ?>
-
-     <label for="email">Email</label>
-    <?= html_text('email',"", 'maxlength="254"') ?>
-    <?= err('email') ?>
-
-    <label for="password">Password</label>
-    <?= html_password('password', '') ?>
-    <?= err('password') ?>
-
-   
-    <label for="confirm">Confirm</label>
-    <?= html_password('confirm', '') ?>
-    <?= err('confirm') ?>
-
-    <section>
-        <button>Submit</button>
-        <button type="reset">Reset</button>
-    </section>
-</form>
-
+        <section>
+            <button>Submit</button>
+            <button type="reset">Reset</button>
+        </section>
+    </form>
+</div>
 
 
 
 
 <?php
+    include '../_foot.php';
 ?>

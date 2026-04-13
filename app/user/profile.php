@@ -101,14 +101,47 @@ if (is_post()) {
         redirect('/');
     }
 }
- try{
-    $stm = $_db->prepare('SELECT * FROM invoice WHERE member_id = ?');
-    $stm->execute([$_user->member_id]);
-    $orders = $stm->fetchAll();
+    try{
+        $stm = $_db->prepare('SELECT * FROM invoice WHERE member_id = ?');
+        $stm->execute([$_user->member_id]);
+        $orders = $stm->fetchAll();
+        }
+        catch(PDOException $e){
+            die($e->getMessage());
+        }
+
+
+       if (is_post() && isset($_POST['cancel_order_id'])) {
+    $cancel_id = post('cancel_order_id');
+
+    // 1. Fetch items to restore stock BEFORE deleting anything
+    $stmt = $_db->prepare("SELECT product_id, quantity FROM order_details WHERE order_id = ?");
+    $stmt->execute([$cancel_id]);
+    $items = $stmt->fetchAll();
+
+    foreach ($items as $item) {
+        $upd = $_db->prepare("UPDATE product SET stock_quantity = stock_quantity + ? WHERE product_id = ?");
+        $upd->execute([$item->quantity, $item->product_id]);
     }
-    catch(PDOException $e){
-        die($e->getMessage());
-    }
+
+    // --- START DELETING IN CORRECT ORDER ---
+
+    // 2. Delete from order_details
+    $delDetails = $_db->prepare("DELETE FROM order_details WHERE order_id = ?");
+    $delDetails->execute([$cancel_id]);
+
+    // 3. Delete from receipt (This fixes the Integrity constraint violation)
+    $delReceipt = $_db->prepare("DELETE FROM receipt WHERE order_id = ?");
+    $delReceipt->execute([$cancel_id]);
+
+    // 4. Finally, delete the invoice
+    $delInvoice = $_db->prepare("DELETE FROM invoice WHERE order_id = ?");
+    $delInvoice->execute([$cancel_id]);
+
+    temp('info', 'Order cancelled and records cleared.');
+    redirect($_SERVER['PHP_SELF']);
+    exit();
+}
 // ----------------------------------------------------------------------------
 
 ?>
@@ -327,6 +360,14 @@ if (is_post()) {
                 <td id = "orderAddress"><span>Shipping Address:</span><br><?= $o->street_address . ', ' . $o->city . ', ' . $o->state . ' ' . $o->post_code;?></td>
                 <td class = productPrice>RM <?= number_format($o->total_amount,2) ?></td>
                 <td id = "productQuantity">Status: <?= $o->status ?></td>  
+                <td>
+                        <?php if ($o->status == 'Preparing'): ?>
+                            <form method="post" onsubmit="return confirm('Are you sure you want to cancel this order? This will restore stock and delete the record.')">
+                                <input type="hidden" name="cancel_order_id" value="<?= $o->order_id ?>">
+                                <button type="submit" class="cancel-btn" style="color: red; font-size: 20px; text-decoration: underline;">Cancel Order</button>
+                            </form>
+                        <?php endif; ?>
+                </td>
             </tr>
             <tr class = productRowBottom></tr>
             <?php endforeach ?>
