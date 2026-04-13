@@ -4,85 +4,23 @@ include '_base.php';
 // ----------------------------------------------------------------------------
 $_title = 'Home';
 
-$stm = $_db->prepare('SELECT p.*, i.image_url FROM product p JOIN product_image i on p.product_id = i.product_id ORDER BY product_id LIMIT 6' );
+$stm = $_db->prepare('SELECT p.product_id, p.name, p.price, i.image_url, 
+                        COUNT(od.product_id) AS total_bought
+                        FROM product p
+                        JOIN product_image i ON p.product_id = i.product_id
+                        LEFT JOIN order_details od ON p.product_id = od.product_id
+                        LEFT JOIN invoice inv ON od.order_id = inv.order_id
+                        GROUP BY p.product_id
+                        ORDER BY total_bought DESC
+                        LIMIT 6');
 $stm->execute();
-$product = $stm->fetchAll();
+$arr = $stm->fetchAll();
 
 include '_head.php';
 
 
 ?>
 
-
-
-<main class="main-container">
-
-    <!-- Top Section -->
-    <div class="top-section">
-
-        <!-- LEFT: Slider -->
-        <div class="slider-container">
-            <div class="slide active">
-                <img src="/images/anime1.jpg">
-            </div>
-            <div class="slide">
-                <img src="/images/anime2.jpg">
-            </div>
-            <div class="slide">
-                <img src="/images/anime3.jpg">
-            </div>
-
-            <!-- Arrows -->
-            <button class="arrow left" onclick="prevSlide()"><</button>
-            <button class="arrow right" onclick="nextSlide()">></button>
-        </div>
-
-        <!-- RIGHT: Description -->
-        <div class="description-container">
-            <h2>AnonFigures</h2>
-            <p>
-                AnonFigures is a hobby and collectibles store for anime and mecha fans,
-                specializing in Gundam model kits, figurines, and anime merchandise.
-                The store offers a wide selection of items ranging from detailed Gunpla
-                builds to collectible figures, accessories, and fan merchandise inspired
-                by popular series. It is designed as a go-to spot for collectors who enjoy building,
-                displaying, and expanding their anime figure collections.
-            </p>
-        </div>
-
-    </div>
-<div class="product-section">
-
-    <h2>🔥 Most Ordered Products</h2>
-
-    <div class="slider-wrapper">
-
-        <button class="slide-btn left" onclick="slideLeft()">‹</button>
-
-        <div class="product-slider" id="productSlider">
-
-            <?php foreach ($product as $p): ?>
-                
-                <div class="product-card">
-                    <a href="product/productDetails.php?product_id=<?= $p->product_id ?>">
-                         <img class="product-image" src="<?= $p->image_url ?>" alt="<?= encode($p->name) ?>">
-                    </a>
-                    <h3><?= encode($p->name) ?></h3>
-                    <p class="price">RM <?= number_format($p->price,2) ?></p>
-                </div>
-            <?php endforeach; ?>
-
-        </div>
-
-        <button class="slide-btn right" onclick="slideRight()">›</button>
-
-    </div>
-
-
-</div>
-
-    
-</main>
 
 <style>
 /* MAIN WRAPPER */
@@ -237,6 +175,77 @@ include '_head.php';
     right: 0;
 }
 </style>
+
+
+
+<main class="main-container">
+
+    <!-- Top Section -->
+    <div class="top-section">
+
+        <!-- LEFT: Slider -->
+        <div class="slider-container">
+            <div class="slide active">
+                <img src="/images/anime1.jpg">
+            </div>
+            <div class="slide">
+                <img src="/images/anime2.jpg">
+            </div>
+            <div class="slide">
+                <img src="/images/anime3.jpg">
+            </div>
+
+            <!-- Arrows -->
+            <button class="arrow left" onclick="prevSlide()"><</button>
+            <button class="arrow right" onclick="nextSlide()">></button>
+        </div>
+
+        <!-- RIGHT: Description -->
+        <div class="description-container">
+            <h2>AnonFigures</h2>
+            <p>
+                AnonFigures is a hobby and collectibles store for anime and mecha fans,
+                specializing in Gundam model kits, figurines, and anime merchandise.
+                The store offers a wide selection of items ranging from detailed Gunpla
+                builds to collectible figures, accessories, and fan merchandise inspired
+                by popular series. It is designed as a go-to spot for collectors who enjoy building,
+                displaying, and expanding their anime figure collections.
+            </p>
+        </div>
+
+    </div>
+<div class="product-section">
+
+    <h2>🔥 Most Ordered Products</h2>
+
+    <div class="slider-wrapper">
+
+        <button class="slide-btn left" onclick="slideLeft()">‹</button>
+
+        <div class="product-slider" id="productSlider">
+
+            <?php foreach ($arr as $p): ?>
+                <div class="product-card">
+                    <a href="product/productDetails.php?product_id=<?= $p->product_id ?>">
+                         <img class="product-image" src="<?= $p->image_url ?>" alt="<?= encode($p->name) ?>">
+                    </a>
+                    <h3><?= encode($p->name) ?></h3>
+                    <p class="price">RM <?= number_format($p->price,2) ?></p>
+                </div >
+            <?php endforeach; ?>
+
+        </div>
+
+        <button class="slide-btn right" onclick="slideRight()">›</button>
+
+    </div>
+
+
+</div>
+
+    
+</main>
+
 
  <script>
 let index = 0;

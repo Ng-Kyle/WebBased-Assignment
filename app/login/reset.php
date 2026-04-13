@@ -1,6 +1,6 @@
 <?php
 include '../_base.php';
-$_title = 'User | Reset Password';
+$_title = 'Reset Password';
 include '../_head.php';
 
 // ----------------------------------------------------------------------------

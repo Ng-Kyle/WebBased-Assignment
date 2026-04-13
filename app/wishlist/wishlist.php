@@ -20,24 +20,44 @@
 
     if (is_post()){
         $product_id = req('product_id');
-        $cart_id = get_cart();   
-            //this is for checking if the product exists in the member's cart
-        $stm = $_db->prepare('SELECT * FROM cart_product WHERE product_id = ? AND cart_id = ? ');
-        $stm->execute([$product_id,$cart_id]);
-        $exists = $stm->fetch();
+        $quantity = 1;
+            $stm = $_db->prepare('SELECT stock_quantity FROM product WHERE product_id = ?');
+            $stm->execute([$product_id]);
+            $real_stock = $stm->fetchColumn();
 
-        if($exists){
-            //update existing product
-            $stm = $_db->prepare('UPDATE cart_product SET Quantity = Quantity + 1 WHERE product_id = ? AND cart_id = ?');
+            $stm = $_db->prepare('SELECT status FROM product WHERE product_id = ?');
+            $stm->execute([$product_id]);
+            $status = $stm->fetchColumn();
+
+            if($status != 'Available'){
+                temp('info', 'This item is no longer on sale!');
+                redirect();
+           }
+            
+            $cart_id = get_cart();
+            //this is for checking if the product exists in the member's cart
+            $stm = $_db->prepare('SELECT * FROM cart_product WHERE product_id = ? AND cart_id = ? ');
             $stm->execute([$product_id,$cart_id]);
-            }else{
-                 //insert new product
-                $stm = $_db->prepare('INSERT INTO cart_product (product_id, cart_id,quantity) VALUES (?,?,1)');
-                $stm->execute([$product_id,$cart_id]);
+            $exists = $stm->fetch();
+
+            if($exists->quantity + $quantity > $real_stock){
+                temp('info', 'Your cart is full 😡!!');
+                redirect();
             }
-            temp('info', 'Product successfully added to cart!');
-            redirect();
-        }
+            if($exists){
+                //update existing product
+                $stm = $_db->prepare('UPDATE cart_product SET quantity = quantity + ? WHERE product_id = ? AND cart_id = ?');
+                $stm->execute([$quantity,$product_id,$cart_id]);
+                temp('info', 'Added to Cart!! 🛒');
+                redirect();    
+            }else{
+                //insert new product
+                $stm = $_db->prepare('INSERT INTO cart_product (product_id, cart_id, quantity) VALUES (?,?,?)');
+                $stm->execute([$product_id,$cart_id,$quantity]);
+                temp('info', 'Added to Cart!! 🛒');
+                redirect();
+            }
+    }
 ?>
     <style>
         #productImage{

@@ -54,10 +54,18 @@
                 temp('info', 'Already in your Wishlist! 😊');
             }
         }else{
-            $quantity = 1;
             $stm = $_db->prepare('SELECT stock_quantity FROM product WHERE product_id = ?');
             $stm->execute([$product_id]);
             $real_stock = $stm->fetchColumn();
+
+            $stm = $_db->prepare('SELECT status FROM product WHERE product_id = ?');
+            $stm->execute([$product_id]);
+            $status = $stm->fetchColumn();
+
+            if($status != 'Available'){
+                temp('info', 'This item is no longer on sale!');
+                redirect();
+           }
             
             $cart_id = get_cart();
             //this is for checking if the product exists in the member's cart
@@ -71,14 +79,14 @@
             }
             if($exists){
                 //update existing product
-                $stm = $_db->prepare('UPDATE cart_product SET quantity = quantity + ? WHERE product_id = ? AND cart_id = ?');
-                $stm->execute([$quantity,$product_id,$cart_id]);
+                $stm = $_db->prepare('UPDATE cart_product SET quantity = quantity + 1 WHERE product_id = ? AND cart_id = ?');
+                $stm->execute([$product_id,$cart_id]);
                 temp('info', 'Added to Cart!! 🛒');
                 redirect();    
             }else{
                 //insert new product
-                $stm = $_db->prepare('INSERT INTO cart_product (product_id, cart_id, quantity) VALUES (?,?,?)');
-                $stm->execute([$product_id,$cart_id,$quantity]);
+                $stm = $_db->prepare('INSERT INTO cart_product (product_id, cart_id, quantity) VALUES (?,?,1)');
+                $stm->execute([$product_id,$cart_id]);
                 temp('info', 'Added to Cart!! 🛒');
                 redirect();
             }
@@ -196,6 +204,89 @@
         background-color:#ff93a5;
         border-color: #ff93a5        
     }
+    .filterContainer{
+        background-color: #fff;
+        border-radius: 15px;
+        padding: 10px;
+    }
+    .filterContainer h3{
+        color:#FF5E7E;
+        font-size: 1.1em;
+        margin: 25px 0 12px 0;
+        padding-bottom: 5px;
+        border-bottom: 2px solid #ffdbdb;
+        display: flex;
+        align-items: center;
+    }
+    .filterContainer h3::before{
+        content: '✨';
+        margin-right: 8px;
+        font-size:0.9rem;
+    }
+    .filter-group{
+        display: flex;
+        flex-direction: column;
+        gap:8px;
+        max-height: 200px; /*wow thiz is for limiting the height, so can add scroll*/
+        overflow-y: auto;
+        padding-right: 5px;
+        margin-bottom: 15px;
+    }
+    .filter-group::-webkit-scrollbar{
+        width: 5px;
+    }
+    .filter-group::-webkit-scrollbar-thumb{
+        background: #ffdbdb;
+        border-radius: 10px;
+    }
+    .filter-group input[type="number"]:focus{
+        border-color: #FF5E7E;
+        outline:none;
+    }
+    .filter-group label{
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        color:#555;
+        transition: color 0.2s;
+    }
+    .filter-group:hover{
+        color: #FF5E7E;
+    }
+    .filter-group input[type="checkbox"]{
+        accent-color: #FF5E7E;
+        width: 16px;
+        height: 16px;
+    }
+    #filter button[type="submit"]{
+        width:97%;
+        background-color:rgb(255, 255, 255);
+        color:black;
+        border-radius: 5px;
+        border: 3px solid #FF5E7E;
+        font-size:1.1em;
+        font-weight:bold;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+    #filter button[type="submit"]:hover{
+        background-color:#ff93a5;
+        border-color: #ff93a5  
+    }
+    #filter a{
+        display: block;
+        text-align: center;
+        margin-top: 15px;
+        color: #888;
+        text-decoration: none;
+        font-size: 0.9rem;
+        color: #FF5E7E;
+        text-decoration: underline;
+    }
+    .products-card a{
+        text-decoration: none;
+        color: black;
+    }
 </style>
     <div class="search-bar">
         <form action="" method="get">
@@ -207,25 +298,27 @@
         <aside class="sidebar">
             <form id="filter" action="" method ="get">
                 <?php html_hidden('name', $name); ?>
-                <h3>Filter by Brand</h3>
-                <div class="filter-group">
-                    <?php html_checkboxes('brand', $brands_options, true) ?>
-                </div>
+                <div class="filterContainer">
+                    <h3>Filter by Brand</h3>
+                    <div class="filter-group">
+                        <?php html_checkboxes('brand', $brands_options, true) ?>
+                    </div>
 
-                <h3>Filter by Series</h3>
-                <div class="filter-group">
-                    <?php html_checkboxes('series', $series_options, true) ?>
-                </div>
+                    <h3>Filter by Series</h3>
+                    <div class="filter-group">
+                        <?php html_checkboxes('series', $series_options, true) ?>
+                    </div>
 
-                <h3>Filter by Scale</h3>
-                <div class="filter-group">
-                    <?php html_checkboxes('scale', $scale_options, true) ?>
-                </div>
+                    <h3>Filter by Scale</h3>
+                    <div class="filter-group">
+                        <?php html_checkboxes('scale', $scale_options, true) ?>
+                    </div>  
 
-                <h3>Filter by Price</h3>
-                <div class="filter-group">
-                    <?php html_number('min', $min, 0, 9999, 1, 'placeholder="Min"'); ?>
-                    <?php html_number('max', $max, 0, 9999, 1, 'placeholder="Max"'); ?>
+                    <h3>Filter by Price</h3>
+                    <div class="filter-group">
+                        <?php html_number('min', $min, 0, 9999, 1, 'placeholder="Min"'); ?>
+                        <?php html_number('max', $max, 0, 9999, 1, 'placeholder="Max"'); ?>
+                    </div>
                 </div>
 
                 <button type="submit">Apply Filters</button>
@@ -240,9 +333,10 @@
                     <div class="products-card">
                         <a href="productDetails.php?product_id=<?= $p->product_id ?>">
                             <img src="<?= $p->image_url ?>" alt="<?= encode($p->name) ?>">
+                            <h3><?= encode($p->name) ?></h3>
+                            <p class="price">RM <?= number_format($p->price,2) ?></p>
                         </a>
-                        <h3><?= encode($p->name) ?></h3>
-                        <p class="price">RM <?= number_format($p->price,2) ?></p>
+                        
                         
                         <div class="buttonGroup">
                         <button data-post="?product_id=<?= $p->product_id ?>" class="quickAdd">Quick Add🌟</button>

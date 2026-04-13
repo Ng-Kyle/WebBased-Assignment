@@ -162,6 +162,15 @@ function encode($value) {
     return htmlentities($value);
 }
 
+function validate_text($key,$value, $max){
+    global $_err;
+    if($value == ''){
+        $_err[$key] = 'Required';
+    }
+    elseif(strlen($value) > $max){
+        $_err[$key] = "Maximum of $max characters";
+    }
+}
 // Generate <input type='hidden'>
 function html_hidden($key, $value, $attr = '') {
     $value ??= encode($value);
