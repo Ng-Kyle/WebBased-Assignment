@@ -103,80 +103,80 @@ if (is_post()) {
 
 $_title = 'User | Profile';
 ?>
-    <style>
-        .productRowTop{
-            border-top: 3px solid pink;
-        }
-        .productRowMiddle{
-            vertical-align: top;
-            font-size:20pt;
-            font-weight: bold;
-            color: #FF5E7E;
-            white-space:nowrap;
-            padding-right:25px;
-        }
-        .productRowBottom{
-            border-bottom: 3px solid pink;
-        }
-        .productDetails{
-            width: 80%;
-            vertical-align: bottom;
-        }
-        table{
-            border-collapse: collapse; 
-        }
-        h2{
-            text-align:center;
-            font-size: 35px;
-            color:#FF5E7E;
-            padding-top:40px;
-        }
-        button:hover{
-            cursor:pointer
-        }
-        #emptyCart{
-            text-align:center;
-            padding-top: 30px;
-            padding-bottom:180px;
-            font-size:25pt;
-            font-weight:bold;
-        }
-        .productPrice{
-            font-size:20pt;
-            white-space: nowrap;
-            font-weight: bold;
-            color: #FF5E7E;
-        }
-        #productCategory{
-            color:gray;
-            font-size:10pt;
-        }
-        #productQuantity{
-            font-size:20pt;
-            font-weight: bold;
-            color: #FF5E7E;
-            white-space:nowrap;
-            padding-right:25px;
-        }
-        .productDetails{
-            font-size:20pt;
-            
-        }
-        #orderAddress{
-            font-size:20pt;
-        }
-        #viewDetailBtn{
-            text-align:right;
-            
-        }
-        button{
-            border: none;
-            background-color: white;
-            color:#FF5E7E;
-            font-size: 15pt;
-            font-weight: bold;
-            text-decoration: underline 2pt;
-        }
+<style>
+    .productRowTop{
+        border-top: 3px solid pink;
+    }
+    .productRowMiddle{
+        vertical-align: top;
+        font-size:20pt;
+        font-weight: bold;
+        color: #FF5E7E;
+        white-space:nowrap;
+        padding-right:25px;
+    }
+    .productRowBottom{
+        border-bottom: 3px solid pink;
+    }
+    .productDetails{
+        width: 80%;
+        vertical-align: bottom;
+    }
+    table{
+        border-collapse: collapse; 
+    }
+    h2{
+        text-align:center;
+        font-size: 35px;
+        color:#FF5E7E;
+        padding-top:40px;
+    }
+    button:hover{
+        cursor:pointer
+    }
+    #emptyCart{
+        text-align:center;
+        padding-top: 30px;
+        padding-bottom:180px;
+        font-size:25pt;
+        font-weight:bold;
+    }
+    .productPrice{
+        font-size:20pt;
+        white-space: nowrap;
+        font-weight: bold;
+        color: #FF5E7E;
+    }
+    #productCategory{
+        color:gray;
+        font-size:10pt;
+    }
+    #productQuantity{
+        font-size:20pt;
+        font-weight: bold;
+        color: #FF5E7E;
+        white-space:nowrap;
+        padding-right:25px;
+    }
+    .productDetails{
+        font-size:20pt;
+        
+    }
+    #orderAddress{
+        font-size:20pt;
+    }
+    #viewDetailBtn{
+        text-align:right;
+        
+    }
+    button{
+        border: none;
+        background-color: white;
+        color:#FF5E7E;
+        font-size: 15pt;
+        font-weight: bold;
+        text-decoration: underline 2pt;
+    }
 </style>
 
 <form method="post" class="form" enctype="multipart/form-data">
