@@ -248,3 +248,671 @@ label.upload img {
     object-fit: cover;
     cursor: pointer;
 }
+
+/* order_detail.php */
+.orderDetailProductImage{
+    padding-top:5px;
+    padding-right:10px;
+    width: 150px;
+    height: 150px;
+}
+.orderDetailProductRowTop{
+    border-top: 3px solid pink;
+}
+.orderDetailProductRowMiddle{
+    vertical-align: top;
+}
+.orderDetailProductRowBottom{
+    border-bottom: 3px solid pink;
+}
+.orderDetailProductDetails{
+    width: 80%;
+    vertical-align: bottom;
+    font-size:14pt;
+}
+.orderDetailPage table{
+    border-collapse: collapse; 
+}
+.orderDetailPage h2{
+    font-size: 35px;
+    color:#FF5E7E;
+    padding-top:10px;
+    margin: 0;
+}
+.orderDetailTotalPriceArea{
+    text-align: right;
+}
+.orderDetailSubTotal{
+    font-size:30px;
+    font-weight:bold;
+    color:#FF5E7E;
+}
+.orderDetailProductPrice{
+    font-size:24pt;
+    font-weight: bold;
+    color: #FF5E7E;
+}
+.orderDetailProductCategory{
+    color:gray;
+    font-size:10pt;
+}
+.orderDetailProductQuantity{
+    font-size:20pt;
+    font-weight: bold;
+    color: #FF5E7E;
+}
+.orderDetailQuantityValue {
+    text-align: right;
+    font-size:20pt;
+    width:30%;
+    font-weight:bold;
+    color: #FF5E7E;
+}
+.orderDetailShippingAddressHeader{
+    width:90%;
+}
+.orderDetails h2{
+    padding-top: 0px;
+    margin-bottom:5px;
+    font-size:24pt;
+}
+.orderDetailShippingAddress{
+    font-weight:bold;
+    font-size:14pt;
+}
+.orderDetailName{
+    font-size: 20pt;
+}
+
+/* order_listing.php */
+.orderListProductRowTop{
+    border-top: 3px solid pink;
+}
+.orderListProductRowMiddle{
+    vertical-align: top;
+    font-size:20pt;
+    font-weight: bold;
+    color: #FF5E7E;
+    white-space:nowrap;
+    padding-right:25px;
+}
+.orderListProductRowBottom{
+    border-bottom: 3px solid pink;
+}
+.orderListProductDetails{
+    width: 80%;
+    vertical-align: bottom;
+    font-size:20pt;
+}
+.orderListPage table{
+    border-collapse: collapse; 
+}
+.orderListPage h2{
+    text-align:center;
+    font-size: 35px;
+    color:#FF5E7E;
+    padding-top:40px;
+}
+.orderListPage button:hover{
+    cursor:pointer
+}
+.orderListEmpty{
+    text-align:center;
+    padding-top: 30px;
+    padding-bottom:180px;
+    font-size:25pt;
+    font-weight:bold;
+}
+.orderListPrice{
+    font-size:20pt;
+    white-space: nowrap;
+    font-weight: bold;
+    color: #FF5E7E;
+}
+.orderListStatus{
+    font-size:20pt;
+    font-weight: bold;
+    color: #FF5E7E;
+    white-space:nowrap;
+    padding-right:25px;
+}
+.orderListAddress{
+    font-size:20pt;
+}
+.viewDetailBtn{
+    text-align:right;
+    
+}
+.orderListPage button{
+    border: none;
+    background-color: white;
+    color:#FF5E7E;
+    font-size: 15pt;
+    font-weight: bold;
+    text-decoration: underline 2pt;
+}
+.pageTitle{
+    display:none;
+}
+
+/* product_details.php */
+.updateProductContent{
+    display: flex;
+    gap: 40px;
+    padding: 40px 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+    align-items: flex-start;
+}
+
+/* ===== LEFT SIDE ===== */
+.updateProductImgContainer{
+    flex: 1;
+    min-width: 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.updateImgView{
+    width: 100%;
+    height: 520px;
+    border-radius: 12px;
+    border: 1px solid #ffd1da;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.updateDisplayIMG{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* ===== THUMBNAILS ===== */
+.updateThumbnailBar{
+    overflow-x: auto;
+    padding: 8px 0;
+}
+
+.updateThumbnailInner{
+    display: flex;
+    gap: 10px;
+}
+
+.updateThumbIMG{
+    width: 80px;
+    height: 65px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.updateThumbIMG:hover{
+    border-color: #ff4f78;
+    transform: scale(1.05);
+}
+
+/* ===== RIGHT SIDE ===== */
+.updateProductsDetails{
+    flex: 1;
+    min-width: 350px;
+    max-height: 600px;          /* controls height of the panel */
+    overflow-y: auto;           /* enables vertical scroll */
+    background: #fff;
+    padding: 25px;
+    border-radius: 12px;
+    border: 1px solid #ffe0e6;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    scrollbar-width: thin;
+    position: sticky;
+    top: 20px;
+}
+.updateProductsDetails::-webkit-scrollbar{
+    width: 6px;
+}
+
+.updateProductsDetails::-webkit-scrollbar-track{
+    background: #f3f3f3;
+    border-radius: 10px;
+}
+
+.updateProductsDetails::-webkit-scrollbar-thumb{
+    background: #bbb;
+    border-radius: 10px;
+}
+
+.updateProductsDetails::-webkit-scrollbar-thumb:hover{
+    background: #888;
+}
+
+/* ===== FORM LAYOUT ===== */
+.updateProductsDetails form{
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+/* EACH FIELD */
+.updateProductsDetails label{
+    font-weight: bold;
+    color: #444;
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* INPUTS */
+.updateProductsDetails input,
+.updateProductsDetails select,
+.updateProductsDetails textarea{
+    width: 90%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+.updateProductsDetails input:focus,
+.updateProductsDetails select:focus,
+.updateProductsDetails textarea:focus{
+    border-color: #ff4f78;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(255,79,120,0.15);
+}
+
+/* TEXTAREA */
+.updateProductsDetails textarea{
+    min-height: 100px;
+    resize: vertical;
+}
+
+/* PRICE ROW */
+.updatePrice{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: bold;
+    color: #ff4f78;
+}
+
+/* GROUP BOXES */
+.updateSizeStatus{
+    background: #ffcfdb;
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid #ffafbf;
+    display: grid;
+    gap: 12px;
+}
+
+.updateDescriptionBox{
+    
+    gap: 8px;
+}
+
+/* ===== IMAGE UPLOAD ===== */
+.upload{
+    display: inline-block;
+    border: 2px dashed #ffc1cc;
+    padding: 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    text-align: center;
+    transition: 0.2s;
+}
+
+.upload:hover{
+    border-color: #ff4f78;
+    background: #fff5f7;
+}
+
+.upload img{
+    max-width: 100%;
+    max-height: 160px;
+    display: block;
+    margin: 0 auto;
+}
+
+/* ===== BUTTON ===== */
+.updateBtn{
+    background: linear-gradient(135deg, #ff7aa2, #ff3b61);
+    color: white;
+    border: none;
+    padding: 12px;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.25s;
+    margin-top: 10px;
+}
+
+.updateBtn:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 5px 12px rgba(255,59,97,0.3);
+}
+
+/* ===== ERROR TEXT ===== */
+.updateProductContent small, .updateProductContent .error{
+    color: red;
+    font-size: 12px;
+}
+
+/* admin_register.php */
+.adminRegisterForm{
+    background: white;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px #ff8da1  ;
+    width: 380px;
+
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 60px; 
+    margin-bottom: 60px;
+
+    display: block;
+    text-align: center;
+}
+
+.adminRegisterForm input {
+    text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ff8da1;
+    border-radius: 4px;
+    display: block;
+}
+
+.adminRegisterForm label {
+    display: block;
+    color : #000000;
+    background-color: transparent;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+.adminRegisterForm input:focus {
+border: 2px solid #ffb6c1 !important;
+outline: none !important;
+box-shadow: 0 0 8px rgba(255, 182, 193, 0.5);
+}
+
+.adminRegisterForm input[type="file"] {
+    display: none !important;
+}
+
+.adminRegisterForm .upload {
+    display: inline-block;
+    margin: 10px auto;
+    cursor: pointer;
+}
+
+.adminRegisterForm .upload img {
+    width: 120px;
+    height: 120px;
+    border-radius: 4px !important;
+    object-fit: cover;
+    border: 2px solid #ffb6c1;
+    display: block;
+}
+
+.adminRegisterForm section {
+    display: flex;
+    width: 100%;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.adminRegisterForm button {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    background-color: #ffb6c1;
+    color: black;
+    font-size: 16px;
+}
+
+.adminRegisterForm button:hover {
+    background-color: #ff8da1;
+}
+
+.adminRegisterPage .err { 
+    color: red; 
+    font-size: 12px; 
+    display: block; 
+    text-align: center; 
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+/* admin.php*/
+.adminElement {
+    background: white;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    width: 350px;
+
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 80px; 
+    margin-bottom: 80px;
+
+    display: block;
+    text-align: center;
+}
+
+.adminElement input {
+    text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    display: block;
+}
+
+.adminElement label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+.adminButton {
+    display: block;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.adminElement button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    background-color: #ffb6c1;
+    color: white;
+    font-size: 16px;
+}
+
+.adminElement button:hover {
+    background-color: #ff8da1;
+}
+
+/* 5. Center links */
+.adminElement section a {
+    display: block;
+    text-align: center;
+    font-size: 14px;
+    color: #FF5E7E;
+    text-decoration: none;
+    margin-top: 8px;
+}
+
+.adminPage .err {
+    color: red; 
+    font-size: 12px; 
+    display: block; 
+    text-align: center; 
+}
+
+/* member_details.php */
+
+.memberDetailColumn {
+    background-color: rgb(255, 178, 189);
+    color: black;
+}
+
+/* Center the table properly */
+.memberDetailTableMain {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+    
+    
+}
+
+/* Table styling */
+.memberDetailTableDetail {
+    width: 600px;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+   
+}
+
+/* Cells */
+.memberDetailTableDetail th,
+.memberDetailTableDetail td {
+    border-bottom: 1px solid #ddd;
+    padding: 15px; /* FIXED */
+}
+
+/* Left column */
+.memberDetailTableDetail th {
+    width: 30%;
+    text-align: left;
+}
+
+/* Right column */
+.memberDetailTableDetail td {
+    width: 70%;
+    text-align: center;
+}
+
+/* Remove last line */
+.memberDetailTableDetail tr:last-child th,
+.memberDetailTableDetail tr:last-child td {
+    border-bottom: none;
+}
+
+/* Image styling */
+.memberDetailTableDetail img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 10px;
+    display: block;
+    margin: 10px auto;
+}
+
+/* member_list.php */
+    
+.memberListTable {
+    width: 70%;
+    margin: 40px auto; 
+    border-collapse: collapse;
+    overflow: visible;
+    }
+
+.memberListTable th{
+    border: 2px solid rgb(255, 110, 110);
+    padding: 12px; 
+    text-align: center;
+} 
+
+.memberListTable  td {
+    border: 2px solid rgb(255, 110, 110);
+    padding: 12px; 
+    text-align: center;
+}
+
+.memberListTable th {
+    color: #000;
+    background: #ffd4d4;
+    font-weight: 600;
+}
+
+.memberListTable td.memberListDetailsBtn {
+    border: none; /* Removes the pink border from this specific cell */
+    position: relative; 
+    width: 20%;
+    text-align: left;
+    padding: 1%;
+}
+
+.memberListTable tr:hover td.memberListDetailsBtn {
+    background-color: transparent; 
+}
+
+.memberListTable tr:hover td {
+    background-color: #ffecec;
+}
+
+.memberListDetails {
+    background-color: white;
+    padding: 5px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.memberListDetails:hover {
+    background-color: rgb(255, 110, 110);
+    color: white;
+}
+
+.memberListDetailsBtn {
+    width: 20%;
+    position: relative;
+}
+
+.memberListTable .popup {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    position: absolute;
+    top: 50%;
+    left: 100%;
+    transform: translate(10px, -50%);
+    z-index: 999;
+    border: 5px solid rgb(255, 126, 126);
+    border-radius: 8px;
+    background: white;
+    display: none;
+    
+}
+
+.memberListDetailsBtn:hover .popup {
+    display: block;
+}
