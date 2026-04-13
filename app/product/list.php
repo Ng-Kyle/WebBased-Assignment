@@ -288,8 +288,6 @@
         text-decoration: none;
         color: black;
     }
-
-    
 </style>
     <div class="search-bar">
         <form action="" method="get">
