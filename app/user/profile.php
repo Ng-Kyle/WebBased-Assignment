@@ -1,6 +1,6 @@
 <?php
 include '../_base.php';
-$title = 'Profile Page';
+$_title = 'Profile';
 include '../_head.php';
 
 // ----------------------------------------------------------------------------
@@ -253,6 +253,7 @@ if (is_post()) {
             white-space: nowrap;
             font-weight: bold;
             color: #FF5E7E;
+            padding-right:40px;
         }
         #productCategory{
             color:gray;
@@ -263,7 +264,6 @@ if (is_post()) {
             font-weight: bold;
             color: #FF5E7E;
             white-space:nowrap;
-            padding-right:25px;
         }
         .productDetails{
             font-size:20pt;

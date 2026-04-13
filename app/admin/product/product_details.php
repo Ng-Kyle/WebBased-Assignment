@@ -38,6 +38,18 @@
         $scale = post('scale');
         $status = post('status');
         $description = post('description');
+        $f = get_file('photo');
+        $image = $_SESSION['photo'];
+
+        if ($f) {
+        if (!str_starts_with($f->type, 'image/')) {
+            $_err['photo'] = 'Must be image';                                                                                                                                           
+        }
+        else if ($f->size > 1 * 1024 * 1024) {
+            $_err['photo'] = 'Maximum 1MB';
+        }
+    }
+
                     
     }
     $_title = $products['name'];
@@ -199,10 +211,10 @@
                 <p><strong><label for = "description">Description:</label></strong></p>
                 <p><?php html_textarea('description', $products['description']) ?></p>
             </div>
-                    <label for="photo">Photo</label>
+            <label for="photo">Photo</label>
             <label class="upload" tabindex="0">
                 <?= html_file('photo', 'image/*', 'hidden') ?>
-                <img src="/images/photo.jpg">
+                <img src="<?= $image ?>">
             </label>
             <?php html_hidden('product_id', $products['product_id']) ?>
             <button type="submit" class="btn">Update Product</button>
