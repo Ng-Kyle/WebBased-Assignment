@@ -176,20 +176,20 @@
             <tr class = profileOrderRowTop>
                 <td class = profileOrderDetails><b>Order #<?= $o->order_id." ". $o->order_date ?></b></td>
                 <td></td>
-                <td class = "profileOrderViewDetailBtn"><button data-post="order_detail.php?order_id=<?= $o->order_id ?>">View Details</button></td>
+                <td class = "profileOrderViewDetailBtn">
+                    <button data-post="order_detail.php?order_id=<?= $o->order_id ?>">View Details</button>
+                    <?php if ($o->status == 'Preparing'): ?>
+                        <form method="post" onsubmit="return confirm('Are you sure you want to cancel this order? This will restore stock and delete the record.')">
+                            <input type="hidden" name="cancel_order_id" value="<?= $o->order_id ?>">
+                            <button type="submit" class="cancel-btn" style="color: red; font-size: 20px; text-decoration: underline;">Cancel Order</button>
+                        </form>
+                    <?php endif; ?>
+                </td>
             </tr>
             <tr class = profileOrderRowMiddle>
                 <td class = "profileOrderAddress"><span>Shipping Address:</span><br><?= $o->street_address . ', ' . $o->city . ', ' . $o->state . ' ' . $o->post_code;?></td>
                 <td class = profileOrderPrice>RM <?= number_format($o->total_amount,2) ?></td>
                 <td class = "profileOrderProductQuantiy">Status: <?= $o->status ?></td>
-                <td>
-                        <?php if ($o->status == 'Preparing'): ?>
-                            <form method="post" onsubmit="return confirm('Are you sure you want to cancel this order? This will restore stock and delete the record.')">
-                                <input type="hidden" name="cancel_order_id" value="<?= $o->order_id ?>">
-                                <button type="submit" class="cancel-btn" style="color: red; font-size: 20px; text-decoration: underline;">Cancel Order</button>
-                            </form>
-                        <?php endif; ?>
-                </td>  
             </tr>
             <tr class = profileOrderRowBottom></tr>
             <?php endforeach ?>
