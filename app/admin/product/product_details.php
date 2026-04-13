@@ -135,19 +135,18 @@
 ?>
 
 <style>
-/* ===== GLOBAL LAYOUT ===== */
+
 .productContent{
     display: flex;
     gap: 40px;
-    padding: 50px 30px;
+    padding: 40px 30px;
     max-width: 1200px;
     margin: 0 auto;
-    align-items: flex-start;
-    flex-wrap: wrap;
     font-family: Arial, sans-serif;
+    align-items: flex-start;
 }
 
-/* ===== LEFT SIDE (IMAGES) ===== */
+/* ===== LEFT SIDE ===== */
 .productImgContainer{
     flex: 1;
     min-width: 320px;
@@ -156,10 +155,9 @@
     gap: 15px;
 }
 
-/* MAIN IMAGE */
 .imgView{
     width: 100%;
-    height: 420px;
+    height: 520px;
     border-radius: 12px;
     border: 1px solid #ffd1da;
     background: #fff;
@@ -167,150 +165,188 @@
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
 #displayIMG{
     width: 100%;
     height: 100%;
     object-fit: contain;
-    transition: transform 0.3s ease;
-}
-
-.imgView:hover #displayIMG{
-    transform: scale(1.05);
 }
 
 /* ===== THUMBNAILS ===== */
 .thumbnailBar{
-    width: 100%;
     overflow-x: auto;
     padding: 8px 0;
 }
 
 .thumbnailInner{
     display: flex;
-    gap: 12px;
-    width: max-content;
-}
-
-.thumbIMG{
-    width: 90px;
-    height: 70px;
-    flex-shrink: 0;
-    object-fit: cover;
-    border-radius: 8px;
-    border: 2px solid transparent;
-    cursor: pointer;
-    transition: 0.25s ease;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-}
-
-.thumbIMG:hover{
-    transform: scale(1.05);
-    border-color: #ff5e7e;
-}
-
-.thumbIMG:active{
-    transform: scale(0.98);
-}
-
-/* scrollbar */
-.thumbnailBar::-webkit-scrollbar{
-    height: 6px;
-}
-.thumbnailBar::-webkit-scrollbar-track{
-    background: #f3f3f3;
-    border-radius: 10px;
-}
-.thumbnailBar::-webkit-scrollbar-thumb{
-    background: #bbb;
-    border-radius: 10px;
-}
-.thumbnailBar::-webkit-scrollbar-thumb:hover{
-    background: #888;
-}
-
-/* ===== RIGHT SIDE (DETAILS) ===== */
-.products-details{
-    flex: 1;
-    min-width: 320px;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-/* TITLE */
-.products-details h2{
-    font-size: 2.2rem;
-    margin: 0;
-    color: #ff4f78;
-    font-weight: 700;
-}
-
-/* PRICE */
-.price{
-    font-size: 1.8rem;
-    font-weight: bold;
-    color: #ff4f78;
-    margin: 10px 0;
-}
-
-/* INFO BOX */
-.sizeStatus, .descriptionBox{
-    background: #fff;
-    padding: 15px;
-    border-radius: 10px;
-    border: 1px solid #ffe0e6;
-    line-height: 1.6;
-}
-
-/* DESCRIPTION TITLE */
-.descriptionBox p:first-child,
-.sizeStatus p:first-child{
-    font-weight: bold;
-    margin-bottom: 8px;
-}
-
-/* ===== FORM ===== */
-.addCartButton{
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin-top: 10px;
-}
-
-.quantityInput{
-    display: flex;
-    align-items: center;
     gap: 10px;
 }
 
-/* BUTTON */
+.thumbIMG{
+    width: 80px;
+    height: 65px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.thumbIMG:hover{
+    border-color: #ff4f78;
+    transform: scale(1.05);
+}
+
+/* ===== RIGHT SIDE ===== */
+.products-details{
+    flex: 1;
+    min-width: 350px;
+    max-height: 600px;          /* controls height of the panel */
+    overflow-y: auto;           /* enables vertical scroll */
+    background: #fff;
+    padding: 25px;
+    border-radius: 12px;
+    border: 1px solid #ffe0e6;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    scrollbar-width: thin;
+    position: sticky;
+    top: 20px;
+}
+.products-details::-webkit-scrollbar{
+    width: 6px;
+}
+
+.products-details::-webkit-scrollbar-track{
+    background: #f3f3f3;
+    border-radius: 10px;
+}
+
+.products-details::-webkit-scrollbar-thumb{
+    background: #bbb;
+    border-radius: 10px;
+}
+
+.products-details::-webkit-scrollbar-thumb:hover{
+    background: #888;
+}
+
+/* ===== FORM LAYOUT ===== */
+.products-details form{
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+/* EACH FIELD */
+.products-details label{
+    font-weight: bold;
+    color: #444;
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* INPUTS */
+.products-details input,
+.products-details select,
+.products-details textarea{
+    width: 90%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    transition: 0.2s;
+}
+
+.products-details input:focus,
+.products-details select:focus,
+.products-details textarea:focus{
+    border-color: #ff4f78;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(255,79,120,0.15);
+}
+
+/* TEXTAREA */
+.products-details textarea{
+    min-height: 100px;
+    resize: vertical;
+}
+
+/* PRICE ROW */
+.price{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: bold;
+    color: #ff4f78;
+}
+
+/* GROUP BOXES */
+.sizeStatus{
+    background: #ffcfdb;
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid #ffafbf;
+    display: grid;
+    gap: 12px;
+}
+
+.descriptionBox{
+    
+    gap: 8px;
+}
+
+/* ===== IMAGE UPLOAD ===== */
+.upload{
+    display: inline-block;
+    border: 2px dashed #ffc1cc;
+    padding: 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    text-align: center;
+    transition: 0.2s;
+}
+
+.upload:hover{
+    border-color: #ff4f78;
+    background: #fff5f7;
+}
+
+.upload img{
+    max-width: 100%;
+    max-height: 160px;
+    display: block;
+    margin: 0 auto;
+}
+
+/* ===== BUTTON ===== */
 .btn{
     background: linear-gradient(135deg, #ff7aa2, #ff3b61);
     color: white;
     border: none;
-    padding: 12px 18px;
-    font-size: 1rem;
+    padding: 12px;
     font-weight: bold;
     border-radius: 8px;
     cursor: pointer;
-    transition: 0.25s ease;
-    width: fit-content;
-    box-shadow: 0 4px 10px rgba(255, 59, 97, 0.25);
+    transition: 0.25s;
+    margin-top: 10px;
 }
 
 .btn:hover{
     transform: translateY(-2px);
-    box-shadow: 0 6px 14px rgba(255, 59, 97, 0.35);
+    box-shadow: 0 5px 12px rgba(255,59,97,0.3);
 }
 
-.btn:active{
-    transform: scale(0.98);
+/* ===== ERROR TEXT ===== */
+small, .error{
+    color: red;
+    font-size: 12px;
 }
 
 
+</style>
 
 </style>
 
@@ -334,16 +370,11 @@
 
     <!-- Display product info -->
     <div class="products-details">
-<<<<<<< HEAD
-        <div class="right-form">
-            <h2><label for = 'name'>Name:</label><?php html_text('name',encode($products['name'])) ?></h2>
-=======
         <form method = "post" enctype = "multipart/form-data">
             <h2><label for = 'product_name'>Name:</label><?php html_text('product_name',encode($products['name'])) ?> <?= err('product_name') ?></h2>
->>>>>>> afd85840f666ba8546cc2ba64f726c813d65c8c4
 
-            <p class="price"><label for = "price">Price: RM</label><?php html_number('price',sprintf('%.2f',$products['price']),0,999999.99,0.01) ?> <?= err('price') ?></p>
-            <div class="sizeStatus">
+            <div class="sizeStatus">   
+                <p class="price"><label for = "price">Price: RM</label><?php html_number('price',sprintf('%.2f',$products['price']),0,999999.99,0.01) ?> <?= err('price') ?></p>
                 <p><strong><label for = "scale">Scale:</label></strong><?php html_text('scale', encode($products['scale'])) ?> <?= err('scale') ?></p>
                 <p><strong><label for = "scale">Series:</label></strong><?php html_text('series', encode($products['series'])) ?> <?= err('series') ?></p>
                 <p><strong><label for = "scale">Brand:</label></strong><?php html_text('brand', encode($products['brand'])) ?> <?= err('brand') ?></p>
@@ -352,13 +383,8 @@
             </div>
             <div class="descriptionBox">
                 <p><strong><label for = "description">Description:</label></strong></p>
-<<<<<<< HEAD
-                <p><?php html_textarea('description', $products['description']) ?></p>
-            </div class="upload-box">
-=======
                 <p><?php html_textarea('description', $products['description']) ?> <?= err('description') ?></p>
             </div>
->>>>>>> afd85840f666ba8546cc2ba64f726c813d65c8c4
             <label for="photo">Photo</label>
             <label class="upload" tabindex="0">
                 <?= html_file('photo', 'image/*', 'hidden') ?>
