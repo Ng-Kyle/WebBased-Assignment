@@ -8,19 +8,23 @@
         $product_name = req('product_name');
         $price = req('price');
         $scale = req('scale');
+        $series = req('series');
+        $brand = req('brand');
         $stock_quantity = req('stock');
         $product_status = req('status');
         $description = req('description');
+        $alt_text = req('alt_text');
         $f = get_file('photo');
         $image = $_SESSION['photo'];
 
-        if ($f) {
-            if (!str_starts_with($f->type, 'image/')) {
-                $_err['photo'] = 'Must be image';                                                                                                                                           
-            }
-            else if ($f->size > 1 * 1024 * 1024) {
-                $_err['photo'] = 'Maximum 1MB';
-            }
+        if (!$f) {
+            $_err['photo'] = 'Required';    
+        }
+        else if (!str_starts_with($f->type, 'image/')) {
+            $_err['photo'] = 'Must be image';                                                                                                                                           
+        }
+        else if ($f->size > 1 * 1024 * 1024) {
+            $_err['photo'] = 'Maximum 1MB';
         }
 
         if ($price == ''){
@@ -33,12 +37,12 @@
             $_err['price'] = 'Must be between 0.01 - 999999.99';                        
         }
 
-        if($product_name == ''){
-            $_err['product_name'] = 'Required';
-        }
-        elseif(strlen($product_name) > 999){
-            $_err['product_name'] = 'Maximum of 999 characters';
-        }
+        validate_text('product_name',$product_name,999);
+        validate_text('scale',$scale,99);
+        validate_text('series',$series,99);
+        validate_text('brand',$brand,99);
+        validate_text('description',$description,999);
+        validate_text('alt_text',$alt_text, 99);
 
         if($stock_quantity == ''){
             $_err['stock'] = 'Required';
@@ -50,38 +54,23 @@
             $_err['stock'] = 'Must be between 0 - 99999';
         }
 
-        if($scale == ''){
-            $_err['scale'] = 'Required';
-        }
-        elseif(strlen($scale) > 99){
-            $_err['scale'] = 'Maximum of 99 characters';
-        }
-
         if(!array_key_exists($product_status,$status)){
             $_err['status'] = 'Invalid status';
         }
-
-        if($description == ''){
-            $_err['description'] = 'Required';
-        }
-        elseif(strlen($description) > 999){
-            $_err['description'] = 'Maximum of 999 characters';
-        }
-
         
         if(!$_err){
             
-            $stm = $_db->prepare('INSERT INTO product VALUES (name, price, scale, description, stock_quantity, status, series, brand)');
-            $stm->execute([$product_name,$price,$scale,$stock_quantity, $product_status,$description,$product_id]);
-            temp('info', 'Product updated!');
-            redirect();
+            $stm = $_db->prepare('INSERT INTO product (name, price, scale, description, stock_quantity, status, series, brand)
+                            VALUES (?,?,?,?,?,?,?,?)');
+            $stm->execute([$product_name,$price,$scale,$description, $stock_quantity, $product_status,$series,$brand]);
             $product_id = $_db->lastInsertId();
-            if($f){
-                $image = save_photo($f,"../../images/products","/images/products");
-                $stm = $_db->prepare('INSERT product_image SET image_url = ? WHERE product_id = ? ORDER BY product_image_id ASC LIMIT 1');
-                $stm->execute([$image,$product_id]);
-            }
+
+            $image = save_photo($f,"../../images/products","/images/products");
+            $stm = $_db->prepare('INSERT INTO product_image (image_url, product_id, alt_text) VALUES (?,?,?)');
+            $stm->execute([$image,$product_id,$alt_text]);
             
+            temp('info', 'Product added!');
+            redirect();
         }
     }
     
@@ -216,6 +205,8 @@
             <p class="price"><label for = "price">Price: RM</label><?php html_number('price',sprintf('%.2f',''),0,999999.99,0.01) ?> <?= err('price') ?></p>
             <div class="sizeStatus">
                 <p><strong><label for = "scale">Scale:</label></strong><?php html_text('scale', '') ?> <?= err('scale') ?></p>
+                <p><strong><label for = "scale">Series:</label></strong><?php html_text('series', '') ?> <?= err('series') ?></p>
+                <p><strong><label for = "scale">Brand:</label></strong><?php html_text('brand', '') ?> <?= err('brand') ?></p>
                 <p><strong><label for = "stock">Stock:</label></strong><?php html_number('stock','',0,99999) ?> units left <?= err('stock') ?></p>
                 <p><strong><label for = "status">Status:</label></strong> <?php html_select('status',$status)?> <?= err('status') ?></p>
             </div>
@@ -223,13 +214,14 @@
                 <p><strong><label for = "description">Description:</label></strong></p>
                 <p><?php html_textarea('description', '') ?> <?= err('description') ?></p>
             </div>
+            <p><strong><label for = "alt_text">Image Alt Text:</label></strong><?php html_text('alt_text', '') ?><?= err('alt_text') ?></p>
             <label for="photo">Photo</label>
             <label class="upload" tabindex="0">
                 <?= html_file('photo', 'image/*', 'hidden') ?>
                 <img src="<?= $image ?>">
             </label>
             <?= err('photo') ?>
-            <button type="submit" class="btn">Update Product</button>
+            <button type="submit" class="btn">Add Product</button>
         </form>
     </div>
  </div>
