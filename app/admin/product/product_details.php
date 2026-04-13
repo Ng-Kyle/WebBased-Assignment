@@ -94,6 +94,12 @@
             }
             $stm = $_db->prepare('UPDATE product SET name = ?, price = ?, scale = ?, stock_quantity = ?, status = ?, description = ?, series = ?, brand = ? WHERE product_id = ?');
             $stm->execute([$product_name,$price,$scale,$stock_quantity, $product_status,$description,$series, $brand, $product_id]);
+            
+            if($product_status == 'Offsale'){
+                $stm = $_db->prepare('DELETE FROM cart_product WHERE product_id = ?');
+                $stm->execute([$product_id]);
+            }
+            
             temp('info', 'Product updated!');
             redirect();
             
