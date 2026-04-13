@@ -34,7 +34,7 @@
         <a class = "store" href="/admin/product/product_list.php">Products</a>   
         <a class = "store" href="/admin/member_list.php">Members</a>
         <a class = "store" href="/admin/order/order_listing.php">Orders</a>
-        
+        <a class = "store" href="/admin/admin_register.php">Register</a>
             <a href="/admin/logout.php">Logout</a>
         <?php endif ?>
     </header>

@@ -36,6 +36,8 @@
         $product_name = req('product_name');
         $price = req('price');
         $scale = req('scale');
+        $series = req('series');
+        $brand = req('brand');
         $stock_quantity = req('stock');
         $product_status = req('status');
         $description = req('description');
@@ -85,6 +87,20 @@
             $_err['scale'] = 'Maximum of 99 characters';
         }
 
+        if($series == ''){
+            $_err['series'] = 'Required';
+        }
+        elseif(strlen($series) > 99){
+            $_err['series'] = 'Maximum of 99 characters';
+        }
+
+        if($brand == ''){
+            $_err['brand'] = 'Required';
+        }
+        elseif(strlen($brand) > 99){
+            $_err['brand'] = 'Maximum of 99 characters';
+        }
+
         if(!array_key_exists($product_status,$status)){
             $_err['status'] = 'Invalid status';
         }
@@ -104,8 +120,8 @@
                 $stm = $_db->prepare('UPDATE product_image SET image_url = ? WHERE product_id = ? ORDER BY product_image_id ASC LIMIT 1');
                 $stm->execute([$image,$product_id]);
             }
-            $stm = $_db->prepare('UPDATE product SET name = ?, price = ?, scale = ?, stock_quantity = ?, status = ?, description = ? WHERE product_id = ?');
-            $stm->execute([$product_name,$price,$scale,$stock_quantity, $product_status,$description,$product_id]);
+            $stm = $_db->prepare('UPDATE product SET name = ?, price = ?, scale = ?, stock_quantity = ?, status = ?, description = ?, series = ?, brand = ? WHERE product_id = ?');
+            $stm->execute([$product_name,$price,$scale,$stock_quantity, $product_status,$description,$series, $brand, $product_id]);
             temp('info', 'Product updated!');
             redirect();
             
@@ -119,124 +135,183 @@
 ?>
 
 <style>
-    .productContent{
-        display: flex;
-        gap: 40px;
-        padding: 40px;
-        align-items: flex-start;
-        max-width: 1200px;
-        margin: 0 auto;
-    }
-    .productImgContainer{
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-        width: 45%;
-    }
-    .thumbnailBar{
-        width: 100%;
-        overflow-x: auto;
-        padding-bottom: 10px;
-        white-space: nowrap;
-    }
-    .thumbnailInner{
-        display: flex;
-        flex-direction: row;
-        gap:10px;
-        width:max-content;
-    }
-    .thumbIMG{
-        width: 100px;
-        height: 70px;
-        flex-shrink: 0;
-        object-fit: contain;
-        border: 2px solid #FFA1AF;
-        border-radius: 4px;
-        cursor:pointer;
-        transition: 0.2;
-    }
-    .thumbIMG:active{
-        border-color: #FF5E7E;
-    }
-    .thumbnailBar::-webkit-scrollbar{
-        height:8px;
-    }
-    .thumbnailBar::-webkit-scrollbar-track{
-        background: #f1f1f1;
-        border-radius: 10px;
-    }
-    .thumbnailBar::-webkit-scrollbar-thumb{
-        background: #555;
-        border-radius: 10px;
-    }
-    .thumbnailBar::-webkit-scrollbar-thumb:hover{
-        background: #333;
-    }
-    .imgView{
-        flex: 1;
-        height: 450px;
-        border: 1px solid #FFA1AF;
-        border-radius: 8px;
-        background-color: #fff;
-        display: flex;
-        justify-content: center;
-        overflow: hidden;
-    }
-    #displayIMG{
-        max-width: 100%;
-        height: 100%;
-        object-fit: contain;
-    }
-    .products-details{
-        flex: 1;
-    }
-    .products-details h2{
-        color: #FF5E7E;
-        margin-top: 0;
-        font-size: 2.2em;
-    }
-    .price{
-        font-size: 1.8em;
-        font-weight: bold;
-        color: #FF5E7E;
-        margin:20px 0;
-    }
-    .sizeStatus, .descriptionBox{
-        margin-bottom:25px;
-        line-height: 1.6;
-    }
-    .addCartButton{
-        margin-top: 30px;
-        display: flex;
-        flex-direction: column;
-        gap:15px;
-    }
-    .quantityInput{
-        display: flex;
-        align-items: center;
-        gap:10px;
-    }
-    .quantityInput input{
-        width: 60px;
-        border:1px solid #FFA1AF;
-        border-radius: 4px;
-    }
-    .btn{
-        background-color:pink;
-        color:black;
-        border: 2px;
-        font-size:1.1em;
-        font-weight:bold;
-        cursor: pointer;
-        transition: 0.2;
-        width: fit-content;
-    }
-    .btn:hover{
-        background-color: #ff3b61;
-    }
-    main > h1:first-child{
-        display: none;
-    }
+/* ===== GLOBAL LAYOUT ===== */
+.productContent{
+    display: flex;
+    gap: 40px;
+    padding: 50px 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    font-family: Arial, sans-serif;
+}
+
+/* ===== LEFT SIDE (IMAGES) ===== */
+.productImgContainer{
+    flex: 1;
+    min-width: 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* MAIN IMAGE */
+.imgView{
+    width: 100%;
+    height: 420px;
+    border-radius: 12px;
+    border: 1px solid #ffd1da;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+
+#displayIMG{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.imgView:hover #displayIMG{
+    transform: scale(1.05);
+}
+
+/* ===== THUMBNAILS ===== */
+.thumbnailBar{
+    width: 100%;
+    overflow-x: auto;
+    padding: 8px 0;
+}
+
+.thumbnailInner{
+    display: flex;
+    gap: 12px;
+    width: max-content;
+}
+
+.thumbIMG{
+    width: 90px;
+    height: 70px;
+    flex-shrink: 0;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: 0.25s ease;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.thumbIMG:hover{
+    transform: scale(1.05);
+    border-color: #ff5e7e;
+}
+
+.thumbIMG:active{
+    transform: scale(0.98);
+}
+
+/* scrollbar */
+.thumbnailBar::-webkit-scrollbar{
+    height: 6px;
+}
+.thumbnailBar::-webkit-scrollbar-track{
+    background: #f3f3f3;
+    border-radius: 10px;
+}
+.thumbnailBar::-webkit-scrollbar-thumb{
+    background: #bbb;
+    border-radius: 10px;
+}
+.thumbnailBar::-webkit-scrollbar-thumb:hover{
+    background: #888;
+}
+
+/* ===== RIGHT SIDE (DETAILS) ===== */
+.products-details{
+    flex: 1;
+    min-width: 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* TITLE */
+.products-details h2{
+    font-size: 2.2rem;
+    margin: 0;
+    color: #ff4f78;
+    font-weight: 700;
+}
+
+/* PRICE */
+.price{
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #ff4f78;
+    margin: 10px 0;
+}
+
+/* INFO BOX */
+.sizeStatus, .descriptionBox{
+    background: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid #ffe0e6;
+    line-height: 1.6;
+}
+
+/* DESCRIPTION TITLE */
+.descriptionBox p:first-child,
+.sizeStatus p:first-child{
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+/* ===== FORM ===== */
+.addCartButton{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.quantityInput{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* BUTTON */
+.btn{
+    background: linear-gradient(135deg, #ff7aa2, #ff3b61);
+    color: white;
+    border: none;
+    padding: 12px 18px;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.25s ease;
+    width: fit-content;
+    box-shadow: 0 4px 10px rgba(255, 59, 97, 0.25);
+}
+
+.btn:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(255, 59, 97, 0.35);
+}
+
+.btn:active{
+    transform: scale(0.98);
+}
+
+
+
 </style>
 
 <div class="productContent">
@@ -259,19 +334,31 @@
 
     <!-- Display product info -->
     <div class="products-details">
+<<<<<<< HEAD
+        <div class="right-form">
+            <h2><label for = 'name'>Name:</label><?php html_text('name',encode($products['name'])) ?></h2>
+=======
         <form method = "post" enctype = "multipart/form-data">
             <h2><label for = 'product_name'>Name:</label><?php html_text('product_name',encode($products['name'])) ?> <?= err('product_name') ?></h2>
+>>>>>>> afd85840f666ba8546cc2ba64f726c813d65c8c4
 
             <p class="price"><label for = "price">Price: RM</label><?php html_number('price',sprintf('%.2f',$products['price']),0,999999.99,0.01) ?> <?= err('price') ?></p>
             <div class="sizeStatus">
                 <p><strong><label for = "scale">Scale:</label></strong><?php html_text('scale', encode($products['scale'])) ?> <?= err('scale') ?></p>
+                <p><strong><label for = "scale">Series:</label></strong><?php html_text('series', encode($products['series'])) ?> <?= err('series') ?></p>
+                <p><strong><label for = "scale">Brand:</label></strong><?php html_text('brand', encode($products['brand'])) ?> <?= err('brand') ?></p>
                 <p><strong><label for = "stock">Stock:</label></strong><?php html_number('stock',encode($products['stock_quantity']),0,99999) ?> units left <?= err('stock') ?></p>
                 <p><strong><label for = "status">Status:</label></strong> <?php html_select('status',$status,encode($products['status']))?> <?= err('status') ?></p>
             </div>
             <div class="descriptionBox">
                 <p><strong><label for = "description">Description:</label></strong></p>
+<<<<<<< HEAD
+                <p><?php html_textarea('description', $products['description']) ?></p>
+            </div class="upload-box">
+=======
                 <p><?php html_textarea('description', $products['description']) ?> <?= err('description') ?></p>
             </div>
+>>>>>>> afd85840f666ba8546cc2ba64f726c813d65c8c4
             <label for="photo">Photo</label>
             <label class="upload" tabindex="0">
                 <?= html_file('photo', 'image/*', 'hidden') ?>
@@ -280,7 +367,7 @@
             <?= err('photo') ?>
             <?php html_hidden('product_id', $products['product_id']) ?>
             <button type="submit" class="btn">Update Product</button>
-        </form>
+                </div>
     </div>
  </div>
 

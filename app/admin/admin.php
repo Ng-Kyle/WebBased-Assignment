@@ -128,10 +128,6 @@ if (is_post()) {
 
     </section>
 
-    <section style="text-align: center;">
-        New admin account? 
-        <a href="admin_register.php" style="display: inline; margin-left: 5px;">Register here</a>
-    </section>
 
 
 
