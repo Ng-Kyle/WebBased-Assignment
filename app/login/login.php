@@ -35,7 +35,7 @@ if (is_post()) {
 
         if ($u) {
             $u->role = 'member';
-            temp('info', "Login successfully, Welcome, {$u->Name}!");
+            temp('info', "Login successfully, Welcome {$u->name}");
             login($u);
         }
         else {

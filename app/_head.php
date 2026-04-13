@@ -46,11 +46,23 @@
         <?php endif ?>
     </header>
 
-   
+<script>
 
+    document.addEventListener('click', function (e) {
+        const logoutLink = e.target.closest('a[href*="logout.php"]');
         
-       
-    
+        if (logoutLink) {
+            e.stopImmediatePropagation();
+            
+            const confirmed = confirm("Are you sure you want to log out?");
+            
+            if (!confirmed) {
+                e.preventDefault();
+            }
+        }
+    }, true);
 
+</script>
+        
     <main>
         <h1><?= $_title ?? 'Untitled' ?></h1>

@@ -2,7 +2,6 @@
 include '../_base.php';
 $_title = 'User | Password';
 include '../_head.php';
-// ----------------------------------------------------------------------------
 
 // Authenticated users
 auth('member');
@@ -135,6 +134,17 @@ if (is_post()) {
         font-size: 16px;
     }
 
+    .form button:hover {
+        background-color: #ff8da1;
+    }
+
+    .form a {
+        display: block;
+        width: 100%;
+        text-align: center;
+        color: #ff8da1;
+        font-size: 14px;
+    }
     .err {
         color: red;
         font-size: 12px;
@@ -156,6 +166,10 @@ if (is_post()) {
     <label for="confirm">Confirm</label>
     <?= html_password('confirm', 'maxlength="100"') ?>
     <?= err('confirm') ?>
+
+    <section>
+        <a href="profile.php">Back to Profile</a>
+    </section>
 
     <section>
         <button>Update Password</button>

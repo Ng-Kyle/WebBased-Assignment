@@ -113,7 +113,6 @@ if (is_post()) {
 
 ?>
 <style>
-    /* 1. Page Layout - Allow scrolling on this page since Order History can be long */
     html, body {
         height: auto;
         min-height: 100%;
@@ -121,15 +120,13 @@ if (is_post()) {
         background-color: #fff;
     }
 
-    /* 2. Profile Card Styling (Matches Login/Register) */
     form.form {
         background: white;
         padding: 40px;
         border-radius: 8px;
         box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         width: 380px;
-        
-        /* Centering the card */
+
         margin: 60px auto !important;
         
         display: flex;
@@ -138,14 +135,13 @@ if (is_post()) {
         text-align: center;
     }
 
-    /* 3. Clean Labels & Inputs */
     form.form label {
         display: block;
         width: 100%;
         font-weight: bold;
         margin-top: 15px;
         margin-bottom: 5px;
-        background: none !important; /* Removes those grey blocks */
+        background: none !important;
         color: #333 !important;
         text-align: center;
     }
@@ -165,11 +161,10 @@ if (is_post()) {
         box-shadow: 0 0 8px rgba(255, 182, 193, 0.5);
     }
 
-    /* 4. Square Photo Fix */
     form.form .upload img {
         width: 120px;
         height: 120px;
-        border-radius: 4px !important; /* Square with slight roundness */
+        border-radius: 4px !important;
         object-fit: cover;
         border: 2px solid #ffb6c1;
         display: block;
@@ -177,10 +172,9 @@ if (is_post()) {
     }
 
     form.form input[type="file"] {
-        display: none !important; /* Hides "Choose File" */
+        display: none !important;/
     }
 
-    /* 5. Buttons Row */
     form.form section {
         display: flex;
         width: 100%;
@@ -201,7 +195,10 @@ if (is_post()) {
         font-size: 16px;
     }
 
-    /* 6. Update Password Link */
+    .form button:hover {
+        background-color: #ff8da1;
+    }
+
     form.form a {
         color: #FF5E7E;
         text-decoration: underline;
