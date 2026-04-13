@@ -206,8 +206,8 @@ function html_time($key, $attr = '') {
 }
 
 // Generate <textarea>
-function html_textarea($key, $attr = '') {
-    $value = encode($GLOBALS[$key] ?? '');
+function html_textarea($key, $value, $attr = '') {
+    $value = encode($value);
     echo "<textarea id='$key' name='$key' $attr>$value</textarea>";
 }
 
@@ -249,16 +249,20 @@ function html_radios($key, $items, $br = false) {
 }
 
 // Generate <select>
-function html_select($key, $items, $default = '- Select One -', $attr = '') {
-    $value = encode($GLOBALS[$key] ?? '');
+function html_select($key, $items, $value = '', $default = '- Select One -',$attr = '') {
     echo "<select id='$key' name='$key' $attr>";
+
     if ($default !== null) {
         echo "<option value=''>$default</option>";
     }
+
     foreach ($items as $id => $text) {
         $state = $id == $value ? 'selected' : '';
-        echo "<option value='$id' $state>$text</option>";
+        echo "<option value='" . encode($id) . "' $state>" 
+            . encode($text) . 
+            "</option>";
     }
+
     echo '</select>';
 }
 
@@ -314,7 +318,7 @@ function login($user, $url = '/') {
 }
 
 // Logout user
-function logout($url = '/') {
+function logout($url = '/',) {
     unset($_SESSION['user']);
     redirect($url);
 }

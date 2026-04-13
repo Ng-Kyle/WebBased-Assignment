@@ -1,58 +1,12 @@
 <?php 
-    include '../_base.php';
-
-
-    if (is_post()){
-        if (!$_user){
-            temp('info', 'Please login to add an item into your cart!');
-            redirect('../login/login.php');
-        }
-
-        $product_id = post('product_id');
-        $quantity = (int)post('quantity');
-        
-        $stm = $_db->prepare('SELECT stock_quantity FROM product WHERE product_id = ?');
-        $stm->execute([$product_id]);
-        $real_stock = $stm->fetchColumn();
-
-        if ($quantity<0 && $quantity>= $real_stock){
-            temp('info', 'Invalid Quantity 😡!!');
-            redirect();
-        }
-        
-        $cart_id = get_cart();
-        //this is for checking if the product exists in the member's cart
-        $stm = $_db->prepare('SELECT * FROM cart_product WHERE product_id = ? AND cart_id = ? ');
-        $stm->execute([$product_id,$cart_id]);
-        $exists = $stm->fetch();
-
-        if($exists->quantity + $quantity > $real_stock){
-            temp('info', 'Your cart is full 😡!!');
-            redirect();
-        }
-        if($exists){
-            //update existing product
-            $stm = $_db->prepare('UPDATE cart_product SET quantity = quantity + ? WHERE product_id = ? AND cart_id = ?');
-            $stm->execute([$quantity,$product_id,$cart_id]);
-            temp('info', 'Added to Cart!! 🛒');
-            redirect('../cart/cart.php');    
-        }else{
-            //insert new product
-            $stm = $_db->prepare('INSERT INTO cart_product (product_id, cart_id, quantity) VALUES (?,?,?)');
-            $stm->execute([$product_id,$cart_id,$quantity]);
-            temp('info', 'Added to Cart!! 🛒');
-            redirect('../cart/cart.php');
-        }
-            
-    }
+    include '../../_base.php';
+    auth('admin');
 
     $id = req('product_id');
     $stm = $_db->prepare('SELECT p.*, pi.* FROM product p LEFT JOIN product_image pi ON p.product_id = pi.product_id WHERE p.product_id = ?');
     $stm->execute([$id]);
     $productIDimg = $stm->fetchAll();
-    //Debug
-    //var_dump($id);
-     //print_r($productIDimg);
+ 
     if (!$productIDimg){
         echo "Product not found";
         exit;
@@ -76,7 +30,18 @@
             $products['images'][] = $p->image_url; //the extra [] is for append.
         }
     }
+    
+    if (is_post()){
+        $product_id = post('product_id');
+        $name = post('name');
+        $price = post('price');
+        $scale = post('scale');
+        $status = post('status');
+        $description = post('description');
+                    
+    }
     $_title = $products['name'];
+    $status = ['Available' => 'Available', 'Offsale' => 'Offsale'];
     include '../_head.php';
 ?>
 
@@ -221,26 +186,26 @@
 
     <!-- Display product info -->
     <div class="products-details">
-        <h2><?= encode($products['name']) ?></h2>
+        <form>
+            <h2><label for = 'name'>Name:</label><?php html_text('name',encode($products['name'])) ?></h2>
 
-        <p class="price">Price: RM<?= number_format($products['price'],2) ?></p>
-        <div class="sizeStatus">
-            <p><strong>Scale:</strong> <?= encode($products['scale']) ?></p>
-            <p><strong>Status:</strong> <?= encode($products['stock_quantity']) ?> units left (<?= encode($products['status']) ?>)</p>
-        </div>
-        <div class="descriptionBox">
-            <p><strong>Description:</strong></p>
-            <p><?= encode($products['description']) ?></p>
-        </div>
-
-        <form method="post" class="addCartButton">
-            <?php html_hidden('product_id', $products['product_id']) ?>
-            
-            <div class="quantityInput">
-                <label>Quantity:</label>
-                <?php html_number('quantity', 1, 1, $products['stock_quantity']) ?>
+            <p class="price"><label for = "price">Price: RM</label><?php html_number('price',$products['price'],0) ?></p>
+            <div class="sizeStatus">
+                <p><strong><label for = "scale">Scale:</label></strong><?php html_text('scale', encode($products['scale'])) ?></p>
+                <p><strong><label for = "stock">Stock:</label></strong><?php html_number('stock',encode($products['stock_quantity'])) ?> units left</p>
+                <p><strong><label for = "status">Status:</label></strong> <?php html_select('status',$status,encode($products['status']))?></p>
             </div>
-            <button type="submit" class="btn">Add To Cart</button>
+            <div class="descriptionBox">
+                <p><strong><label for = "description">Description:</label></strong></p>
+                <p><?php html_textarea('description', $products['description']) ?></p>
+            </div>
+                    <label for="photo">Photo</label>
+            <label class="upload" tabindex="0">
+                <?= html_file('photo', 'image/*', 'hidden') ?>
+                <img src="/images/photo.jpg">
+            </label>
+            <?php html_hidden('product_id', $products['product_id']) ?>
+            <button type="submit" class="btn">Update Product</button>
         </form>
     </div>
  </div>

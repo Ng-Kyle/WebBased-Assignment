@@ -11,6 +11,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
+    <?php 
+    if($_user && $_user->role == 'member'){
+        temp('info', "You're not an admin!");
+        redirect('/');
+    } ?>
     <!-- Flash message -->  
     <div id="info"><?= temp('info') ?></div>
     <header>
@@ -29,8 +34,7 @@
         <a class = "store" href="/admin/product/product_list.php">Product</a>   
 
         
-            <a href="/login/logout.php">Logout</a>
-            <a id = "profile" href="/user/profile.php">Profile</a>
+            <a href="/admin/logout.php">Logout</a>
         <?php endif ?>
     </header>
 
