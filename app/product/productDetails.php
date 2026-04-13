@@ -15,6 +15,14 @@
         $stm->execute([$product_id]);
         $real_stock = $stm->fetchColumn();
 
+        $stm = $_db->prepare('SELECT status FROM product WHERE product_id = ?');
+        $stm->execute([$product_id]);
+        $status = $stm->fetchColumn();
+
+        if($status != 'Available'){
+            temp('info', 'This item is no longer on sale!');
+            redirect();
+        }
         if ($quantity<0 && $quantity>= $real_stock){
             temp('info', 'Invalid Quantity 😡!!');
             redirect();

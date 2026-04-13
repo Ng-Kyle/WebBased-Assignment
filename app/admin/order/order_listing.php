@@ -3,7 +3,7 @@
     $stm = $_db->prepare('SELECT * FROM invoice');
     $stm->execute([$_user->member_id]);
     $orders = $stm->fetchAll();
-    include '../../_head.php';
+    include '../_head.php';
 ?>
 <style>
     .productRowTop{
