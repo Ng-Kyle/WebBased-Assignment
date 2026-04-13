@@ -64,10 +64,6 @@ if (is_post()) {
         redirect('/');
     }
 }
-
-// ----------------------------------------------------------------------------
-
-$_title = 'User | Password';
 ?>
 <style>
 
@@ -135,13 +131,8 @@ $_title = 'User | Password';
         cursor: pointer;
         font-weight: bold;
         background-color: #ffb6c1;
-        color: white;
+        color: black;
         font-size: 16px;
-    }
-
-    button[type="reset"] {
-        background-color: #ddd;
-        color: #333;
     }
 
     .err {
@@ -167,7 +158,7 @@ $_title = 'User | Password';
     <?= err('confirm') ?>
 
     <section>
-        <button>Submit</button>
+        <button>Update Password</button>
         <button type="reset">Reset</button>
     </section>
 </form>
