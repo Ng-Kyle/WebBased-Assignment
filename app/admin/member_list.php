@@ -16,7 +16,13 @@ include '_head.php';
     overflow: visible;
     }
 
-.table1 th, .table1 td {
+.table1 th{
+    border: 2px solid rgb(255, 110, 110);
+    padding: 12px; 
+    text-align: center;
+} 
+
+.table1  td {
     border: 2px solid rgb(255, 110, 110);
     padding: 12px; 
     text-align: center;
@@ -28,13 +34,16 @@ include '_head.php';
     font-weight: 600;
 }
 
+.table1 td > :last-child{
+    border: hidden;
+}
+
 .table1 tr:hover td {
     background-color: #ffecec;
 }
 
 .details {
     background-color: white;
-    border: 2px solid rgb(255, 109, 109);
     padding: 5px 10px;
     border-radius: 6px;
     cursor: pointer;
@@ -49,7 +58,6 @@ include '_head.php';
 .details-but {
     width: 20%;
     position: relative;
-    border: none;
 }
 
 .table1 .popup {
@@ -89,7 +97,7 @@ include '_head.php';
     <tr class="table-row">
         <td><?= $p->member_id ?></td>
         <td><?= $p->name ?></td>
-        <td class="details-but">
+        <td>
             <button class="details" data-get="member_details.php?id=<?= $p->member_id ?>">Details</button>
             <img class="popup" src="<?= $p->image_url ?>" >
         </td>
