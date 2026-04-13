@@ -1,5 +1,6 @@
 <?php
 include '../_base.php';
+$_title = 'Profile';
 include '../_head.php';
 
 // ----------------------------------------------------------------------------
@@ -60,8 +61,8 @@ if (is_post()) {
     if ($phone == '') {
         $_err['phone'] = 'Required';
     }
-     else if (strlen($phone) > 11) {
-        $_err['phone'] = 'Maximum 11 characters';
+     else if (!preg_match ('/^\d{10,11}$/', $phone)) {
+        $_err['phone'] = 'Invalid phone number';
     }
 
     // Validate: photo (file) --> optional
@@ -110,7 +111,6 @@ if (is_post()) {
     }
 // ----------------------------------------------------------------------------
 
-$_title = 'User | Profile';
 ?>
 <style>
     /* 1. Page Layout - Allow scrolling on this page since Order History can be long */
@@ -210,7 +210,7 @@ $_title = 'User | Profile';
     }
 </style>
 
-    <style>
+<style>
         .productRowTop{
             border-top: 3px solid pink;
         }
@@ -253,6 +253,7 @@ $_title = 'User | Profile';
             white-space: nowrap;
             font-weight: bold;
             color: #FF5E7E;
+            padding-right:40px;
         }
         #productCategory{
             color:gray;
@@ -263,7 +264,6 @@ $_title = 'User | Profile';
             font-weight: bold;
             color: #FF5E7E;
             white-space:nowrap;
-            padding-right:25px;
         }
         .productDetails{
             font-size:20pt;

@@ -22,7 +22,7 @@ if (is_post()) {
     else {
         $stm = $_db->prepare('
             SELECT COUNT(*) FROM member
-            WHERE password = SHA1(?) AND id = ?
+            WHERE password = SHA1(?) AND member_id = ?
         ');
         $stm->execute([$password, $_user->member_id]);
         
@@ -56,11 +56,11 @@ if (is_post()) {
         $stm = $_db->prepare('
             UPDATE member
             SET password = SHA1(?)
-            WHERE id = ?
+            WHERE member_id = ?
         ');
         $stm->execute([$new_password, $_user->member_id]);
 
-        temp('info', 'Record updated');
+        temp('info', 'Password updated');
         redirect('/');
     }
 }
@@ -150,6 +150,7 @@ $_title = 'User | Password';
         display: block;
         margin-top: 5px;
     }
+}
 </style>
 
 <form method="post" class="form">

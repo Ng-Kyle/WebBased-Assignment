@@ -82,7 +82,6 @@
     .search-container{
         display: flex;
         gap: 20px;
-        padding: 20px;
     }
     .sidebar{
         width: 250px;
@@ -99,11 +98,11 @@
         padding: 40px;
     }
     .products-card {
-        border: 1px solid #FF5E7E;;
+        border: 3px solid #FF5E7E;;
+        background:#ffdbdb;
         border-radius: 10px;
         padding: 20px;
         text-align: center;
-        background: #ffffff;
         transition: transform 0.2s;
     }
     .products-card img {
@@ -119,6 +118,21 @@
         color: #ff6b81; 
         font-weight: bold; 
         font-size: 1.3; 
+    }
+    .quickAdd{
+        background-color:rgb(255, 255, 255);
+        color:black;
+        border: 3px solid #FF5E7E;
+        border-radius: 5px;
+        font-size:1.1em;
+        font-weight:bold;
+        cursor: pointer;
+        transition: 0.2;
+        width: fit-content;       
+    }
+    .quickAdd:hover{
+        background-color:#ff93a5;
+        border-color: #ff93a5      
     }
 </style>
     <div class="search-bar">
@@ -162,13 +176,13 @@
             <div class="products-side">
                 <?php foreach ($products as $p): ?>
                     <div class="products-card">
-                        <a href="productDetails.php?product_id=<?= $p->product_id ?>">
+                        <a href="product_details.php?product_id=<?= $p->product_id ?>">
                             <img src="<?= $p->image_url ?>" alt="<?= encode($p->name) ?>">
-                            <h3><?= encode($p->name) ?></h3>
-                            <p class="price">RM <?= number_format($p->price,2) ?></p>
                         </a>
+                        <h3><?= encode($p->name) ?></h3>
+                        <p class="price">RM <?= number_format($p->price,2) ?></p>
                         <div class="buttonGroup">
-                        <button data-post="delete.php?product_id=<?= $p->product_id ?>">Delete</button>
+                        <button class = "quickAdd" data-post="delete.php?product_id=<?= $p->product_id ?>">Delete</button>
                         </div>
                     </div>
                 <?php endforeach; ?>
