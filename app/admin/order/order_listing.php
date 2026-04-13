@@ -9,7 +9,7 @@
     $new_status = $_POST['new_status'];
 
     if ($old_status != $new_status) {
-        $active_states = ['Shipped', 'Completed'];
+        $active_states = ['Shipping', 'Completed'];
 
         // 1. Get the items from order_details
         // NOTE: Check if your column is named 'quantity' or 'qty' in order_details
@@ -19,12 +19,12 @@
 
         foreach ($items as $item) {
             // Case: Pending -> Shipped/Completed (Minus from stock_quantity)
-            if ($old_status == 'Pending' && in_array($new_status, $active_states)) {
+            if ($old_status == 'Preparing' && in_array($new_status, $active_states)) {
                 $upd = $_db->prepare("UPDATE product SET stock_quantity = stock_quantity - ? WHERE product_id = ?");
                 $upd->execute([$item->quantity, $item->product_id]);
             } 
             // Case: Shipped/Completed -> Pending (Add back to stock_quantity)
-            elseif (in_array($old_status, $active_states) && $new_status == 'Pending') {
+            elseif (in_array($old_status, $active_states) && $new_status == 'Preparing') {
                 $upd = $_db->prepare("UPDATE product SET stock_quantity = stock_quantity + ? WHERE product_id = ?");
                 $upd->execute([$item->quantity, $item->product_id]);
             }
@@ -63,7 +63,7 @@ $orders = $stm->fetchAll();
                             <input type="hidden" name="order_id" value="<?= $o->order_id ?>">
                             <input type="hidden" name="old_status" value="<?= $o->status ?>">
                             <select name="new_status" class="status-select">
-                                <option value="Pending" <?= $o->status == 'Pending' ? 'selected' : '' ?>>Pending</option>
+                                <option value="Preparing" <?= $o->status == 'Preparing' ? 'selected' : '' ?>>Preparing</option>
                                 <option value="Shipped" <?= $o->status == 'Shipped' ? 'selected' : '' ?>>Shipped</option>
                                 <option value="Completed" <?= $o->status == 'Completed' ? 'selected' : '' ?>>Completed</option>
                             </select>
