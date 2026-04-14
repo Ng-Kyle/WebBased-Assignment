@@ -119,11 +119,36 @@ if (is_post()) {
     <?= html_password('confirm', '') ?>
     <?= err('confirm') ?>
 
+    <div style="text-align: right; margin-top: 10px; margin-bottom: 20px;">
+        <a href="javascript:void(0)" 
+        id="allToggleBtn" 
+        onclick="toggleAllPasswords()" 
+        style="color: #ff8da1; font-size: 13px; text-decoration: none; font-weight: bold;">
+        Show All Passwords
+        </a>
+    </div>
+
     <section>
         <button>Register</button>
         <button type="reset">Reset</button>
     </section>
 </form>
+
+<script>
+function toggleAllPasswords() {
+    const p1 = document.getElementById('password');
+    const p2 = document.getElementById('confirm');
+    const btn = document.getElementById('allToggleBtn');
+
+    if (p1 && p2) {
+        const isHidden = p1.type === "password";
+        p1.type = isHidden ? "text" : "password";
+        p2.type = isHidden ? "text" : "password";
+        
+        btn.innerText = isHidden ? "Hide All Passwords" : "Show All Passwords";
+    }
+}
+</script>
 
 <?php 
     include '../_foot.php';

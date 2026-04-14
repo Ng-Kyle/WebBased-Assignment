@@ -52,7 +52,15 @@
     <?= err('email') ?>
 
     <label for="password">Password</label>
-    <?= html_password('password', '',) ?>
+    <?= html_password('password', 'maxlength="100"') ?>
+        <div style="text-align: right; margin-top: 5px;">
+            <a href="javascript:void(0)" 
+            id="toggleBtn" 
+            onclick="toggleView()" 
+            style="color: #ff8da1; font-size: 13px; text-decoration: none; font-weight: bold;">
+            Show Password
+            </a>
+        </div>
     <?= err('password') ?>
 
     <section method="post" class="memberLoginButton">
@@ -69,6 +77,21 @@
         <a href="reset.php">Forgot your password?</a>
     </section> 
 </form>
+
+<script>
+function toggleView() {
+    const input = document.getElementById('password');
+    const btn = document.getElementById('toggleBtn');
+
+    if (input.type === "password") {
+        input.type = "text";
+        btn.innerText = "Hide Password";
+    } else {
+        input.type = "password";
+        btn.innerText = "Show Password";
+    }
+}
+</script>
 
 <?php 
     include '../_foot.php'

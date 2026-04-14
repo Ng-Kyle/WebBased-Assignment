@@ -66,17 +66,26 @@
 ?>
 
 <form method="post" class="passwordForm">
-    <label for="password">Password</label>
-    <?= html_password('password', 'maxlength="100"') ?>
+    <label for="password">Current Password</label>
+    <?= html_password('password', 'class="pass-input" maxlength="100"') ?>
     <?= err('password') ?>
 
     <label for="new_password">New Password</label>
-    <?= html_password('new_password', 'maxlength="100"') ?>
+    <?= html_password('new_password', 'class="pass-input" maxlength="100"') ?>
     <?= err('new_password') ?>
 
-    <label for="confirm">Confirm</label>
-    <?= html_password('confirm', 'maxlength="100"') ?>
+    <label for="confirm">Confirm Password</label>
+    <?= html_password('confirm', 'class="pass-input" maxlength="100"') ?>
     <?= err('confirm') ?>
+
+    <div style="text-align: right; margin-top: 10px; margin-bottom: 20px;">
+        <a href="javascript:void(0)" 
+        id="allToggleBtn" 
+        onclick="toggleAllPasswords()" 
+        style="color: #ff8da1; font-size: 13px; text-decoration: none; font-weight: bold;">
+        Show All Passwords
+        </a>
+    </div>
 
     <section>
         <a href="profile.php">Back to Profile</a>
@@ -87,6 +96,20 @@
         <button type="reset">Reset</button>
     </section>
 </form>
+
+<script>
+function toggleAllPasswords() {
+    const inputs = document.querySelectorAll('.pass-input');
+    const btn = document.getElementById('allToggleBtn');
+    const isHidden = inputs[0].type === "password";
+
+    inputs.forEach(input => {
+        input.type = isHidden ? "text" : "password";
+    });
+
+    btn.innerText = isHidden ? "Hide All Passwords" : "Show All Passwords";
+}
+</script>
 
 <?php
 include '../_foot.php';
