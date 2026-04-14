@@ -1,14 +1,21 @@
 TARUMT Web Based Integrated Systems Assignment DFTG4
+
 Title: Figure Shop (AnonFigures)
+
 Members: Ng Kyle, Yaswinraj A/L Sunderamurthi, Nigel Matthias Gregory, Mokwe Makeen Jachike Emir
 
 Precautions ⚠️:
 Launch the server on localhost:8000. This is to ensure stripe can redirect you to the correct page after payment.
+
 Import the database under the name anonfigures (same as the file name). The _base file checks for anonfigures as the database name. 
+
 Doing repeated checkouts or password resets in quick succession can cause the host email (anonfigures@gmail.com) to be rate limited.
 The emails were sent, you will just receive them at later after gmail unblocks.
+
 The admin login page can be found at http://localhost:8000/admin/admin.php.
+
 Super admin details:
+
 Email: superadmin@gmail.com, Password: sudoAdmin
 
 Nigel Functions
