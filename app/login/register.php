@@ -144,7 +144,7 @@ function toggleAllPasswords() {
         const isHidden = p1.type === "password";
         p1.type = isHidden ? "text" : "password";
         p2.type = isHidden ? "text" : "password";
-        
+
         btn.innerText = isHidden ? "Hide All Passwords" : "Show All Passwords";
     }
 }
