@@ -10,15 +10,15 @@
     $GLOBALS['scale'] = req('scale', []);
 
     //for fetching the stuff
-    $stm = $_db->query('SELECT DISTINCT brand FROM product WHERE brand IS NOT NULL');
+    $stm = $_db->query('SELECT DISTINCT brand FROM product WHERE brand IS NOT NULL ORDER BY brand ASC');
     $brands_list = $stm->fetchAll(PDO::FETCH_COLUMN);
     $brands_options = array_combine($brands_list, $brands_list);
 
-    $stm = $_db->query('SELECT DISTINCT series FROM product WHERE series IS NOT NULL');
+    $stm = $_db->query('SELECT DISTINCT series FROM product WHERE series IS NOT NULL ORDER BY series ASC');
     $series_list = $stm->fetchAll(PDO::FETCH_COLUMN);
     $series_options = array_combine($series_list, $series_list);
 
-    $stm = $_db->query('SELECT DISTINCT scale FROM product WHERE scale IS NOT NULL');
+    $stm = $_db->query('SELECT DISTINCT scale FROM product WHERE scale IS NOT NULL ORDER BY scale ASC');
     $scale_list = $stm->fetchAll(PDO::FETCH_COLUMN);
     $scale_options = array_combine($scale_list, $scale_list);
 
@@ -114,7 +114,7 @@
         $filter .= " AND p.price <= ?";
         $params[] = $max;
     }
-    $filter .= ' GROUP BY p.product_id';
+    $filter .= ' GROUP BY p.product_id ORDER BY p.name ASC';
     $stm = $_db->prepare($filter);
     $stm->execute($params);
     $products = $stm->fetchAll();

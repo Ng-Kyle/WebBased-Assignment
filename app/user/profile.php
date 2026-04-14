@@ -187,7 +187,7 @@
                 </td>
             </tr>
             <tr class = profileOrderRowMiddle>
-                <td class = "profileOrderAddress"><span>Shipping Address:</span><br><?= $o->street_address . ', ' . $o->city . ', ' . $o->state . ' ' . $o->post_code;?></td>
+                <td class = "profileOrderAddress"><span>Shipping Address:</span><br><?= $o->street_address . ",<br>" . $o->city . ', ' . $o->state . ' ' . $o->post_code;?></td>
                 <td class = profileOrderPrice>RM <?= number_format($o->total_amount,2) ?></td>
                 <td class = "profileOrderProductQuantiy">Status: <?= $o->status ?></td>
             </tr>

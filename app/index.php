@@ -25,13 +25,13 @@
         <!-- LEFT: Slider -->
         <div class="slider-container">
             <div class="slide active">
-                <img src="/images/anime1.jpg">
+                <img src="/images/Anime_1.webp">
             </div>
             <div class="slide">
-                <img src="/images/anime2.jpg">
+                <img src="/images/Anime_2.jpg">
             </div>
             <div class="slide">
-                <img src="/images/anime3.jpg">
+                <img src="/images/Anime_3.webp">
             </div>
             <!-- Arrows -->
             <button class="arrow left" onclick="prevSlide()"><</button>

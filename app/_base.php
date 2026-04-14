@@ -92,65 +92,9 @@ function is_email($value) {
     return filter_var($value, FILTER_VALIDATE_EMAIL) !== false;
 }
 
-// Is date?
-function is_date($value, $format = 'Y-m-d') {
-    $d = DateTime::createFromFormat($format, $value);
-    return $d && $d->format($format) == $value;
-}
-
-// Is time?
-function is_time($value, $format = 'H:i') {
-    $d = DateTime::createFromFormat($format, $value);
-    return $d && $d->format($format) == $value;
-}
-
-// Return year list items
-function get_years($min, $max, $reverse = false) {
-    $arr = range($min, $max);
-
-    if ($reverse) {
-        $arr = array_reverse($arr);
-    }
-
-    return array_combine($arr, $arr);
-}
-
-// Return month list items
-function get_months() {
-    return [
-        1  => 'January',
-        2  => 'February',
-        3  => 'March',
-        4  => 'April',
-        5  => 'May',
-        6  => 'June',
-        7  => 'July',
-        8  => 'August',
-        9  => 'September',
-        10 => 'October',
-        11 => 'November',
-        12 => 'December',
-    ];
-}
-
-// Return local root path
-function root($path = '') {
-    return "$_SERVER[DOCUMENT_ROOT]/$path";
-}
-
 // Return base url (host + port)
 function base($path = '') {
     return "http://$_SERVER[SERVER_NAME]:$_SERVER[SERVER_PORT]/$path";
-}
-
-// Return TRUE if ALL array elements meet the condition given
-function array_all($arr, $fn) {
-    foreach ($arr as $k => $v) {
-        if (!$fn($v, $k)) {
-            return false;
-        }
-    }
-    return true;
 }
 
 // ============================================================================
@@ -201,19 +145,6 @@ function html_search($key, $attr = '') {
     echo "<input type='search' id='$key' name='$key' value='$value' $attr>";
 }
 
-// Generate <input type='date'>
-function html_date($key, $min= '', $max = '', $attr = '') {
-    $value = encode($GLOBALS[$key] ?? '');
-    echo "<input type='date' id='$key' name='$key' value='$value'
-                 min='$min' max='$max' $attr>";
-}
-
-// Generate <input type='time'>
-function html_time($key, $attr = '') {
-    $value = encode($GLOBALS[$key] ?? '');
-    echo "<input type='time' id='$key' name='$key' value='$value' $attr>";
-}
-
 // Generate <textarea>
 function html_textarea($key, $value, $attr = '') {
     $value = encode($value);
@@ -243,20 +174,6 @@ function html_checkboxes($key, $items, $br = false) {
     echo '</div>';
 }
 
-// Generate <input type='radio'> list
-function html_radios($key, $items, $br = false) {
-    $value = encode($GLOBALS[$key] ?? '');
-    echo '<div>';
-    foreach ($items as $id => $text) {
-        $state = $id == $value ? 'checked' : '';
-        echo "<label><input type='radio' id='{$key}_$id' name='$key' value='$id' $state>$text</label>";
-        if ($br) {
-            echo '<br>';
-        }
-    }
-    echo '</div>';
-}
-
 // Generate <select>
 function html_select($key, $items, $value = '', $default = '- Select One -',$attr = '') {
     echo "<select id='$key' name='$key' $attr>";
@@ -278,21 +195,6 @@ function html_select($key, $items, $value = '', $default = '- Select One -',$att
 // Generate <input type='file'>
 function html_file($key, $accept = '', $attr = '') {
     echo "<input type='file' id='$key' name='$key' accept='$accept' $attr>";
-}
-
-// Generate table headers <th>
-function table_headers($fields, $sort, $dir, $href = '') {
-    foreach ($fields as $k => $v) {
-        $d = 'asc'; // Default direction
-        $c = '';    // Default class
-        
-        if ($k == $sort) {
-            $d = $dir == 'asc' ? 'desc' : 'asc';
-            $c = $dir;
-        }
-
-        echo "<th><a href='?sort=$k&dir=$d&$href' class='$c'>$v</a></th>";
-    }
 }
 
 // ============================================================================
@@ -345,13 +247,6 @@ function auth($role) {
 // Email Functions
 // ============================================================================
 
-// Demo Accounts:
-// --------------
-// AACS3173@gmail.com           npsg gzfd pnio aylm
-// BAIT2173.email@gmail.com     ytwo bbon lrvw wclr
-// liaw.casual@gmail.com        wtpa kjxr dfcb xkhg
-// liawcv1@gmail.com            obyj shnv prpa kzvj
-
 // Initialize and return mail object
 function get_mail() {
     require_once 'lib/PHPMailer.php';
@@ -394,26 +289,6 @@ function get_cart() {
 
 }
 
-// Set shopping cart
-function set_cart($cart = []) {
-    $_SESSION['cart'] = $cart;
-}
-
-// Update shopping cart
-function update_cart($id, $unit) {
-    $cart = get_cart();
-
-    if ($unit >= 1 && $unit <= 10 && is_exists($id, 'product', 'id')) {
-        $cart[$id] = $unit;
-        ksort($cart);
-    }
-    else {
-        unset($cart[$id]);
-    }
-
-    set_cart($cart);
-}
-
 // ============================================================================
 // Database Setups and Functions
 // ============================================================================
@@ -438,7 +313,3 @@ function is_exists($value, $table, $field) {
     $stm->execute([$value]);
     return $stm->fetchColumn() > 0;
 }
-
-// ============================================================================
-// Global Constants and Variables
-// ============================================================================
