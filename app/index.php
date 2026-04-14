@@ -10,6 +10,7 @@
                             JOIN product_image i ON p.product_id = i.product_id
                             LEFT JOIN order_details od ON p.product_id = od.product_id
                             LEFT JOIN invoice inv ON od.order_id = inv.order_id
+                            WHERE p.status != "deleted"
                             GROUP BY p.product_id
                             ORDER BY total_bought DESC
                             LIMIT 6');
