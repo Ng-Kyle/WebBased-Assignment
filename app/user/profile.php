@@ -5,7 +5,7 @@
 
     // ----------------------------------------------------------------------------
 
-    // Authenticated users
+    
     auth('member');
 
     if (is_get()) {
@@ -28,7 +28,7 @@
         $photo = $_SESSION['image_url'];
         $f = get_file('photo');
 
-        // Validate: email
+        
         if ($email == '') {
             $_err['email'] = 'Required';
         }
@@ -50,14 +50,14 @@
             }
         }
 
-        // Validate: name
+        
         if ($name == '') {
             $_err['name'] = 'Required';
         }
         else if (strlen($name) > 100) {
             $_err['name'] = 'Maximum 100 characters';
         }
-        // Validate: phone
+      
         if ($phone == '') {
             $_err['phone'] = 'Required';
         }
@@ -65,7 +65,7 @@
             $_err['phone'] = 'Invalid phone number';
         }
 
-        // Validate: photo (file) --> optional
+        
         if ($f) {
             if (!str_starts_with($f->type, 'image/')) {
                 $_err['photo'] = 'Must be image';
@@ -75,15 +75,15 @@
             }
         }
 
-        // DB operation
+        
         if (!$_err) {
-            // (1) Delete and save photo --> optional
+           
             if ($f) {
                 unlink("../images/$photo");
                 $photo = save_photo($f, '../images/user','/images/user');
             }
             
-            // (2) Update user (email, name, phone, photo)
+            
             $stm = $_db->prepare('
                 UPDATE member
                 SET email = ?, name = ?, phone_number = ?, image_url = ?
@@ -91,7 +91,7 @@
             ');
             $stm->execute([$email, $name, $phone, $photo, $_user->member_id]);
 
-            // (3) Update global user object
+            
             $_user->email = $email;
             $_user->name  = $name;
             $_user->phone_number = $phone;
@@ -109,7 +109,7 @@
     if (is_post() && isset($_POST['cancel_order_id'])) {
         $cancel_id = post('cancel_order_id');
 
-        // 1. Fetch items to restore stock BEFORE deleting anything
+        
         $stmt = $_db->prepare("SELECT product_id, quantity FROM order_details WHERE order_id = ?");
         $stmt->execute([$cancel_id]);
         $items = $stmt->fetchAll();
@@ -119,17 +119,17 @@
             $upd->execute([$item->quantity, $item->product_id]);
         }
 
-        // --- START DELETING IN CORRECT ORDER ---
+        
 
-        // 2. Delete from order_details
+        
         $delDetails = $_db->prepare("DELETE FROM order_details WHERE order_id = ?");
         $delDetails->execute([$cancel_id]);
 
-        // 3. Delete from receipt (This fixes the Integrity constraint violation)
+        
         $delReceipt = $_db->prepare("DELETE FROM receipt WHERE order_id = ?");
         $delReceipt->execute([$cancel_id]);
 
-        // 4. Finally, delete the invoice
+       
         $delInvoice = $_db->prepare("DELETE FROM invoice WHERE order_id = ?");
         $delInvoice->execute([$cancel_id]);
 
