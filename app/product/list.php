@@ -179,8 +179,8 @@
                     </a>
                     
                     <div class="buttonGroup">
-                        <button data-post="?product_id=<?= $p->product_id ?>" class="productListQuickAdd">Quick Add🌟</button>
-                        <button data-post="?product_id=<?= $p->product_id ?>&action=wishlist" class="productListWishlist">❤️</button>
+                        <button data-post="?product_id=<?= encode($p->product_id) ?>" class="productListQuickAdd">Quick Add🌟</button>
+                        <button data-post="?product_id=<?= encode($p->product_id) ?>&action=wishlist" class="productListWishlist">❤️</button>
                     </div>
                 </div>
             <?php endforeach; ?>
