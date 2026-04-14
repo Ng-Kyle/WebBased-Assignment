@@ -13,7 +13,6 @@ if (is_post()) {
     $confirm  = req('confirm');
     $f = get_file('photo');
 
-    // Validate: email
     if (!$email) {
         $_err['email'] = 'Required';
     }
@@ -27,7 +26,6 @@ if (is_post()) {
         $_err['email'] = 'Duplicated';
     }
 
-    // Validate: password
     if (!$password) {
         $_err['password'] = 'Required';
     }
@@ -35,7 +33,6 @@ if (is_post()) {
         $_err['password'] = 'Between 5-100 characters';
     }
 
-    // Validate: confirm
     if (!$confirm) {
         $_err['confirm'] = 'Required';
     }
@@ -46,7 +43,6 @@ if (is_post()) {
         $_err['confirm'] = 'Not matched';
     }
 
-    // Validate: name
     if (!$name) {
         $_err['name'] = 'Required';
     }
@@ -54,7 +50,6 @@ if (is_post()) {
         $_err['name'] = 'Maximum 100 characters';
     }
 
-    // Validate: phone
     if (!$phone) {
         $_err['phone'] = 'Required';
     }
@@ -62,7 +57,6 @@ if (is_post()) {
         $_err['phone'] = 'Invalid phone number';
     }
 
-    // Validate: photo (file)
     if (!$f) {
         $_err['photo'] = 'Required';
     }
@@ -73,12 +67,10 @@ if (is_post()) {
         $_err['photo'] = 'Maximum 1MB';
     }
 
-    // DB operation
     if (!$_err) {
-        // (1) Save photo
+
         $photo = save_photo($f, '../images/user','/images/user');
         
-        // (2) Insert user (member)
         $stm = $_db->prepare('
             INSERT INTO member (name, email, password, phone_number, image_url)
             VALUES (?, ?, SHA1(?), ?, ?)

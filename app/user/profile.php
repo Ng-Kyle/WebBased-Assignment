@@ -3,9 +3,6 @@
     $_title = 'Profile';
     include '../_head.php';
 
-    // ----------------------------------------------------------------------------
-
-    
     auth('member');
 
     if (is_get()) {
@@ -28,7 +25,6 @@
         $photo = $_SESSION['image_url'];
         $f = get_file('photo');
 
-        
         if ($email == '') {
             $_err['email'] = 'Required';
         }
@@ -50,14 +46,16 @@
             }
         }
 
+<<<<<<< HEAD
         
+=======
+>>>>>>> c4fa954497846ecae532c3eecba8be4c9e0bfbcf
         if ($name == '') {
             $_err['name'] = 'Required';
         }
         else if (strlen($name) > 100) {
             $_err['name'] = 'Maximum 100 characters';
         }
-      
         if ($phone == '') {
             $_err['phone'] = 'Required';
         }
@@ -65,7 +63,6 @@
             $_err['phone'] = 'Invalid phone number';
         }
 
-        
         if ($f) {
             if (!str_starts_with($f->type, 'image/')) {
                 $_err['photo'] = 'Must be image';
@@ -75,15 +72,13 @@
             }
         }
 
-        
+
         if (!$_err) {
-           
+
             if ($f) {
                 unlink("../images/$photo");
                 $photo = save_photo($f, '../images/user','/images/user');
             }
-            
-            
             $stm = $_db->prepare('
                 UPDATE member
                 SET email = ?, name = ?, phone_number = ?, image_url = ?
@@ -91,7 +86,6 @@
             ');
             $stm->execute([$email, $name, $phone, $photo, $_user->member_id]);
 
-            
             $_user->email = $email;
             $_user->name  = $name;
             $_user->phone_number = $phone;
