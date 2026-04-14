@@ -2488,3 +2488,116 @@ box-shadow: 0 0 8px rgba(255, 182, 193, 0.5);
 .slide-btn.right {
     right: 0;
 }
+
+/*admin member_list.php*/
+.adminMemberListSearchbar{
+    text-align: center;
+    margin: 20px;
+}
+
+.adminMemberListSearchbar input{
+    width: 50%;
+    padding: 10px;
+    border-radius: 20px;
+    border: 2px solid #ff9aae;
+}
+
+.adminMemberListSearchbar input:focus{
+    border-color:#ff1f4b;
+    outline: none;
+    box-shadow: 0 0 8px rgba(255, 125, 151, 0.3);
+}
+
+.adminmemberListTable{
+    margin-left: 20%;
+}
+
+.adminmemberListTable {
+    width: 70%;
+    margin: 40px auto; 
+    border-collapse: collapse;
+    overflow: visible;
+}
+
+.adminmemberListTable th{
+    border: 2px solid rgb(255, 110, 110);
+    padding: 12px; 
+    text-align: center;
+} 
+
+.adminmemberListTable  td {
+    border: 2px solid rgb(255, 110, 110);
+    padding: 12px; 
+    text-align: center;
+}
+
+.adminmemberListTable th {
+    color: #000;
+    background: #ffd4d4;
+    font-weight: 600;
+}
+
+.adminmemberListTable td.adminmemberListDetailsBtn {
+    border: none; /* Removes the pink border from this specific cell */
+    position: relative; 
+    width: 20%;
+    text-align: left;
+    padding: 1%;
+}
+
+.adminmemberListTable tr:hover td.adminmemberListDetailsBtn {
+    background-color: transparent; 
+}
+
+.adminmemberListTable tr:hover td {
+    background-color: #ffecec;
+}
+
+.adminmemberListDetails {
+    background-color: white;
+    padding: 5px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.adminmemberListDetails:hover {
+    background-color: rgb(255, 110, 110);
+    color: white;
+}
+
+.adminmemberListDetailsBtn {
+    width: 20%;
+    position: relative;
+
+}
+
+.adminmemberListTable .popup {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    position: absolute;
+    top: 50%;
+    left: 100%;
+    transform: translate(10px, -50%);
+    z-index: 999;
+    border: 5px solid rgb(255, 126, 126);
+    border-radius: 8px;
+    background: white;
+    display: none; 
+}
+
+.adminmemberListDetailsBtn:hover .popup {
+    display: block;
+}
+
+.adminMemberListreset-link td{
+    font-size: 20px;
+    border: hidden;
+}
+
+.adminMemberListNone td:last-child{
+    border-top: hidden;
+    border-bottom: hidden;
+    border-right: hidden;
+}

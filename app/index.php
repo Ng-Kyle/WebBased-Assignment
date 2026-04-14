@@ -72,7 +72,7 @@
     <div>
         <h3>Our Store Location📌</h3>
         <iframe class="map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3971.8764056341292!2d100.3086100750317!3d5.435735894543674!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x304ac30639a8371d%3A0xd64b8208b7c331b1!2sGurney%20Paragon%20Mall!5e0!3m2!1sen!2smy!4v1776099943740!5m2!1sen!2smy"
-                     width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                     width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
     </div>
 </div>
     
