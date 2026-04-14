@@ -84,32 +84,34 @@
     <aside class="adminProductListSidebar">
         <form id="filter" action="" method ="get">
             <?php html_hidden('name', $name); ?>
-            <h3>Filter by Brand</h3>
-            <div class="adminProductListFilterGroup">
-                <?php html_checkboxes('brand', $brands_options, true) ?>
-            </div>
+            <div class="adminProductListFilterContainer">
+                <h3>Filter by Brand</h3>
+                <div class="adminProductListFilterGroup">
+                    <?php html_checkboxes('brand', $brands_options, true) ?>
+                </div>
 
-            <h3>Filter by Series</h3>
-            <div class="adminProductListFilterGroup">
-                <?php html_checkboxes('series', $series_options, true) ?>
-            </div>
+                <h3>Filter by Series</h3>
+                <div class="adminProductListFilterGroup">
+                    <?php html_checkboxes('series', $series_options, true) ?>
+                </div>
 
-            <h3>Filter by Scale</h3>
-            <div class="adminProductListFilterGroup">
-                <?php html_checkboxes('scale', $scale_options, true) ?>
-            </div>
+                <h3>Filter by Scale</h3>
+                <div class="adminProductListFilterGroup">
+                    <?php html_checkboxes('scale', $scale_options, true) ?>
+                </div>
 
-            <h3>Filter by Price</h3>
-            <div class="adminProductListFilterGroup">
-                <?php html_number('min', $min, 0, 9999, 1, 'placeholder="Min"'); ?>
-                <?php html_number('max', $max, 0, 9999, 1, 'placeholder="Max"'); ?>
-            </div>
+                <h3>Filter by Price</h3>
+                <div class="adminProductListFilterGroup">
+                    <?php html_number('min', $min, 0, 9999, 1, 'placeholder="Min"'); ?>
+                    <?php html_number('max', $max, 0, 9999, 1, 'placeholder="Max"'); ?>
+                </div>
+            </div>          
             <div class="adminProductListBotButtons">
                 <button type="submit">Apply Filters</button>
             </div>
-            <a class="adminProductListBotButtons" href="<?= base('product/list.php') ?>">Clear All</a>
+            <a class="adminProductListClearAddButtons" href="<?= base('product/list.php') ?>">Clear All</a>
+            <a class="adminProductListClearAddButtons" href="insert_product.php">Add Product</a>
         </form>
-            <a class="adminProductListBotButtons" href="insert_product.php">Add Product</a>
     </aside>
 
     <div class="adminProductListContent">
