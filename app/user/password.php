@@ -102,15 +102,15 @@
 
 <script>
 function toggleAllPasswords() {
-    const inputs = document.querySelectorAll('.pass-input');
-    const btn = document.getElementById('allToggleBtn');
-    const isHidden = inputs[0].type === "password";
+    const $inputs = $('.pass-input');
+    const $btn = $('#allToggleBtn');
+    
+    if ($inputs.length > 0) {
+        const isHidden = $inputs.first().attr('type') === 'password';
 
-    inputs.forEach(input => {
-        input.type = isHidden ? "text" : "password";
-    });
-
-    btn.innerText = isHidden ? "Hide All Passwords" : "Show All Passwords";
+        $inputs.attr('type', isHidden ? 'text' : 'password');
+        $btn.text(isHidden ? "Hide All Passwords" : "Show All Passwords");
+    }
 }
 </script>
 

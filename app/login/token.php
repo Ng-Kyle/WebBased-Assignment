@@ -56,11 +56,11 @@
 
 <form method="post" class="tokenForm">
     <label for="password">Password</label>
-    <?= html_password('password', 'maxlength="100"') ?>
+    <?= html_password('password', 'class="pass-input" maxlength="100"') ?>
     <?= err('password') ?>
 
     <label for="confirm">Confirm</label>
-    <?= html_password('confirm', 'maxlength="100"') ?>
+    <?= html_password('confirm', 'class="pass-input" maxlength="100"') ?>
     <?= err('confirm') ?>
 
     <div style="text-align: right; margin-top: 10px; margin-bottom: 20px;">
@@ -84,17 +84,12 @@
 
 <script>
 function toggleAllPasswords() {
-    const p1 = document.getElementById('password');
-    const p2 = document.getElementById('confirm');
-    const btn = document.getElementById('allToggleBtn');
+    const $inputs = $('.pass-input');
+    const $btn = $('#allToggleBtn');
+    const isHidden = $inputs.attr('type') === 'password';
 
-    if (p1 && p2) {
-        const isHidden = p1.type === "password";
-        p1.type = isHidden ? "text" : "password";
-        p2.type = isHidden ? "text" : "password";
-        
-        btn.innerText = isHidden ? "Hide All Passwords" : "Show All Passwords";
-    }
+    $inputs.attr('type', isHidden ? 'text' : 'password');
+    $btn.text(isHidden ? "Hide All Passwords" : "Show All Passwords");
 }
 </script>
 

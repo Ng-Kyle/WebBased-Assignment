@@ -23,28 +23,85 @@
         if ($password == '') {
             $_err['password'] = 'Required';
         }
+        else if (strlen($password) < 5 || strlen($password) > 100) {
+            $_err['password'] = 'Between 5-100 characters';
+        }
 
         // Login user
+if (is_post()) {
+        $email = req('email');
+        $password = req('password');
+
+        if ($email == '') {
+            $_err['email'] = 'Required';
+        } else if (!is_email($email)) {
+            $_err['email'] = 'Invalid email format';
+        }
+
+        if ($password == '') {
+            $_err['password'] = 'Required';
+        }
+
         if (!$_err) {
-            $stm = $_db->prepare('
-                SELECT * FROM member
-                WHERE Email = ? AND Password = SHA1(?)
-            ');
-            $stm->execute([$email, $password]);
+            $stm = $_db->prepare('SELECT * FROM member WHERE email = ?');
+            $stm->execute([$email]);
             $u = $stm->fetch();
 
             if ($u) {
-                $u->role = 'member';
-                temp('info', "Login successful, Welcome {$u->name}");
-                login($u);
-            }
-            else {
-                $_err['password'] = 'Not matched';
+                $stm = $_db->prepare('
+                    SELECT expire FROM token 
+                    WHERE member_id = ? AND expire > NOW()
+                ');
+                $stm->execute([$u->member_id]);
+                $lock = $stm->fetch();
+
+                if ($lock) {
+                    $remaining = ceil((strtotime($lock->expire) - time()) / 60);
+                    $_err['password'] = "Locked. Try again in $remaining min.";
+                }
+
+                else if ($u->password == sha1($password)) {
+                    $_db->prepare('
+                        UPDATE member SET Login_Attempts = 0 
+                        WHERE email = ?')->execute([$email]);
+                    $_db->prepare('
+                        DELETE FROM token 
+                        WHERE member_id = ?')->execute([$u->member_id]);
+
+                    temp('info', 'Login successfully, Welcome ' . $u->name);
+                    $u->role = 'member';
+                    login($u);
+                } 
+
+                else {
+                    $new_attempts = $u->Login_Attempts + 1;
+
+                    if ($new_attempts >= 3) {
+                        $id = sha1(uniqid());
+                        $stm = $_db->prepare('
+                            INSERT INTO token (id, expire, member_id) 
+                            VALUES (?, ADDTIME(NOW(), "00:05:00"), ?)');
+                        $stm->execute([$id, $u->member_id]);
+                        $_db->prepare('
+                            UPDATE member SET Login_Attempts = 0 
+                            WHERE email = ?')->execute([$email]);
+                        
+                        $_err['password'] = "Locked for 5 minutes.";
+                    } else {
+                        $_db->prepare('
+                            UPDATE member SET Login_Attempts = ? 
+                            WHERE email = ?')->execute([$new_attempts, $email]);
+                        $remaining = 3 - $new_attempts;
+                        $_err['password'] = "Wrong password. $remaining left.";
+                    }
+                }
+            } else {
+                $_err['email'] = 'Account not found';
             }
         }
     }
+}
 ?>
-
 
 <form method="post" class="memberLogin">
     <label for="email" >Email</label>
@@ -53,14 +110,11 @@
 
     <label for="password">Password</label>
     <?= html_password('password', 'maxlength="100"') ?>
-        <div style="text-align: right; margin-top: 5px;">
+        <div style="text-align: center; margin-top: 10px; margin-bottom: 20px; width: 100%;">
             <a href="javascript:void(0)" 
             id="toggleBtn" 
             onclick="toggleView()" 
-            style="color: #ff8da1;
-            font-size: 13px;
-            text-decoration: none;
-            font-weight: bold;">
+            style="color: #ff8da1; font-size: 13px; text-decoration: none; font-weight: bold;">
             Show Password
             </a>
         </div>
@@ -83,16 +137,12 @@
 
 <script>
 function toggleView() {
-    const input = document.getElementById('password');
-    const btn = document.getElementById('toggleBtn');
+    const $input = $('#password');
+    const $btn = $('#toggleBtn');
+    const isHidden = $input.attr('type') === 'password';
 
-    if (input.type === "password") {
-        input.type = "text";
-        btn.innerText = "Hide Password";
-    } else {
-        input.type = "password";
-        btn.innerText = "Show Password";
-    }
+    $input.attr('type', isHidden ? 'text' : 'password');
+    $btn.text(isHidden ? "Hide Password" : "Show Password");
 }
 </script>
 
