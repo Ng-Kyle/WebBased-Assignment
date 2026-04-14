@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 14, 2026 at 08:12 AM
+-- Generation Time: Apr 14, 2026 at 04:19 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -131,27 +131,28 @@ CREATE TABLE `member` (
   `email` varchar(99) NOT NULL,
   `password` varchar(999) NOT NULL,
   `phone_number` varchar(11) NOT NULL,
-  `image_url` varchar(999) NOT NULL
+  `image_url` varchar(999) NOT NULL,
+  `login_attempts` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `member`
 --
 
-INSERT INTO `member` (`member_id`, `name`, `email`, `password`, `phone_number`, `image_url`) VALUES
-(1, 'Anon Chihaya', 'anonchihaya@gmail.com', '5019400a88d33010b2e9dccf1bfab6044a1291a6', '0123456789', '/images/user/69ddbfa264b71.jpg'),
-(2, 'Amane Kanata', 'amanekanata@gmail.com', '90e53334da55deafeaf6cc996e0a8c47a5931fb8', '01234567890', '/images/user/69ddc20f2bcce.jpg'),
-(3, 'Sakiko Togawa', 'sakitogawag@gmail.com', 'e2db3b0891242badbf674dc27dc7684454c1d0b7', '01234567891', '/images/user/69ddc40c43462.jpg'),
-(4, 'Kanade Yoisaki', 'k@gmail.com', '760533d735f1a585c79fdf4aa600fca1f0b469a8', '01234567892', '/images/user/69ddc4a4ae3d3.jpg'),
-(5, 'Iroha Sakayori', 'iroP168@gmail.com', '29eb8a74d83d7038e82760dd27e681c00b12327b', '0168168168', '/images/user/69ddc6feebedf.jpg'),
-(6, 'Kaguya', 'kaguyahime@gmail.com', '7401da4e09c15ad1d12260445ce8ddde29342eec', '0123456168', '/images/user/69ddc77d10ed1.jpg'),
-(7, 'Yachiyo Runami', 'yachi8000@gmail.com', '080292f001890c1f4e7c63cd72b7983cc8a9caa2', '01234168168', '/images/user/69ddc86c8e295.jpg'),
-(8, 'Kitasan Black', 'kitachan@gmail.com', 'b6830554e758cd6f6d2ee233862fa9ba65462237', '0123455555', '/images/user/69ddca14e3b01.jpg'),
-(9, 'Chisato Nishikigi', 'chisatolyco@gmail.com', 'ee77eea30e7c8fc816653dcc71db34597db8d53a', '0123456666', '/images/user/69ddd5b4676be.jpg'),
-(10, 'Mabayu Aki', 'mabascene0@gmail.com', 'ef4d54d14e10f1eaee366c6eecab6051ce70e63e', '0123234345', '/images/user/69ddd62b524db.jpg'),
-(11, 'Bocchi', 'guitarhero@gmail.com', '52d58ba65944c43d57587235c1b77c9fb855b991', '0129991324', '/images/user/69ddd712d4cdc.jpg'),
-(12, 'Akane Kurokawa', 'akaneK@gmail.com', '30fc861d526bc81ed0038df21811a5997e012375', '0193425432', '/images/user/69ddd8bf14a57.jpg'),
-(13, 'Leon S. Kennedy', 'leonre@gmail.com', '6cc9704fadcbea69c9fb57fc4b5bd9094812b407', '0145231234', '/images/user/69ddd9f3ac9dc.jpg');
+INSERT INTO `member` (`member_id`, `name`, `email`, `password`, `phone_number`, `image_url`, `login_attempts`) VALUES
+(1, 'Anon Chihaya', 'anonchihaya@gmail.com', '5019400a88d33010b2e9dccf1bfab6044a1291a6', '0123456789', '/images/user/69ddbfa264b71.jpg', 0),
+(2, 'Amane Kanata', 'amanekanata@gmail.com', '90e53334da55deafeaf6cc996e0a8c47a5931fb8', '01234567890', '/images/user/69ddc20f2bcce.jpg', 0),
+(3, 'Sakiko Togawa', 'sakitogawag@gmail.com', 'e2db3b0891242badbf674dc27dc7684454c1d0b7', '01234567891', '/images/user/69ddc40c43462.jpg', 0),
+(4, 'Kanade Yoisaki', 'k@gmail.com', '760533d735f1a585c79fdf4aa600fca1f0b469a8', '01234567892', '/images/user/69ddc4a4ae3d3.jpg', 0),
+(5, 'Iroha Sakayori', 'iroP168@gmail.com', '29eb8a74d83d7038e82760dd27e681c00b12327b', '0168168168', '/images/user/69ddc6feebedf.jpg', 0),
+(6, 'Kaguya', 'kaguyahime@gmail.com', '7401da4e09c15ad1d12260445ce8ddde29342eec', '0123456168', '/images/user/69ddc77d10ed1.jpg', 0),
+(7, 'Yachiyo Runami', 'yachi8000@gmail.com', '080292f001890c1f4e7c63cd72b7983cc8a9caa2', '01234168168', '/images/user/69ddc86c8e295.jpg', 0),
+(8, 'Kitasan Black', 'kitachan@gmail.com', 'b6830554e758cd6f6d2ee233862fa9ba65462237', '0123455555', '/images/user/69ddca14e3b01.jpg', 0),
+(9, 'Chisato Nishikigi', 'chisatolyco@gmail.com', 'ee77eea30e7c8fc816653dcc71db34597db8d53a', '0123456666', '/images/user/69ddd5b4676be.jpg', 0),
+(10, 'Mabayu Aki', 'mabascene0@gmail.com', 'ef4d54d14e10f1eaee366c6eecab6051ce70e63e', '0123234345', '/images/user/69ddd62b524db.jpg', 0),
+(11, 'Bocchi', 'guitarhero@gmail.com', '52d58ba65944c43d57587235c1b77c9fb855b991', '0129991324', '/images/user/69ddd712d4cdc.jpg', 0),
+(12, 'Akane Kurokawa', 'akaneK@gmail.com', '30fc861d526bc81ed0038df21811a5997e012375', '0193425432', '/images/user/69ddd8bf14a57.jpg', 0),
+(13, 'Leon S. Kennedy', 'leonre@gmail.com', '6cc9704fadcbea69c9fb57fc4b5bd9094812b407', '0145231234', '/images/user/69ddd9f3ac9dc.jpg', 0);
 
 --
 -- Triggers `member`
@@ -543,7 +544,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `cart_id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `cart_id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `invoice`
@@ -555,7 +556,7 @@ ALTER TABLE `invoice`
 -- AUTO_INCREMENT for table `member`
 --
 ALTER TABLE `member`
-  MODIFY `member_id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `member_id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `order_details`
@@ -585,7 +586,7 @@ ALTER TABLE `receipt`
 -- AUTO_INCREMENT for table `wishlist`
 --
 ALTER TABLE `wishlist`
-  MODIFY `wishlist_id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `wishlist_id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- Constraints for dumped tables
