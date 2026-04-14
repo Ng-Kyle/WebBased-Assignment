@@ -23,84 +23,81 @@
         if ($password == '') {
             $_err['password'] = 'Required';
         }
-        else if (strlen($password) < 5 || strlen($password) > 100) {
-            $_err['password'] = 'Between 5-100 characters';
-        }
 
         // Login user
-if (is_post()) {
-        $email = req('email');
-        $password = req('password');
+    if (is_post()) {
+            $email = req('email');
+            $password = req('password');
 
-        if ($email == '') {
-            $_err['email'] = 'Required';
-        } else if (!is_email($email)) {
-            $_err['email'] = 'Invalid email format';
-        }
+            if ($email == '') {
+                $_err['email'] = 'Required';
+            } else if (!is_email($email)) {
+                $_err['email'] = 'Invalid email format';
+            }
 
-        if ($password == '') {
-            $_err['password'] = 'Required';
-        }
+            if ($password == '') {
+                $_err['password'] = 'Required';
+            }
 
-        if (!$_err) {
-            $stm = $_db->prepare('SELECT * FROM member WHERE email = ?');
-            $stm->execute([$email]);
-            $u = $stm->fetch();
+            if (!$_err) {
+                $stm = $_db->prepare('SELECT * FROM member WHERE email = ?');
+                $stm->execute([$email]);
+                $u = $stm->fetch();
 
-            if ($u) {
-                $stm = $_db->prepare('
-                    SELECT expire FROM token 
-                    WHERE member_id = ? AND expire > NOW()
-                ');
-                $stm->execute([$u->member_id]);
-                $lock = $stm->fetch();
+                if ($u) {
+                    $stm = $_db->prepare('
+                        SELECT expire FROM token 
+                        WHERE member_id = ? AND expire > NOW()
+                    ');
+                    $stm->execute([$u->member_id]);
+                    $lock = $stm->fetch();
 
-                if ($lock) {
-                    $remaining = ceil((strtotime($lock->expire) - time()) / 60);
-                    $_err['password'] = "Locked. Try again in $remaining min.";
-                }
+                    if ($lock) {
+                        $remaining = ceil((strtotime($lock->expire) - time()) / 60);
+                        $_err['password'] = "Locked. Try again in $remaining min.";
+                    }
 
-                else if ($u->password == sha1($password)) {
-                    $_db->prepare('
-                        UPDATE member SET login_attempts = 0 
-                        WHERE email = ?')->execute([$email]);
-                    $_db->prepare('
-                        DELETE FROM token 
-                        WHERE member_id = ?')->execute([$u->member_id]);
-
-                    temp('info', 'Login successfully, Welcome ' . $u->name);
-                    $u->role = 'member';
-                    login($u);
-                } 
-
-                else {
-                    $new_attempts = $u->login_attempts + 1;
-
-                    if ($new_attempts >= 3) {
-                        $id = sha1(uniqid());
-                        $stm = $_db->prepare('
-                            INSERT INTO token (id, expire, member_id) 
-                            VALUES (?, ADDTIME(NOW(), "00:05:00"), ?)');
-                        $stm->execute([$id, $u->member_id]);
+                    else if ($u->password == sha1($password)) {
                         $_db->prepare('
                             UPDATE member SET login_attempts = 0 
                             WHERE email = ?')->execute([$email]);
-                        
-                        $_err['password'] = "Locked for 5 minutes.";
-                    } else {
                         $_db->prepare('
-                            UPDATE member SET login_attempts = ? 
-                            WHERE email = ?')->execute([$new_attempts, $email]);
-                        $remaining = 3 - $new_attempts;
-                        $_err['password'] = "Wrong password. $remaining left.";
+                            DELETE FROM token 
+                            WHERE member_id = ?')->execute([$u->member_id]);
+
+                        temp('info', 'Login successfully, Welcome ' . $u->name);
+                        $u->role = 'member';
+                        login($u);
+                    } 
+
+                    else {
+                        $new_attempts = $u->login_attempts + 1;
+
+                        if ($new_attempts >= 3) {
+                            $id = sha1(uniqid());
+                            $stm = $_db->prepare('
+                                INSERT INTO token (id, expire, member_id) 
+                                VALUES (?, ADDTIME(NOW(), "00:05:00"), ?)');
+                            $stm->execute([$id, $u->member_id]);
+                            $_db->prepare('
+                                UPDATE member SET login_attempts = 0 
+                                WHERE email = ?')->execute([$email]);
+                            
+                            $_err['password'] = "Locked for 5 minutes.";
+                        } else {
+                            $_db->prepare('
+                                UPDATE member SET login_attempts = ? 
+                                WHERE email = ?')->execute([$new_attempts, $email]);
+                            $remaining = 3 - $new_attempts;
+                            $_err['password'] = "Wrong password. $remaining left.";
+                        }
                     }
+                } else {
+                    $_err['email'] = 'Account not found';
                 }
-            } else {
-                $_err['email'] = 'Account not found';
             }
         }
-    }
-}
+    }   
 ?>
 
 <form method="post" class="memberLogin">
