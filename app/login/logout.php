@@ -2,6 +2,7 @@
     include '../_base.php';
     include '../_head.php';
 
+    auth('member');
     // ----------------------------------------------------------------------------
 
     temp('info', 'Logout successfully');

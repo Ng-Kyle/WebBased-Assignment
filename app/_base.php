@@ -240,6 +240,11 @@ function auth($role) {
     if ($_user && $_user->role == $role) {
         return;
     }
+    if($role == 'admin'){
+        temp('info', "You're not logged in!");
+        redirect('/admin/admin.php');
+    }
+    temp('info', "You're not logged in!");
     redirect('/login/login.php');
 }
 
