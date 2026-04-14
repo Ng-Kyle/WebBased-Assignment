@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 12, 2026 at 07:22 AM
+-- Generation Time: Apr 14, 2026 at 08:12 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -34,6 +34,13 @@ CREATE TABLE `admin` (
   `email` varchar(99) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `admin`
+--
+
+INSERT INTO `admin` (`admin_id`, `name`, `password`, `email`) VALUES
+(1, 'SuperAdmin', '0dc66e1efa21d0007ad10d9bf761854b13f67623', 'superadmin@gmail.com');
+
 -- --------------------------------------------------------
 
 --
@@ -50,7 +57,19 @@ CREATE TABLE `cart` (
 --
 
 INSERT INTO `cart` (`cart_id`, `member_id`) VALUES
-(8, 8);
+(1, 1),
+(2, 2),
+(3, 3),
+(4, 4),
+(5, 5),
+(6, 6),
+(7, 7),
+(8, 8),
+(9, 9),
+(10, 10),
+(11, 11),
+(12, 12),
+(13, 13);
 
 -- --------------------------------------------------------
 
@@ -83,6 +102,23 @@ CREATE TABLE `invoice` (
   `stripe_session_id` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `invoice`
+--
+
+INSERT INTO `invoice` (`order_id`, `member_id`, `order_date`, `status`, `total_amount`, `street_address`, `post_code`, `city`, `state`, `stripe_session_id`) VALUES
+(1, 1, '2026-04-14 12:19:10', 'Preparing', 563.00, '2A Jalan Stesen Sentral 2,Level 41-18, Kuala Lumpur Sentral', 50470, 'Kuala Lumpur', 'Federal Territory of Kuala Lumpur', 'cs_test_b1cgucOSMOeB85O1vWwWhfTwh24KxzkX1EQg55HL5ukWdNDzD2oFv7conh'),
+(2, 2, '2026-04-14 12:31:50', 'Preparing', 1015.28, '32 Jalan Puteri 5/5,Bandar Puteri', 47100, 'Puchong', 'Selangor', 'cs_test_b1KuHt6mjfSvktnNKpygdKkqHc8EhFY9gVxGptjTu38dtZ4W3Nn48uegww'),
+(3, 2, '2026-04-14 12:32:52', 'Preparing', 325.20, '88 Jalan Badminton 13/29,Tadisma Business Park', 40100, 'Shah Alam', 'Selangor', 'cs_test_a1zaBO4B9lbeQiwsBn6Be4tdyhTOn3fGBcSqS6Yc8muggeQ7WPgrAiYFNT'),
+(4, 3, '2026-04-14 12:36:27', 'Preparing', 110.00, 'No. 34 Jalan SS 2/10,SS 2', 47300, 'Petaling Jaya', 'Selangor', 'cs_test_a1U3pbrlX8Wjj10HtYmTHQML6wTJrgmPQa0mQnn0xQBlagvu6CjIBglyE0'),
+(5, 4, '2026-04-14 12:44:41', 'Preparing', 214.15, 'Jalan UMS,University Apartment, Manggatal', 88450, 'Kota Kinabalu', 'Sabah', 'cs_test_a1UOO4xOP6lKvePEiXl9EW2El3Z6IIp2siNf4PShYkORQI0YG9ZW5x2FuX'),
+(6, 6, '2026-04-14 12:51:40', 'Preparing', 460.00, '26 Jalan Perlis,George Town', 10400, 'George Town', 'Pulau Pinang', 'cs_test_a1NZbrpIFEzi1WFBnNoXPRpcta6ekeFOwG7NWeOJo9o3kj9RqrKjGIs3ro'),
+(7, 7, '2026-04-14 12:55:46', 'Preparing', 713.90, 'Jalan Pantai Baharu,Wisma R&D, Universiti Malaya', 59100, 'Kuala Lumpur', 'Wilayah Persekutuan Kuala Lumpur', 'cs_test_a1N42lUgw0zSr5B3rxIFGsfJf5sLZQaCTshhGINPynQVl9Ipu8ftvYjBqw'),
+(8, 8, '2026-04-14 13:02:00', 'Preparing', 230.00, 'Jalan Taman Rekreasi Ranchan Serian', 94700, 'Serian', 'Sarawak', 'cs_test_a1JW1IvNWwRoORsRMog9egxdFad5dc1csXFMjHk5LIqBXDzd6NEzlYyEhR'),
+(9, 10, '2026-04-14 13:53:54', 'Preparing', 99.10, '61 Jalan Harmonium 23/12,Taman Desa Tebrau', 81100, 'Johor Bahru', 'Johor Darul Ta\'zim', 'cs_test_a1VmWBpHKi1f4j74PXHlwj0AsgdFqQz3UaWkTbBAcT1HrmTIBYYOxoDtWB'),
+(10, 11, '2026-04-14 13:59:22', 'Preparing', 317.20, '17 Jalan Yau Tet Shin,Taman Jubilee', 30300, 'Ipoh', 'Perak', 'cs_test_a1cybVYgD4thqCVHxeejXEE5UKReWhcH2FdrqCc6pkwjfVODJeE5cScHkm'),
+(11, 12, '2026-04-14 14:04:55', 'Preparing', 563.20, 'Jalan Pinang,Kuala Lumpur Convention Centre, Kuala Lumpur City Centre', 50088, 'Kuala Lumpur', 'Wilayah Persekutuan Kuala Lumpur', 'cs_test_a17xRYollFu6g2HfWP2bPcAp3IwO1TIwULm9skZVWk3d5hL4gDp0A89cLY');
+
 -- --------------------------------------------------------
 
 --
@@ -103,7 +139,19 @@ CREATE TABLE `member` (
 --
 
 INSERT INTO `member` (`member_id`, `name`, `email`, `password`, `phone_number`, `image_url`) VALUES
-(8, 'Bloon', 'agentbloon@gmail.com', '8cb2237d0679ca88db6464eac60da96345513964', '0123456789', '/images/69daa51c89c20.jpg');
+(1, 'Anon Chihaya', 'anonchihaya@gmail.com', '5019400a88d33010b2e9dccf1bfab6044a1291a6', '0123456789', '/images/user/69ddbfa264b71.jpg'),
+(2, 'Amane Kanata', 'amanekanata@gmail.com', '90e53334da55deafeaf6cc996e0a8c47a5931fb8', '01234567890', '/images/user/69ddc20f2bcce.jpg'),
+(3, 'Sakiko Togawa', 'sakitogawag@gmail.com', 'e2db3b0891242badbf674dc27dc7684454c1d0b7', '01234567891', '/images/user/69ddc40c43462.jpg'),
+(4, 'Kanade Yoisaki', 'k@gmail.com', '760533d735f1a585c79fdf4aa600fca1f0b469a8', '01234567892', '/images/user/69ddc4a4ae3d3.jpg'),
+(5, 'Iroha Sakayori', 'iroP168@gmail.com', '29eb8a74d83d7038e82760dd27e681c00b12327b', '0168168168', '/images/user/69ddc6feebedf.jpg'),
+(6, 'Kaguya', 'kaguyahime@gmail.com', '7401da4e09c15ad1d12260445ce8ddde29342eec', '0123456168', '/images/user/69ddc77d10ed1.jpg'),
+(7, 'Yachiyo Runami', 'yachi8000@gmail.com', '080292f001890c1f4e7c63cd72b7983cc8a9caa2', '01234168168', '/images/user/69ddc86c8e295.jpg'),
+(8, 'Kitasan Black', 'kitachan@gmail.com', 'b6830554e758cd6f6d2ee233862fa9ba65462237', '0123455555', '/images/user/69ddca14e3b01.jpg'),
+(9, 'Chisato Nishikigi', 'chisatolyco@gmail.com', 'ee77eea30e7c8fc816653dcc71db34597db8d53a', '0123456666', '/images/user/69ddd5b4676be.jpg'),
+(10, 'Mabayu Aki', 'mabascene0@gmail.com', 'ef4d54d14e10f1eaee366c6eecab6051ce70e63e', '0123234345', '/images/user/69ddd62b524db.jpg'),
+(11, 'Bocchi', 'guitarhero@gmail.com', '52d58ba65944c43d57587235c1b77c9fb855b991', '0129991324', '/images/user/69ddd712d4cdc.jpg'),
+(12, 'Akane Kurokawa', 'akaneK@gmail.com', '30fc861d526bc81ed0038df21811a5997e012375', '0193425432', '/images/user/69ddd8bf14a57.jpg'),
+(13, 'Leon S. Kennedy', 'leonre@gmail.com', '6cc9704fadcbea69c9fb57fc4b5bd9094812b407', '0145231234', '/images/user/69ddd9f3ac9dc.jpg');
 
 --
 -- Triggers `member`
@@ -131,6 +179,26 @@ CREATE TABLE `order_details` (
   `quantity` int(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `order_details`
+--
+
+INSERT INTO `order_details` (`order_details_id`, `order_id`, `product_id`, `quantity`) VALUES
+(1, 1, 2, 1),
+(2, 1, 4, 2),
+(3, 1, 11, 1),
+(4, 2, 24, 1),
+(5, 2, 30, 1),
+(6, 3, 12, 2),
+(7, 4, 1, 1),
+(8, 5, 17, 1),
+(9, 6, 18, 2),
+(10, 7, 23, 1),
+(11, 8, 13, 1),
+(12, 9, 16, 1),
+(13, 10, 15, 2),
+(14, 11, 27, 1);
+
 -- --------------------------------------------------------
 
 --
@@ -156,13 +224,13 @@ CREATE TABLE `product` (
 INSERT INTO `product` (`product_id`, `name`, `description`, `price`, `stock_quantity`, `status`, `scale`, `series`, `brand`) VALUES
 (1, 'BanG Dream! - Plushie MyGO!!!!! Tomori Takamatsu', 'From \"BanG Dream!\" comes a collection of \"MyGO!!!!!\" plushies.', 110.00, 5, 'Available', 'Plushie', 'BanG Dream!', 'Good Smile Company'),
 (2, 'BanG Dream! - Plushie MyGO!!!!! Anon Chihaya', 'From \"BanG Dream!\" comes a collection of \"MyGO!!!!!\" plushies.', 111.00, 5, 'Available', 'Plushie', 'BanG Dream!', 'Good Smile Company'),
-(3, 'BanG Dream! - Plushie MyGO!!!!! Rana Kaname', 'From \"BanG Dream!\" comes a collection of \"MyGO!!!!!\" plushies.', 111.00, 5, 'Available', 'Plushie', 'BanG Dream!', 'Good Smile Company'),
-(4, 'BanG Dream! - Plushie MyGO!!!!! Soyo Nagasaki', 'From \"BanG Dream!\" comes a collection of \"MyGO!!!!!\" plushies.', 111.00, 5, 'Available', 'Plushie', 'BanG Dream!', 'Good Smile Company'),
+(3, 'BanG Dream! - Plushie MyGO!!!!! Rana Kaname', 'From \"BanG Dream!\" comes a collection of \"MyGO!!!!!\" plushies.', 110.00, 3, 'Available', 'Plushie', 'BanG Dream!', 'Good Smile Company'),
+(4, 'BanG Dream! - Plushie MyGO!!!!! Soyo Nagasaki', 'From \"BanG Dream!\" comes a collection of \"MyGO!!!!!\" plushies.', 111.00, 2, 'Available', 'Plushie', 'BanG Dream!', 'Good Smile Company'),
 (5, 'BanG Dream! - Plushie MyGO!!!!! Taki Shiina', 'From \"BanG Dream!\" comes a collection of \"MyGO!!!!!\" plushies.', 111.00, 5, 'Available', 'Plushie', 'BanG Dream!', 'Good Smile Company'),
 (6, 'hololive production - HELLO! GOOD SMILE Ookami Mio Figure', 'HELLO! GOOD SMILE Ookami Mio\r\n\r\nFrom the popular VTuber group \"hololive production\" comes a new figure of Ookami Mio! HELLO! GOOD SMILE is a chibi figure series by Good Smile Company! The neck of each figure includes a simple joint that can be moved left and right. Made with the creative direction of art director Shigeto Koyama, HELLO! GOOD SMILE figures feature a cute chibi design that will leave you wanting more and more!', 75.30, 5, 'Available', 'HELLO! GOOD SMILE', 'hololive production', 'Good Smile Company'),
-(7, 'SPY x FAMILY - HELLO! GOOD SMILE Anya Forger', 'HELLO! Anya Forger\r\n\r\nFrom the anime \"SPY x FAMILY\" comes a new figure of Anya Forger!\r\n\r\nHELLO! GOOD SMILE is a chibi figure series by Good Smile Company! The neck of each figure includes a simple joint that can be moved left and right. Made with the creative direction of art director Shigeto Koyama, HELLO! GOOD SMILE figures feature a cute chibi design that will leave you wanting more and more!', 75.30, 5, 'Available', 'HELLO! GOOD SMILE', 'SPY x FAMILY', 'Good Smile Company'),
-(8, 'Honkai: Star Rail - HELLO! GOOD SMILE March 7th Figure', 'HELLO! March 7th\r\n\r\n \r\n\r\nFrom the popular game \"Honkai: Star Rail\" comes a figure of March 7th!\r\n\r\nHELLO! GOOD SMILE is a chibi figure series by Good Smile Company! The neck of each figure includes a simple joint that can be moved left and right. Made with the creative direction of art director Shigeto Koyama, HELLO! GOOD SMILE figures feature a cute chibi design that will leave you wanting more and more!', 83.25, 5, 'Available', 'HELLO! GOOD SMILE', 'Honkai: Star Rail', 'Good Smile Company'),
-(9, 'Persona 3 Reload - HELLO! GOOD SMILE Aigis Figure', ' From the popular RPG \"Persona3 Reload\" comes a new figure of Aigis!\r\n\r\nHELLO! GOOD SMILE is a chibi figure series by Good Smile Company! The neck of each figure includes a simple joint that can be moved left and right. Made with the creative direction of art director Shigeto Koyama, HELLO! GOOD SMILE figures feature a cute chibi design that will leave you wanting more and more! ', 75.30, 5, 'Available', 'HELLO! GOOD SMILE', 'Persona', 'Good Smile Company'),
+(7, 'SPY x FAMILY - HELLO! GOOD SMILE Anya Forger', 'HELLO! Anya Forger\r\n\r\nFrom the anime \"SPY x FAMILY\" comes a new figure of Anya Forger!\r\n\r\nHELLO! GOOD SMILE is a chibi figure series by Good Smile Company! The neck of each figure includes a simple joint that can be moved left and right. Made with the creative direction of art director Shigeto Koyama, HELLO! GOOD SMILE figures feature a cute chibi design that will leave you wanting more and more!', 75.30, 6, 'Available', 'HELLO! GOOD SMILE', 'SPY x FAMILY', 'Good Smile Company'),
+(8, 'Honkai: Star Rail - HELLO! GOOD SMILE March 7th Figure', 'HELLO! March 7th\r\n\r\n \r\n\r\nFrom the popular game \"Honkai: Star Rail\" comes a figure of March 7th!\r\n\r\nHELLO! GOOD SMILE is a chibi figure series by Good Smile Company! The neck of each figure includes a simple joint that can be moved left and right. Made with the creative direction of art director Shigeto Koyama, HELLO! GOOD SMILE figures feature a cute chibi design that will leave you wanting more and more!', 83.25, 6, 'Available', 'HELLO! GOOD SMILE', 'Honkai: Star Rail', 'Good Smile Company'),
+(9, 'Persona 3 Reload - HELLO! GOOD SMILE Aigis Figure', ' From the popular RPG \"Persona3 Reload\" comes a new figure of Aigis!\r\n\r\nHELLO! GOOD SMILE is a chibi figure series by Good Smile Company! The neck of each figure includes a simple joint that can be moved left and right. Made with the creative direction of art director Shigeto Koyama, HELLO! GOOD SMILE figures feature a cute chibi design that will leave you wanting more and more! ', 75.30, 10, 'Available', 'HELLO! GOOD SMILE', 'Persona', 'Good Smile Company'),
 (10, 'hololive production - POP UP PARADE Yukihana Lamy Figure', 'A New Addition to the POP UP PARADE!\r\n\r\nPOP UP PARADE is a series of figures that are easy to collect with affordable prices and speedy releases! Each figure typically stands around 17-18cm in height and the series features a vast selection of characters from popular anime and game series, with many more to be added soon!', 134.80, 5, 'Available', 'POP UP PARADE', 'hololive production', 'Good Smile Company'),
 (11, 'BanG Dream! - POP UP PARADE Anon Chihaya L Size Figure', 'With the same impact as a scale figure!\r\n\r\nPOP UP PARADE is bringing figure fans a brand new sense of excitement with the L line.', 230.00, 5, 'Available', 'POP UP PARADE', 'BanG Dream!', 'Good Smile Company'),
 (12, 'hololive production - POP UP PARADE SP Hoshimachi Suisei Figure ', 'A special POP UP PARADE figure is here!\r\n\r\nPOP UP PARADE SP is a branch of POP UP PARADE figures that transcends the boundaries of the regular POP UP PARADE lineup with special surprises! Check out the details of the checkered outfit that have been intricately reproduced despite the figure\'s size!', 162.60, 5, 'Available', 'POP UP PARADE', 'hololive production', 'Good Smile Company'),
@@ -289,6 +357,23 @@ CREATE TABLE `receipt` (
   `amount_paid` double(8,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `receipt`
+--
+
+INSERT INTO `receipt` (`receipt_id`, `order_id`, `payment_date`, `amount_paid`) VALUES
+(1, 1, '2026-04-14 12:19:10', 563.00),
+(2, 2, '2026-04-14 12:31:50', 1015.28),
+(3, 3, '2026-04-14 12:32:52', 325.20),
+(4, 4, '2026-04-14 12:36:27', 110.00),
+(5, 5, '2026-04-14 12:44:41', 214.15),
+(6, 6, '2026-04-14 12:51:40', 460.00),
+(7, 7, '2026-04-14 12:55:46', 713.90),
+(8, 8, '2026-04-14 13:02:00', 230.00),
+(9, 9, '2026-04-14 13:53:54', 99.10),
+(10, 10, '2026-04-14 13:59:22', 317.20),
+(11, 11, '2026-04-14 14:04:55', 563.20);
+
 -- --------------------------------------------------------
 
 --
@@ -317,7 +402,19 @@ CREATE TABLE `wishlist` (
 --
 
 INSERT INTO `wishlist` (`wishlist_id`, `member_id`) VALUES
-(1, 8);
+(1, 1),
+(2, 2),
+(3, 3),
+(4, 4),
+(5, 5),
+(6, 6),
+(7, 7),
+(8, 8),
+(9, 9),
+(10, 10),
+(11, 11),
+(12, 12),
+(13, 13);
 
 -- --------------------------------------------------------
 
@@ -329,6 +426,22 @@ CREATE TABLE `wishlist_product` (
   `Wishlist_ID` int(6) NOT NULL,
   `Product_ID` int(6) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `wishlist_product`
+--
+
+INSERT INTO `wishlist_product` (`Wishlist_ID`, `Product_ID`) VALUES
+(1, 1),
+(1, 2),
+(1, 11),
+(1, 22),
+(2, 6),
+(4, 23),
+(6, 17),
+(8, 25),
+(10, 19),
+(12, 26);
 
 --
 -- Indexes for dumped tables
@@ -424,55 +537,55 @@ ALTER TABLE `wishlist_product`
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `admin_id` int(6) NOT NULL AUTO_INCREMENT;
+  MODIFY `admin_id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `cart_id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `cart_id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `invoice`
 --
 ALTER TABLE `invoice`
-  MODIFY `order_id` int(6) NOT NULL AUTO_INCREMENT;
+  MODIFY `order_id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `member`
 --
 ALTER TABLE `member`
-  MODIFY `member_id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `member_id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `order_details`
 --
 ALTER TABLE `order_details`
-  MODIFY `order_details_id` int(6) NOT NULL AUTO_INCREMENT;
+  MODIFY `order_details_id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
-  MODIFY `product_id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `product_id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `product_image`
 --
 ALTER TABLE `product_image`
-  MODIFY `product_image_id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
+  MODIFY `product_image_id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
 
 --
 -- AUTO_INCREMENT for table `receipt`
 --
 ALTER TABLE `receipt`
-  MODIFY `receipt_id` int(6) NOT NULL AUTO_INCREMENT;
+  MODIFY `receipt_id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `wishlist`
 --
 ALTER TABLE `wishlist`
-  MODIFY `wishlist_id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `wishlist_id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- Constraints for dumped tables
@@ -488,8 +601,8 @@ ALTER TABLE `cart`
 -- Constraints for table `cart_product`
 --
 ALTER TABLE `cart_product`
-  ADD CONSTRAINT `cart_product_ibfk_1` FOREIGN KEY (`Product_ID`) REFERENCES `product` (`Product_ID`),
-  ADD CONSTRAINT `cart_product_ibfk_2` FOREIGN KEY (`Cart_ID`) REFERENCES `cart` (`Cart_ID`);
+  ADD CONSTRAINT `cart_product_ibfk_1` FOREIGN KEY (`cart_id`) REFERENCES `cart` (`cart_id`),
+  ADD CONSTRAINT `cart_product_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `product` (`Product_ID`);
 
 --
 -- Constraints for table `invoice`
@@ -502,13 +615,13 @@ ALTER TABLE `invoice`
 --
 ALTER TABLE `order_details`
   ADD CONSTRAINT `order_details_ibfk_1` FOREIGN KEY (`Order_ID`) REFERENCES `invoice` (`Order_ID`),
-  ADD CONSTRAINT `order_details_ibfk_2` FOREIGN KEY (`Product_ID`) REFERENCES `product` (`Product_ID`);
+  ADD CONSTRAINT `order_details_ibfk_2` FOREIGN KEY (`Product_ID`) REFERENCES `product` (`product_id`);
 
 --
 -- Constraints for table `product_image`
 --
 ALTER TABLE `product_image`
-  ADD CONSTRAINT `product_image_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `product` (`Product_ID`);
+  ADD CONSTRAINT `product_image_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`);
 
 --
 -- Constraints for table `receipt`
@@ -533,7 +646,7 @@ ALTER TABLE `wishlist`
 --
 ALTER TABLE `wishlist_product`
   ADD CONSTRAINT `wishlist_product_ibfk_1` FOREIGN KEY (`Wishlist_ID`) REFERENCES `wishlist` (`Wishlist_ID`),
-  ADD CONSTRAINT `wishlist_product_ibfk_2` FOREIGN KEY (`Product_ID`) REFERENCES `product` (`Product_ID`);
+  ADD CONSTRAINT `wishlist_product_ibfk_2` FOREIGN KEY (`Product_ID`) REFERENCES `product` (`product_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

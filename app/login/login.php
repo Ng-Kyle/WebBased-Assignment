@@ -35,7 +35,7 @@
 
             if ($u) {
                 $u->role = 'member';
-                temp('info', "Login successfully, Welcome {$u->name}");
+                temp('info', "Login successful, Welcome {$u->name}");
                 login($u);
             }
             else {

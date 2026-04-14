@@ -58,7 +58,7 @@ if (is_post()) {
     if (!$phone) {
         $_err['phone'] = 'Required';
     }
-    else if (!preg_match ('/^\d{10,11}$/', $phone)) {
+    else if (!preg_match ('/^01\d{8,9}$/', $phone)) {
         $_err['phone'] = 'Invalid phone number';
     }
 

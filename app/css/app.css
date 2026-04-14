@@ -1,3 +1,5 @@
+/* Page specific CSS is labeled by comments with the page name. Simple search the relevant page.php to find its css */
+
 /* Font -------------------------------------------------------------------- */
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
@@ -1075,97 +1077,81 @@ box-shadow: 0 0 8px rgba(255, 182, 193, 0.5);
     width: 50%;
     padding: 10px;
     border-radius: 20px;
-    border: 3px solid #FF5E7E;
+    border: 2px solid #FF5E7E;
 }
 .adminProductListSearchBar input:focus{
     border-color:#ff1f4b;
     outline: none;
     box-shadow: 0 0 8px rgba(255, 94, 126, 0.3);
 }
-.adminProductListFilterContainer{
+
+.adminProductListSidebar{
+    width: 350px;
     background-color: #fff;
-    border-radius: 15px;
-    padding: 10px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    border: 1px solid #ffecec;
 }
-.adminProductListFilterContainer h3{
-    color:#FF5E7E;
-    font-size: 1.1em;
-    margin: 25px 0 12px 0;
-    padding-bottom: 5px;
-    border-bottom: 2px solid #ffdbdb;
-    display: flex;
-    align-items: center;
+.adminProductListSidebar h3 {
+    font-size: 1.1rem;
+    color: #333;
+    margin-bottom: 15px;
+    margin-top: 25px;
+    padding-bottom: 8px;
+    border-bottom: 5px solid #ffc0c0; /* Matching your table header pink */
+    font-weight: 600;
 }
-.adminProductListFilterContainer h3::before{
-    content: '✨';
-    margin-right: 8px;
-    font-size:0.9rem;
-}
-.adminProductListSidebar {
-    width: 250px;
-    flex-shrink:0; /*this is to prevent shrinking for the sidebar*/
-    border-right: 3px solid #FF5E7E;
-}
-.adminProductListFilterGroup::-webkit-scrollbar{
-    width: 5px;
-}
-.adminProductListFilterGroup::-webkit-scrollbar-thumb{
-    background: #ffdbdb;
-    border-radius: 10px;
+.adminProductListSidebar h3:first-of-type {
+    margin-top: 0;
 }
 .adminProductListFilterGroup {
     display: flex;
     flex-direction: column;
-    gap:8px;
-    max-height: 200px; /*wow thiz is for limiting the height, so can add scroll*/
-    overflow-y: auto;
+    gap: 10px;
+    max-height: 200px; /* Limits height for long lists */
+    overflow-y: auto;  /* Adds scroll if list is too long */
     padding-right: 5px;
-    margin-bottom: 15px;
 }
 /* Customizing the Checkbox Labels (Assuming PHP outputs <label><input>...</label>) */
 .adminProductListFilterGroup label {
-    display: flex;
-    align-items: center;
+    
+    font-size: 0.95rem;
+    color: #555;
     cursor: pointer;
-    color:#555;
     transition: color 0.2s;
 }
 .adminProductListFilterGroup label:hover {
-    color: #FF5E7E;
+    color: rgb(255, 110, 110);
 }
 .adminProductListFilterGroup input[type="checkbox"] {
-    accent-color: #FF5E7E;
+    margin-right: 10px;
+    accent-color: rgb(255, 110, 110); /* Pink checkboxes */
     width: 16px;
     height: 16px;
 }
+.adminProductListFilterGroup:has(input[type="number"]) {
+    flex-direction: row;
+    gap: 10px;
+}
 .adminProductListFilterGroup input[type="number"] {
-    border-color: #FF5E7E;
-    outline:none;
-}
-.adminProductListClearAddButtons{
-    display: block;
-    text-align: center;
-    margin-top: 15px;
-    color: #888;
-    text-decoration: none;
+    width: 80%;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
     font-size: 0.9rem;
-    color: #FF5E7E;
-    text-decoration: underline;
+    outline: none;
+    transition: border-color 0.2s;
 }
-.adminProductListBotButtons button{
-    width:97%;
-    background-color:rgb(255, 255, 255);
-    color:black;
-    border-radius: 5px;
-    border: 3px solid #FF5E7E;
-    font-size:1.1em;
-    font-weight:bold;
+
+.adminProductListBotButtons{
+    color: #ff8b8b;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: 600;
     cursor: pointer;
-    transition: 0.3s;
-}
-.adminProductListBotButtons button:hover{
-    background-color:#ff93a5;
-    border-color: #ff93a5;
+    margin-top: 30px;
+    transition: background 0.3s ease;
 }
 
 .adminProductListContent{
@@ -2504,6 +2490,7 @@ box-shadow: 0 0 8px rgba(255, 182, 193, 0.5);
 .slide-btn.right {
     right: 0;
 }
+
 
 /*admin member_list.php*/
 .adminMemberListSearchbar{

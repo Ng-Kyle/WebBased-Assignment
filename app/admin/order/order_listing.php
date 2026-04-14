@@ -61,7 +61,7 @@ $orders = $stm->fetchAll();
                     <td class = "viewDetailBtn"><button data-post="order_detail.php?order_id=<?= $o->order_id ?>">View Details</button></td>
                 </tr>
                 <tr class = orderListProductRowMiddle>
-                    <td class = "orderListAddress"><span>Shipping Address:</span><br><?= $o->street_address . ', ' . $o->city . ', ' . $o->state . ' ' . $o->post_code;?></td>
+                    <td class = "orderListAddress"><span>Shipping Address:</span><br><?= $o->street_address . ', <br>' . $o->city . ', ' . $o->state . ' ' . $o->post_code;?></td>
                     <td class = orderListPrice>
                         RM <?= number_format($o->total_amount,2) ?>
                         <form method="POST" class="status-form">
