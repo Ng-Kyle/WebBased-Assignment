@@ -46,10 +46,6 @@
             }
         }
 
-<<<<<<< HEAD
-        
-=======
->>>>>>> c4fa954497846ecae532c3eecba8be4c9e0bfbcf
         if ($name == '') {
             $_err['name'] = 'Required';
         }
