@@ -258,7 +258,7 @@ function get_mail() {
     $m->Host = 'smtp.gmail.com';
     $m->Port = 587;
     $m->Username = 'anonfigures@gmail.com';
-    $m->Password = 'dsrz yhqn pjde vhtz';
+    $m->Password = 'osit sywt gapq oseb';
     $m->CharSet = 'utf-8';
     $m->setFrom($m->Username, 'AnonFigures Team');
 

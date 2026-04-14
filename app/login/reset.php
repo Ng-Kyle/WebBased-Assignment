@@ -40,7 +40,7 @@
     
             $m = get_mail(); 
             $m->addAddress($u->email, $u->name);
-            $m->addEmbeddedImage("$u->image_url", 'photo');
+            $m->addEmbeddedImage("../$u->image_url", 'photo');
             $m->isHTML(true);
             $m->Subject = 'Reset Password';
             $m->Body = "
