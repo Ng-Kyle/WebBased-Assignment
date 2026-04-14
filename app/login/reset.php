@@ -39,7 +39,7 @@
             $url = base("login/token.php?id=$id");
     
             $m = get_mail(); 
-            $m->addAddress($u ->email, $u->name);
+            $m->addAddress($u->email, $u->name);
             $m->addEmbeddedImage("$u->image_url", 'photo');
             $m->isHTML(true);
             $m->Subject = 'Reset Password';

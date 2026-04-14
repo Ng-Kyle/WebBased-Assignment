@@ -82,7 +82,10 @@
         <a href="javascript:void(0)" 
         id="allToggleBtn" 
         onclick="toggleAllPasswords()" 
-        style="color: #ff8da1; font-size: 13px; text-decoration: none; font-weight: bold;">
+        style="color: #ff8da1;
+        font-size: 13px; 
+        text-decoration: none;
+         font-weight: bold;">
         Show All Passwords
         </a>
     </div>
