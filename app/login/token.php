@@ -6,7 +6,7 @@
 
     $_db->query('DELETE FROM token WHERE expire < NOW()');
 
-    $id = req('id'); //this form url
+    $id = req('id');
 
     if (!is_exists($id, 'token', 'id')) { // check form data base
         temp('info', 'Invalid token. Try again');
@@ -17,7 +17,7 @@
         $password = req('password');
         $confirm  = req('confirm');
 
-        // Validate: password
+
         if ($password == '') {
             $_err['password'] = 'Required';
         }
@@ -25,7 +25,7 @@
             $_err['password'] = 'Between 5-100 characters';
         }
 
-        // Validate: confirm
+
         if ($confirm == '') {
             $_err['confirm'] = 'Required';
         }
@@ -36,7 +36,7 @@
             $_err['confirm'] = 'Not matched';
         }
 
-        // DB operation
+
         if (!$_err) {
             $stm = $_db->prepare('
                 UPDATE member

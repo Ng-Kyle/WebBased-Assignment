@@ -8,7 +8,6 @@
     if (is_post()) {
         $email = req('email');
 
-        // Validate: email
         if ($email == '') {
             $_err['email'] = 'Required';
         }
@@ -19,7 +18,6 @@
             $_err['email'] = 'Not exists';
         }
 
-        // Send reset token (if valid)
         if (!$_err) {
             $stm = $_db->prepare('SELECT * FROM member WHERE email = ?');
             $stm->execute([$email]); 

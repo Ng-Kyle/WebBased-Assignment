@@ -3,7 +3,7 @@
     $_title = 'User | Password';
     include '../_head.php';
 
-    // Authenticated users
+
     auth('member');
 
     if (is_post()) {
@@ -11,7 +11,7 @@
         $new_password = req('new_password');
         $confirm      = req('confirm');
 
-        // Validate: password
+
         if ($password == '') {
             $_err['password'] = 'Required';
         }
@@ -30,7 +30,7 @@
             }
         }
 
-        // Validate: new_password
+
         if ($new_password == '') {
             $_err['new_password'] = 'Required';
         }
@@ -38,7 +38,7 @@
             $_err['new_password'] = 'Between 5-100 characters';
         }
 
-        // Validate: confirm
+
         if (!$confirm) {
             $_err['confirm'] = 'Required';
         }
@@ -49,9 +49,7 @@
             $_err['confirm'] = 'Not matched';
         }
 
-        // DB operation
         if (!$_err) {
-            // Update user (password)
             $stm = $_db->prepare('
                 UPDATE member
                 SET password = SHA1(?)
