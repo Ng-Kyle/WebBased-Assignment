@@ -62,7 +62,7 @@ if (is_post()) {
 
                 else if ($u->password == sha1($password)) {
                     $_db->prepare('
-                        UPDATE member SET Login_Attempts = 0 
+                        UPDATE member SET login_attempts = 0 
                         WHERE email = ?')->execute([$email]);
                     $_db->prepare('
                         DELETE FROM token 
@@ -74,7 +74,7 @@ if (is_post()) {
                 } 
 
                 else {
-                    $new_attempts = $u->Login_Attempts + 1;
+                    $new_attempts = $u->login_attempts + 1;
 
                     if ($new_attempts >= 3) {
                         $id = sha1(uniqid());
@@ -83,13 +83,13 @@ if (is_post()) {
                             VALUES (?, ADDTIME(NOW(), "00:05:00"), ?)');
                         $stm->execute([$id, $u->member_id]);
                         $_db->prepare('
-                            UPDATE member SET Login_Attempts = 0 
+                            UPDATE member SET login_attempts = 0 
                             WHERE email = ?')->execute([$email]);
                         
                         $_err['password'] = "Locked for 5 minutes.";
                     } else {
                         $_db->prepare('
-                            UPDATE member SET Login_Attempts = ? 
+                            UPDATE member SET login_attempts = ? 
                             WHERE email = ?')->execute([$new_attempts, $email]);
                         $remaining = 3 - $new_attempts;
                         $_err['password'] = "Wrong password. $remaining left.";
