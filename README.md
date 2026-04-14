@@ -55,6 +55,7 @@ Additional Features:
 Add to Wishlist (Button functionality from product listing page) 
 Product Filtering (By Category)
 Product Filtering (By Price)
+Product Photos Slider (dynamic)
 1 Product = Multiple Photos
 
 Yaswinraj Functions:
@@ -67,7 +68,6 @@ Main Menu + Header
 Additional Features:
 Order Cancellation (Member)
 Order Status Update (Admin)
-Product Photos Slider (dynamic)
 Top Selling Products
 Google Maps Integration (Store location)
 Stock Handling (Order Status Update Button)
