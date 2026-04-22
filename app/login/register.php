@@ -133,7 +133,7 @@ function toggleAllPasswords() {
     const isHidden = $inputs.attr('type') === 'password';
 
     $inputs.attr('type', isHidden ? 'text' : 'password');
-    $btn.text(isHidden ? "Hide All Passwords" : "Show All Passwords");
+    $btn.text(isHidden ? "Hide All Passwords" : "Show All Passwords"); 
 }
 </script>
 

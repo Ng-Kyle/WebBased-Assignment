@@ -3,7 +3,7 @@
     $_title = 'User | Password';
     include '../_head.php';
 
-
+ 
     auth('member');
 
     if (is_post()) {

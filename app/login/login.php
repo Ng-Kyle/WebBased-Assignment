@@ -137,7 +137,7 @@ function toggleView() {
     const $input = $('#password');
     const $btn = $('#toggleBtn');
     const isHidden = $input.attr('type') === 'password';
-
+    
     $input.attr('type', isHidden ? 'text' : 'password');
     $btn.text(isHidden ? "Hide Password" : "Show Password");
 }

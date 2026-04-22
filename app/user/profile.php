@@ -2,7 +2,7 @@
     include '../_base.php';
     $_title = 'Profile';
     include '../_head.php';
-
+ 
     auth('member');
 
     if (is_get()) {
